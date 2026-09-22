@@ -1,0 +1,26 @@
+{
+  "name": "@itoms/help-desk",
+  "version": "0.1.0",
+  "description": "IT Operations — local development starter",
+  "keywords": [
+    "ui5",
+    "openui5",
+    "sapui5"
+  ],
+  "main": "webapp/index.html",
+  "dependencies": {},
+  "devDependencies": {
+    "@ui5/cli": "^4.0.33",
+    "@sap/ux-ui5-tooling": "1",
+    "@sap-ux/ui5-middleware-fe-mockserver": "2"
+  },
+  "scripts": {
+    "start": "fiori run --config ./ui5-mock.yaml --port 8082",
+    "preview": "fiori run --config ./ui5-mock.yaml --port 8082 --open \"test/flp.html#app-preview\"",
+    "start-mock": "npm start",
+    "start-local": "fiori run --config ./ui5-local.yaml --port 8082",
+    "build": "ui5 build --config=ui5.yaml --clean-dest --dest dist"
+  },
+  "sapux": true,
+  "private": true
+}

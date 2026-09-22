@@ -1,0 +1,12 @@
+import { execFileSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
+import assert from 'node:assert/strict';
+assert.equal(process.versions.node.split('.')[0], '24', 'Use Node.js 24 LTS (nvm use, or the project-local runtime installed by npm ci).');
+console.log(`Node ${process.version}`);
+console.log(`npm ${execFileSync('npm', ['--version'], {encoding:'utf8'}).trim()}`);
+console.log(execFileSync('git', ['--version'], {encoding:'utf8'}).trim());
+const manifest = JSON.parse(readFileSync('apps/help-desk/webapp/manifest.json'));
+assert.equal(manifest['sap.app'].id, 'itoms.helpdesk');
+assert.equal(manifest['sap.app'].dataSources.mainService.settings.odataVersion, '4.0');
+assert.equal(readFileSync('mock/metadata.xml','utf8'), readFileSync('apps/help-desk/webapp/localService/mainService/metadata.xml','utf8'), 'Canonical and app metadata must match');
+console.log('Fiori component, OData V4 configuration and metadata consistency: OK');

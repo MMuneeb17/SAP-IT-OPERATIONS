@@ -1,0 +1,5 @@
+{
+  "files.exclude": {"**/node_modules": true, "**/dist": true},
+  "search.exclude": {"**/package-lock.json": true},
+  "terminal.integrated.env.osx": {"PATH": "${workspaceFolder}/node_modules/node/bin:${env:PATH}"}
+}

@@ -1,0 +1,31 @@
+{
+  "name": "sap-it-operations",
+  "version": "0.1.0",
+  "description": "SAP Fiori IT Operations Management System",
+  "scripts": {
+    "start": "npm run start --workspace @itoms/help-desk",
+    "preview": "npm run preview --workspace @itoms/help-desk",
+    "build": "npm run build --workspace @itoms/help-desk",
+    "test": "playwright test",
+    "generate:help-desk": "node scripts/generate-help-desk.mjs",
+    "doctor": "node scripts/doctor.mjs"
+  },
+  "keywords": [],
+  "license": "UNLICENSED",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@sap-ux/fiori-elements-writer": "3.1.60",
+    "node": "24.21.0"
+  },
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "sapux": [
+    "apps/help-desk"
+  ]
+}

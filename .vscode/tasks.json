@@ -1,0 +1,8 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {"label": "ITOMS: preview", "type": "shell", "command": "npm run preview", "isBackground": true, "problemMatcher": []},
+    {"label": "ITOMS: build", "type": "shell", "command": "npm run build", "group": "build", "problemMatcher": []},
+    {"label": "ITOMS: smoke tests", "type": "shell", "command": "npm test", "group": "test", "problemMatcher": []}
+  ]
+}
