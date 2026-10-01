@@ -36,6 +36,8 @@ server:
             metadataPath: ./webapp/localService/mainService/metadata.xml
             mockdataPath: ./webapp/localService/mainService/data
             generateMockData: false
+            strictKeyMode: true
+            watch: true
         annotations: []
 builder:
   resources:

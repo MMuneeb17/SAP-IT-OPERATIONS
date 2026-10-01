@@ -70,6 +70,9 @@ A generated Fiori application runs locally without an SAP backend.
 
 ## Phase 2 — OData Service Contract and Mock Data
 
+Status: **Complete — 1 October 2026**. Five-entity read contract, realistic fixtures,
+Fiori integration and three-agent review verified; see [completion report](phase-2-report.md).
+
 ### Objective
 Define the API/data contract that the Fiori applications will consume now and the RAP backend will implement later.
 

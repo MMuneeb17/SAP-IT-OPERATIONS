@@ -1,0 +1,51 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" controllerName="itoms.helpdesk.ext.support.MySupport">
+  <Page id="supportPage" title="{i18n>mySupport}" busy="{support>/busy}" busyIndicatorDelay="0">
+    <headerContent><Button text="{i18n>helpDesk}" press=".onHelpDesk" icon="sap-icon://customer-view"/></headerContent>
+    <content>
+      <VBox class="sapUiResponsiveContentPadding" width="100%">
+        <MessageStrip text="{i18n>previewEmployeeNote}" type="Information" showIcon="true" class="sapUiSmallMarginBottom"/>
+        <MessageStrip text="{support>/error}" visible="{= !!${support>/error} }" type="Error" showIcon="true" class="sapUiSmallMarginBottom"/>
+        <f:SimpleForm editable="true" layout="ResponsiveGridLayout" columnsL="2" columnsM="1" labelSpanL="3" labelSpanM="3" class="sapUiSmallMarginBottom">
+          <f:content>
+            <Label text="{i18n>previewEmployee}" labelFor="employee"/>
+            <Select id="employee" selectedKey="{support>/employee}" change=".onEmployeeChange" items="{support>/employees}">
+              <core:Item key="{support>EmployeeUUID}" text="{support>DisplayName}"/>
+            </Select>
+          </f:content>
+        </f:SimpleForm>
+        <Panel headerText="{i18n>newTicket}" expandable="true" expanded="{support>/showForm}" class="sapUiSmallMarginBottom">
+          <content>
+            <Text text="{i18n>createHint}" class="sapUiSmallMarginBottom"/>
+            <f:SimpleForm editable="true" layout="ResponsiveGridLayout" columnsL="2" columnsM="1" labelSpanL="3" labelSpanM="3">
+              <f:content>
+                <Label text="{i18n>subject}" required="true" labelFor="subject"/>
+                <Input id="subject" value="{support>/form/Subject}" maxLength="200" valueState="{support>/states/Subject}" valueStateText="{i18n>subjectRequired}"/>
+                <Label text="{i18n>category}" required="true" labelFor="category"/>
+                <Select id="category" selectedKey="{support>/form/Category}" items="{support>/categories}"><core:Item key="{support>key}" text="{support>key}"/></Select>
+                <Label text="{i18n>affectedAsset}" labelFor="asset"/>
+                <Select id="asset" selectedKey="{support>/form/AssetUUID}" items="{support>/assets}"><core:Item key="{support>AssetUUID}" text="{support>AssetTag}"/></Select>
+                <Label text="{i18n>priority}" labelFor="priority"/>
+                <Select id="priority" selectedKey="{support>/form/Priority}">
+                  <core:Item key="LOW" text="{i18n>priorityLow}"/><core:Item key="MEDIUM" text="{i18n>priorityMedium}"/>
+                  <core:Item key="HIGH" text="{i18n>priorityHigh}"/><core:Item key="CRITICAL" text="{i18n>priorityCritical}"/>
+                </Select>
+                <Label text="{i18n>description}" required="true" labelFor="description"/>
+                <TextArea id="description" value="{support>/form/Description}" rows="4" width="100%" maxLength="4000" valueState="{support>/states/Description}" valueStateText="{i18n>descriptionRequired}"/>
+              </f:content>
+            </f:SimpleForm>
+            <OverflowToolbar design="Transparent"><ToolbarSpacer/><Button text="{i18n>createTicket}" type="Emphasized" press=".onCreate" enabled="{= !${support>/busy} }"/></OverflowToolbar>
+          </content>
+        </Panel>
+        <Table id="myTickets" items="{support>/tickets}" noDataText="{i18n>noMyTickets}" growing="true" growingThreshold="20">
+          <headerToolbar><OverflowToolbar><Title text="{i18n>myTickets}" level="H2"/><ToolbarSpacer/><Button text="{i18n>refresh}" icon="sap-icon://refresh" press=".onRefresh"/></OverflowToolbar></headerToolbar>
+          <columns><Column><Text text="{i18n>ticket}"/></Column><Column width="45%"><Text text="{i18n>subject}"/></Column><Column minScreenWidth="Tablet" demandPopin="true"><Text text="{i18n>status}"/></Column><Column minScreenWidth="Tablet" demandPopin="true"><Text text="{i18n>priority}"/></Column></columns>
+          <items><ColumnListItem type="Navigation" press=".onOpenTicket"><cells>
+            <Text text="{support>TicketNumber}"/><Text text="{support>Subject}"/>
+            <ObjectStatus text="{support>Status}" state="{path:'support>StatusCriticality',formatter:'.criticalityState'}"/>
+            <ObjectStatus text="{support>Priority}" state="{path:'support>PriorityCriticality',formatter:'.criticalityState'}"/>
+          </cells></ColumnListItem></items>
+        </Table>
+      </VBox>
+    </content>
+  </Page>
+</mvc:View>

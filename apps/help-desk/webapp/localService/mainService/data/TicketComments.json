@@ -1,0 +1,114 @@
+[
+  {
+    "TicketCommentUUID": "00000004-0000-4000-8000-000000000001",
+    "TicketUUID": "00000003-0000-4000-8000-000000000001",
+    "AuthorUUID": "00000001-0000-4000-8000-000000000001",
+    "Text": "Please contact me before restarting or collecting the device.",
+    "CreatedAt": "2026-09-11T12:00:00Z",
+    "CreatedBy": "EMP-0001"
+  },
+  {
+    "TicketCommentUUID": "00000004-0000-4000-8000-000000000002",
+    "TicketUUID": "00000003-0000-4000-8000-000000000001",
+    "AuthorUUID": "00000001-0000-4000-8000-000000000004",
+    "Text": "SSD failure confirmed; replacement part is pending.",
+    "CreatedAt": "2026-09-11T12:00:00Z",
+    "CreatedBy": "EMP-0004"
+  },
+  {
+    "TicketCommentUUID": "00000004-0000-4000-8000-000000000003",
+    "TicketUUID": "00000003-0000-4000-8000-000000000002",
+    "AuthorUUID": "00000001-0000-4000-8000-000000000002",
+    "Text": "Please contact me before restarting or collecting the device.",
+    "CreatedAt": "2026-09-12T11:00:00Z",
+    "CreatedBy": "EMP-0002"
+  },
+  {
+    "TicketCommentUUID": "00000004-0000-4000-8000-000000000004",
+    "TicketUUID": "00000003-0000-4000-8000-000000000002",
+    "AuthorUUID": "00000001-0000-4000-8000-000000000005",
+    "Text": "Initial checks completed and troubleshooting notes recorded.",
+    "CreatedAt": "2026-09-12T11:00:00Z",
+    "CreatedBy": "EMP-0005"
+  },
+  {
+    "TicketCommentUUID": "00000004-0000-4000-8000-000000000005",
+    "TicketUUID": "00000003-0000-4000-8000-000000000003",
+    "AuthorUUID": "00000001-0000-4000-8000-000000000001",
+    "Text": "Please contact me before restarting or collecting the device.",
+    "CreatedAt": "2026-09-13T09:00:00Z",
+    "CreatedBy": "EMP-0001"
+  },
+  {
+    "TicketCommentUUID": "00000004-0000-4000-8000-000000000006",
+    "TicketUUID": "00000003-0000-4000-8000-000000000004",
+    "AuthorUUID": "00000001-0000-4000-8000-000000000001",
+    "Text": "Please contact me before restarting or collecting the device.",
+    "CreatedAt": "2026-09-14T10:00:00Z",
+    "CreatedBy": "EMP-0001"
+  },
+  {
+    "TicketCommentUUID": "00000004-0000-4000-8000-000000000007",
+    "TicketUUID": "00000003-0000-4000-8000-000000000004",
+    "AuthorUUID": "00000001-0000-4000-8000-000000000004",
+    "Text": "Initial checks completed and troubleshooting notes recorded.",
+    "CreatedAt": "2026-09-14T10:00:00Z",
+    "CreatedBy": "EMP-0004"
+  },
+  {
+    "TicketCommentUUID": "00000004-0000-4000-8000-000000000008",
+    "TicketUUID": "00000003-0000-4000-8000-000000000006",
+    "AuthorUUID": "00000001-0000-4000-8000-000000000003",
+    "Text": "Please contact me before restarting or collecting the device.",
+    "CreatedAt": "2026-09-16T12:00:00Z",
+    "CreatedBy": "EMP-0003"
+  },
+  {
+    "TicketCommentUUID": "00000004-0000-4000-8000-000000000009",
+    "TicketUUID": "00000003-0000-4000-8000-000000000006",
+    "AuthorUUID": "00000001-0000-4000-8000-000000000005",
+    "Text": "Initial checks completed and troubleshooting notes recorded.",
+    "CreatedAt": "2026-09-16T12:00:00Z",
+    "CreatedBy": "EMP-0005"
+  },
+  {
+    "TicketCommentUUID": "00000004-0000-4000-8000-000000000010",
+    "TicketUUID": "00000003-0000-4000-8000-000000000007",
+    "AuthorUUID": "00000001-0000-4000-8000-000000000002",
+    "Text": "Please contact me before restarting or collecting the device.",
+    "CreatedAt": "2026-09-17T13:00:00Z",
+    "CreatedBy": "EMP-0002"
+  },
+  {
+    "TicketCommentUUID": "00000004-0000-4000-8000-000000000011",
+    "TicketUUID": "00000003-0000-4000-8000-000000000007",
+    "AuthorUUID": "00000001-0000-4000-8000-000000000005",
+    "Text": "Initial checks completed and troubleshooting notes recorded.",
+    "CreatedAt": "2026-09-17T13:00:00Z",
+    "CreatedBy": "EMP-0005"
+  },
+  {
+    "TicketCommentUUID": "00000004-0000-4000-8000-000000000012",
+    "TicketUUID": "00000003-0000-4000-8000-000000000008",
+    "AuthorUUID": "00000001-0000-4000-8000-000000000001",
+    "Text": "Please contact me before restarting or collecting the device.",
+    "CreatedAt": "2026-09-18T09:00:00Z",
+    "CreatedBy": "EMP-0001"
+  },
+  {
+    "TicketCommentUUID": "00000004-0000-4000-8000-000000000013",
+    "TicketUUID": "00000003-0000-4000-8000-000000000009",
+    "AuthorUUID": "00000001-0000-4000-8000-000000000003",
+    "Text": "Please contact me before restarting or collecting the device.",
+    "CreatedAt": "2026-09-19T10:00:00Z",
+    "CreatedBy": "EMP-0003"
+  },
+  {
+    "TicketCommentUUID": "00000004-0000-4000-8000-000000000014",
+    "TicketUUID": "00000003-0000-4000-8000-000000000009",
+    "AuthorUUID": "00000001-0000-4000-8000-000000000004",
+    "Text": "Initial checks completed and troubleshooting notes recorded.",
+    "CreatedAt": "2026-09-19T10:00:00Z",
+    "CreatedBy": "EMP-0004"
+  }
+]

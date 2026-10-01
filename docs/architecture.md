@@ -17,9 +17,9 @@ flowchart TD
   CDS --> DB[Custom persistence or released SAP integration]
 ```
 
-Phase 1 generates the Help Desk application under `apps/help-desk`. Its minimal
-read-only Ticket metadata exists only to prove a local Fiori preview. Phase 2
-expands it to Employees, Assets, comments, history and realistic fixtures. No mock
+Phase 1 generated the Help Desk application under `apps/help-desk`. Phase 2 now
+provides the [read contract](service-contract.md) for Employees, Tickets, Assets,
+TicketComments and TicketHistory, with realistic synthetic fixtures and navigation. No mock
 mutation is evidence of implemented business rules or SAP authorization.
 
 The stable frontend service root is `/odata/v4/it-operations/`; an eventual
@@ -66,7 +66,8 @@ See the [entity model](../sap-design/data-model/entities.md) and
 
 ## SAP replacement plan
 
-1. Extend and freeze EDMX/navigation/action signatures in phase 2, keeping UUID keys.
+1. Preserve the phase 2 EDMX/read navigation baseline and UUID keys. Define mutation
+   and action signatures with the corresponding business phase and verify them in RAP.
 2. Implement the [RAP mapping](../sap-design/rap/baseline.md) in the target ABAP release.
 3. Expose `ZUI_IT_OPERATIONS` through an OData V4 UI service binding.
 4. Compare metadata types, nullability, navigation, action parameters, errors,

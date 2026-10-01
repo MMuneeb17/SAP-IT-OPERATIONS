@@ -8,7 +8,13 @@
     "build": "npm run build --workspace @itoms/help-desk",
     "test": "playwright test",
     "generate:help-desk": "node scripts/generate-help-desk.mjs",
-    "doctor": "node scripts/doctor.mjs"
+    "doctor": "node scripts/doctor.mjs",
+    "mock:sync": "node scripts/sync-mock.mjs",
+    "mock:check": "node scripts/sync-mock.mjs --check",
+    "validate:contract": "node scripts/validate-contract.mjs",
+    "prestart": "npm run mock:sync",
+    "prepreview": "npm run mock:sync",
+    "pretest": "npm run mock:check && npm run validate:contract"
   },
   "keywords": [],
   "license": "UNLICENSED",
@@ -16,6 +22,7 @@
   "devDependencies": {
     "@playwright/test": "1.63.0",
     "@sap-ux/fiori-elements-writer": "3.1.60",
+    "fast-xml-parser": "5.10.1",
     "node": "24.21.0"
   },
   "private": true,

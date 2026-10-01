@@ -1,0 +1,50 @@
+[
+  {
+    "EmployeeUUID": "00000001-0000-4000-8000-000000000001",
+    "EmployeeNumber": "EMP-0001",
+    "DisplayName": "Ayesha Khan",
+    "Email": "ayesha.khan@example.test",
+    "Department": "Finance",
+    "Location": "Karachi"
+  },
+  {
+    "EmployeeUUID": "00000001-0000-4000-8000-000000000002",
+    "EmployeeNumber": "EMP-0002",
+    "DisplayName": "Bilal Ahmed",
+    "Email": "bilal.ahmed@example.test",
+    "Department": "Sales",
+    "Location": "Lahore"
+  },
+  {
+    "EmployeeUUID": "00000001-0000-4000-8000-000000000003",
+    "EmployeeNumber": "EMP-0003",
+    "DisplayName": "Sara Malik",
+    "Email": "sara.malik@example.test",
+    "Department": "Human Resources",
+    "Location": "Islamabad"
+  },
+  {
+    "EmployeeUUID": "00000001-0000-4000-8000-000000000004",
+    "EmployeeNumber": "EMP-0004",
+    "DisplayName": "Omar Farooq",
+    "Email": "omar.farooq@example.test",
+    "Department": "IT Support",
+    "Location": "Karachi"
+  },
+  {
+    "EmployeeUUID": "00000001-0000-4000-8000-000000000005",
+    "EmployeeNumber": "EMP-0005",
+    "DisplayName": "Hina Shah",
+    "Email": "hina.shah@example.test",
+    "Department": "IT Support",
+    "Location": "Lahore"
+  },
+  {
+    "EmployeeUUID": "00000001-0000-4000-8000-000000000006",
+    "EmployeeNumber": "EMP-0006",
+    "DisplayName": "Usman Ali",
+    "Email": "usman.ali@example.test",
+    "Department": "IT Operations",
+    "Location": "Karachi"
+  }
+]

@@ -101,6 +101,21 @@
           "pattern": "Tickets({key}):?query:",
           "name": "TicketsObjectPage",
           "target": "TicketsObjectPage"
+        },
+        {
+          "pattern": "MySupport:?query:",
+          "name": "MySupport",
+          "target": "MySupport"
+        },
+        {
+          "pattern": "Tickets({key})/Requester:?query:",
+          "name": "RequesterObjectPage",
+          "target": "RequesterObjectPage"
+        },
+        {
+          "pattern": "Tickets({key})/Asset:?query:",
+          "name": "AssetObjectPage",
+          "target": "AssetObjectPage"
         }
       ],
       "targets": {
@@ -123,6 +138,13 @@
                 "@com.sap.vocabularies.UI.v1.LineItem": {
                   "tableSettings": {
                     "type": "ResponsiveTable"
+                  },
+                  "actions": {
+                    "MySupport": {
+                      "text": "{i18n>mySupport}",
+                      "press": "itoms.helpdesk.ext.Navigation.mySupport",
+                      "requiresSelection": false
+                    }
                   }
                 }
               }
@@ -136,7 +158,66 @@
           "options": {
             "settings": {
               "editableHeaderContent": false,
-              "contextPath": "/Tickets"
+              "contextPath": "/Tickets",
+              "navigation": {
+                "Requester": {
+                  "detail": {
+                    "route": "RequesterObjectPage"
+                  }
+                },
+                "Asset": {
+                  "detail": {
+                    "route": "AssetObjectPage"
+                  }
+                }
+              },
+              "content": {
+                "header": {
+                  "actions": {
+                    "MySupport": {
+                      "text": "{i18n>mySupport}",
+                      "press": "itoms.helpdesk.ext.Navigation.mySupport",
+                      "requiresSelection": false
+                    },
+                    "HelpDesk": {
+                      "text": "{i18n>helpDesk}",
+                      "press": "itoms.helpdesk.ext.Navigation.helpDesk"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "MySupport": {
+          "type": "Component",
+          "id": "MySupport",
+          "name": "sap.fe.core.fpm",
+          "options": {
+            "settings": {
+              "viewName": "itoms.helpdesk.ext.support.MySupport"
+            }
+          }
+        },
+        "RequesterObjectPage": {
+          "type": "Component",
+          "id": "RequesterObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "contextPath": "/Tickets/Requester",
+              "editableHeaderContent": false
+            }
+          }
+        },
+        "AssetObjectPage": {
+          "type": "Component",
+          "id": "AssetObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "contextPath": "/Tickets/Asset",
+              "editableHeaderContent": false
             }
           }
         }

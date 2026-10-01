@@ -1,7 +1,8 @@
 # Initial entity relationship model — v1
 
 All technical primary keys are UUIDs. `?` means nullable. Fields below are the
-minimum domain design, not the completed phase 2 EDMX.
+minimum domain design. The five implemented phase 2 entities have a complete
+[field dictionary](../../docs/service-contract.md); later entities remain conceptual.
 
 | Entity / set | Key | Principal fields and foreign keys | Owner |
 | --- | --- | --- | --- |

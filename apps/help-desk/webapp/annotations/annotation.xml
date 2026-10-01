@@ -1,18 +1,415 @@
-<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
-    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
-        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
-    </edmx:Reference>
-    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
-        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
-    </edmx:Reference>
-    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Communication.xml">
-        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
-    </edmx:Reference>
-    <edmx:Reference Uri="/odata/v4/it-operations/$metadata">
-        <edmx:Include Namespace="ITOperations"/>
-    </edmx:Reference>
-    <edmx:DataServices>
-        <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="local">
-        </Schema>
-    </edmx:DataServices>
+<?xml version='1.0' encoding='utf-8'?>
+<edmx:Edmx xmlns="http://docs.oasis-open.org/odata/ns/edm" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI" />
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common" />
+  </edmx:Reference>
+  <edmx:Reference Uri="/odata/v4/it-operations/$metadata">
+    <edmx:Include Namespace="ITOperations" />
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="local">
+      <Annotations Target="ITOperations.Ticket">
+        <Annotation Term="UI.HeaderInfo">
+          <Record Type="UI.HeaderInfoType">
+            <PropertyValue Property="TypeName" String="Ticket" />
+            <PropertyValue Property="TypeNamePlural" String="Tickets" />
+            <PropertyValue Property="Title">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="TicketNumber" />
+              </Record>
+            </PropertyValue>
+            <PropertyValue Property="Description">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="Subject" />
+              </Record>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="TicketNumber" />
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Subject" />
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Status" />
+              <PropertyValue Property="Criticality" Path="StatusCriticality" />
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Priority" />
+              <PropertyValue Property="Criticality" Path="PriorityCriticality" />
+            </Record>
+            <Record Type="UI.DataFieldWithNavigationPath">
+              <PropertyValue Property="Label" String="Requester" />
+              <PropertyValue Property="Value" Path="Requester/DisplayName" />
+              <PropertyValue Property="Target" NavigationPropertyPath="Requester" />
+            </Record>
+            <Record Type="UI.DataFieldWithNavigationPath">
+              <PropertyValue Property="Label" String="Asset tag" />
+              <PropertyValue Property="Value" Path="Asset/AssetTag" />
+              <PropertyValue Property="Target" NavigationPropertyPath="Asset" />
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.SelectionFields">
+          <Collection>
+            <PropertyPath>TicketNumber</PropertyPath>
+            <PropertyPath>Status</PropertyPath>
+            <PropertyPath>Priority</PropertyPath>
+            <PropertyPath>Category</PropertyPath>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="Overview">
+          <Record>
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="TicketNumber" />
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Subject" />
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Description" />
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Status" />
+                  <PropertyValue Property="Criticality" Path="StatusCriticality" />
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Priority" />
+                  <PropertyValue Property="Criticality" Path="PriorityCriticality" />
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Category" />
+                </Record>
+                <Record Type="UI.DataFieldWithNavigationPath">
+                  <PropertyValue Property="Label" String="Requester" />
+                  <PropertyValue Property="Value" Path="Requester/DisplayName" />
+                  <PropertyValue Property="Target" NavigationPropertyPath="Requester" />
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="Requester department" />
+                  <PropertyValue Property="Value" Path="Requester/Department" />
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="Technician" />
+                  <PropertyValue Property="Value" Path="Technician/DisplayName" />
+                </Record>
+                <Record Type="UI.DataFieldWithNavigationPath">
+                  <PropertyValue Property="Label" String="Asset tag" />
+                  <PropertyValue Property="Value" Path="Asset/AssetTag" />
+                  <PropertyValue Property="Target" NavigationPropertyPath="Asset" />
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="Asset model" />
+                  <PropertyValue Property="Value" Path="Asset/Model" />
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="WaitingReason" />
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Resolution" />
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="Dates">
+          <Record>
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="CreatedAt" />
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="LastChangedAt" />
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="ResolvedAt" />
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="ClosedAt" />
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.Facets">
+          <Collection>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="Overview" />
+              <PropertyValue Property="Label" String="Overview" />
+              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#Overview" />
+            </Record>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="Dates" />
+              <PropertyValue Property="Label" String="Dates" />
+              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#Dates" />
+            </Record>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="Comments" />
+              <PropertyValue Property="Label" String="Comments" />
+              <PropertyValue Property="Target" AnnotationPath="Comments/@UI.LineItem" />
+            </Record>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="History" />
+              <PropertyValue Property="Label" String="History" />
+              <PropertyValue Property="Target" AnnotationPath="History/@UI.LineItem" />
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.Identification">
+          <Collection>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Submit ticket" />
+              <PropertyValue Property="Action" String="ITOperations.Submit" />
+              <Annotation Term="UI.Hidden">
+                <Not>
+                  <Path>CanSubmit</Path>
+                </Not>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Assign technician" />
+              <PropertyValue Property="Action" String="ITOperations.AssignTechnician" />
+              <Annotation Term="UI.Hidden">
+                <Not>
+                  <Path>CanAssignTechnician</Path>
+                </Not>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Start work" />
+              <PropertyValue Property="Action" String="ITOperations.StartWork" />
+              <Annotation Term="UI.Hidden">
+                <Not>
+                  <Path>CanStartWork</Path>
+                </Not>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Put on hold" />
+              <PropertyValue Property="Action" String="ITOperations.PutOnHold" />
+              <Annotation Term="UI.Hidden">
+                <Not>
+                  <Path>CanPutOnHold</Path>
+                </Not>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Resume work" />
+              <PropertyValue Property="Action" String="ITOperations.Resume" />
+              <Annotation Term="UI.Hidden">
+                <Not>
+                  <Path>CanResume</Path>
+                </Not>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Resolve ticket" />
+              <PropertyValue Property="Action" String="ITOperations.Resolve" />
+              <Annotation Term="UI.Hidden">
+                <Not>
+                  <Path>CanResolve</Path>
+                </Not>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Confirm and close" />
+              <PropertyValue Property="Action" String="ITOperations.Close" />
+              <Annotation Term="UI.Hidden">
+                <Not>
+                  <Path>CanClose</Path>
+                </Not>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Reopen ticket" />
+              <PropertyValue Property="Action" String="ITOperations.Reopen" />
+              <Annotation Term="UI.Hidden">
+                <Not>
+                  <Path>CanReopen</Path>
+                </Not>
+              </Annotation>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.CreateHidden" Bool="true" />
+      </Annotations>
+      <Annotations Target="ITOperations.TicketComment">
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="CreatedAt" />
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Label" String="Author" />
+              <PropertyValue Property="Value" Path="Author/DisplayName" />
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Text" />
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="ITOperations.TicketHistory">
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="CreatedAt" />
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Label" String="Actor" />
+              <PropertyValue Property="Value" Path="Actor/DisplayName" />
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Action" />
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="OldValue" />
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="NewValue" />
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Reason" />
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="ITOperations.Ticket/Description">
+        <Annotation Term="UI.MultiLineText" Bool="true" />
+      </Annotations>
+      <Annotations Target="ITOperations.Ticket/Resolution">
+        <Annotation Term="UI.MultiLineText" Bool="true" />
+      </Annotations>
+      <Annotations Target="ITOperations.Ticket/WaitingReason">
+        <Annotation Term="UI.MultiLineText" Bool="true" />
+      </Annotations>
+      <Annotations Target="ITOperations.TicketComment/Text">
+        <Annotation Term="UI.MultiLineText" Bool="true" />
+      </Annotations>
+      <Annotations Target="ITOperations.TicketHistory/Reason">
+        <Annotation Term="UI.MultiLineText" Bool="true" />
+      </Annotations>
+      <Annotations Target="ITOperations.Employee">
+        <Annotation Term="UI.HeaderInfo">
+          <Record Type="UI.HeaderInfoType">
+            <PropertyValue Property="TypeName" String="Employee" />
+            <PropertyValue Property="TypeNamePlural" String="Employees" />
+            <PropertyValue Property="Title">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="DisplayName" />
+              </Record>
+            </PropertyValue>
+            <PropertyValue Property="Description">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="EmployeeNumber" />
+              </Record>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="Details">
+          <Record>
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="EmployeeNumber" />
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="DisplayName" />
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Email" />
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Department" />
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Location" />
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.Facets">
+          <Collection>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="Details" />
+              <PropertyValue Property="Label" String="Employee details" />
+              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#Details" />
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="ITOperations.Asset">
+        <Annotation Term="UI.HeaderInfo">
+          <Record Type="UI.HeaderInfoType">
+            <PropertyValue Property="TypeName" String="Asset" />
+            <PropertyValue Property="TypeNamePlural" String="Assets" />
+            <PropertyValue Property="Title">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="AssetTag" />
+              </Record>
+            </PropertyValue>
+            <PropertyValue Property="Description">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="Model" />
+              </Record>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="Details">
+          <Record>
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="AssetTag" />
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Manufacturer" />
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Model" />
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="SerialNumber" />
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="AssetType" />
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Status" />
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Location" />
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="WarrantyEnd" />
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="CurrentEmployee/DisplayName" />
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.Facets">
+          <Collection>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="Details" />
+              <PropertyValue Property="Label" String="Asset details" />
+              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#Details" />
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
 </edmx:Edmx>
