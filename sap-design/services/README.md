@@ -11,5 +11,6 @@ with typed UUID relationships, navigation bindings and deterministic sample data
 - [Complete domain baseline](../data-model/entities.md)
 - [Canonical local metadata and fixtures](../../mock/README.md)
 
-Actions are documented as future business operations, not advertised as working
-local endpoints. Inventory/assignment/repair entities remain later-phase work.
+Phase 3 implements eight bound ticket actions and validated creation in the local
+service; see the [workflow/API guide](../../docs/help-desk-workflow.md). RAP behavior
+implementation and inventory/assignment/repair entities remain later-phase work.

@@ -1,8 +1,9 @@
-# Phase 2 local OData contract
+# Local OData contract and Help Desk workflow
 
 `metadata.xml` and `data/*.json` are the canonical service inputs.
-The `data/*.js` contributors adapt null comparisons in the installed mock middleware;
-they retain the native JSON loader and delegate all other filtering to SAP middleware. The five public
+The `data/*.js` contributors implement validated ticket creation/actions, protect
+reference/audit records, adapt null comparisons and provide case-insensitive search.
+They retain the native JSON loader. The five public
 entity sets are Employees, Tickets, Assets, TicketComments and TicketHistory.
 All people, identifiers and incidents are synthetic; email uses `example.test`.
 The fixed September 2026 snapshot contains 6 employees, 6 assets, 9 tickets,
@@ -20,8 +21,9 @@ matching and no randomly generated records. Navigation is defined by EDMX partne
 referential constraints and entity-set bindings. UI-specific annotations live in
 `apps/help-desk/webapp/annotations/annotation.xml`.
 
-The supported phase 2 contract is read-only; capability annotations hide mutations
-in Fiori. The general-purpose mock server is not a secured, persistent business
-backend and may accept direct mutations outside this supported contract. Restart it
-to restore fixtures. Do not use it as evidence of RAP behavior or authorization.
-Create/actions, server validation and transactional concurrency come in later phases.
+Phase 3 enables Tickets POST and eight bound workflow actions. Direct ticket
+PATCH/DELETE and external writes to Employees, Assets, TicketComments and
+TicketHistory are rejected. See the [workflow/API guide](../docs/help-desk-workflow.md).
+Writes are serialized locally with audit history; this is not a secured, durable
+backend or a promise of batch changeset atomicity. Restart to restore fixtures.
+Workflow tests use unique `sap-client` namespaces so they do not modify preview data.

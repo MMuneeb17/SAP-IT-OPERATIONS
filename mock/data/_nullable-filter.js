@@ -2,6 +2,9 @@
 // Keep OData null equality semantics at the supported contributor boundary.
 module.exports = function createContributor() {
   return {
+    checkSearchQuery(value, query) {
+      return value != null && String(value).toLocaleLowerCase().includes(String(query).toLocaleLowerCase());
+    },
     checkFilterValue(type, value, literal, operator, request) {
       if (literal === 'null' || literal === null) {
         if (operator === 'eq') return value == null;

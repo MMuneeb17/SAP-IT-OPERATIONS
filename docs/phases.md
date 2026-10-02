@@ -109,6 +109,9 @@ Fiori can read realistic Employees, Tickets and Assets through the local service
 
 ## Phase 3 — Help Desk MVP
 
+Status: **Complete (local MVP)**. See the [completion report](phase-3-report.md)
+for delivery, verification and deployment limitations.
+
 ### Objective
 Build the first complete business vertical slice.
 

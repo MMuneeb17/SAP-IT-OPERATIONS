@@ -45,6 +45,49 @@
             <ObjectStatus text="{support>Priority}" state="{path:'support>PriorityCriticality',formatter:'.criticalityState'}"/>
           </cells></ColumnListItem></items>
         </Table>
+                <Table
+                  id="practiceTable"
+                  items="{/Tickets}"
+                  growing="true"
+                  growingThreshold="10"
+                  class="sapUiSmallMarginTop">
+
+                <headerToolbar>
+                  <Toolbar>
+                    <Title text="My first table" level="H2" />
+                  </Toolbar>
+                </headerToolbar>
+
+                <columns>
+                  <Column>
+                    <Text text="Ticket number" />
+                  </Column>
+
+                  <Column>
+                    <Text text="Subject" />
+                  </Column>
+
+                  <Column>
+                    <Text text="Status" />
+                  </Column>
+                  <Column>
+                    <Text text="Priority" />
+                  </Column>
+                </columns>
+
+                <items>
+                    <ColumnListItem>
+                      <cells>
+                       <Text text="{TicketNumber}" />
+                      <Text text="{Subject}" />
+                      <Text text="{Status}" />
+
+                       <Text text="{Priority}" />
+                    </cells>
+                  </ColumnListItem>
+                </items>
+
+              </Table>
       </VBox>
     </content>
   </Page>

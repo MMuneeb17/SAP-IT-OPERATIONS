@@ -1,7 +1,8 @@
 # SAP Fiori IT Operations Management System
 
-ITOMS connects Help Desk, IT Asset Lifecycle and MIS Inventory. Phases 0–2 establish the architecture, a generated SAP Fiori Elements application,
-and a typed OData V4 read contract that runs locally without an SAP backend.
+ITOMS connects Help Desk, IT Asset Lifecycle and MIS Inventory. Phases 0–3 provide
+the architecture, OData V4 contract and a local Help Desk MVP with employee ticket
+creation and validated workflow actions, without an SAP backend.
 
 ## Run locally
 
@@ -22,7 +23,9 @@ is not changed. VS Code's new workspace terminals use that local runtime too.
 
 Open **http://localhost:8082/test/flp.html#app-preview**. Click **Go** to load the
 `IT-10452` laptop incident, then open its object page to inspect the requester,
-affected asset, comments and history. `npm start` runs the same
+affected asset, comments and history. Choose **My IT Support** to create a ticket,
+then submit it and use the Help Desk actions to assign, work, resolve and close it.
+See the [Help Desk walkthrough](docs/help-desk-workflow.md). `npm start` runs the same
 server without opening the browser. Stop with Ctrl+C. Internet is needed for npm
 installation and SAPUI5 CDN resources; no SAP account or backend is needed.
 
@@ -42,7 +45,7 @@ VS Code Insiders application on this machine already has SAP Fiori tools.
 | Location | Purpose |
 | --- | --- |
 | `apps/help-desk/` | Generated Fiori Elements List Report / Object Page |
-| `mock/` | Canonical phase 2 EDMX and deterministic fixtures |
+| `mock/` | Canonical EDMX, deterministic fixtures and local workflow contributors |
 | `sap-design/` | Domain model, naming, initial CDS/RAP/service mapping |
 | `docs/` | Workflow, phase plan, original vision, architecture and completion report |
 | `scripts/` | Safe generator (new output directory only) and environment check |
@@ -50,6 +53,7 @@ VS Code Insiders application on this machine already has SAP Fiori tools.
 
 ## Design and scope
 
+- [Beginner teaching guide: Phases 0–3](docs/beginner-guide-phases-0-3.md)
 - [Architecture baseline](docs/architecture.md)
 - [Workflow](docs/workflow.md)
 - [Phases](docs/phases.md)
@@ -58,10 +62,13 @@ VS Code Insiders application on this machine already has SAP Fiori tools.
 - [Phase 0–1 completion report](docs/phase-0-1-report.md)
 - [Phase 2 service contract](docs/service-contract.md)
 - [Phase 2 completion and swarm review report](docs/phase-2-report.md)
+- [Phase 3 workflow and API operations](docs/help-desk-workflow.md)
+- [Phase 3 completion report](docs/phase-3-report.md)
 
-The read-only UI uses 6 employees, 6 assets, 9 tickets, 14 comments and 31 history
-events. All data is synthetic. Ticket creation and business actions belong to phase
-3 onward. There is no SAP deployment, persistent backend or authorization yet.
+The app starts with 6 employees, 6 assets, 9 tickets, 14 comments and 31 history
+events. All data is synthetic. New tickets and workflow history persist in server
+memory until restart/fixture reload. Preview employee selection is not authentication;
+production backend persistence and authorization remain later phases.
 
 Edit service inputs in `mock/`, then run `npm run mock:sync`; root start/preview
 commands synchronize automatically. Tests verify metadata/data parity before

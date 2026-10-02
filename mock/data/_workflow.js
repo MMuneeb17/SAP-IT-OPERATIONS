@@ -1,5 +1,7 @@
 const { randomUUID } = require('node:crypto');
 const INTERNAL = Symbol('itoms-internal-write');
+// The frozen EDMX DateTimeOffset fields use the default precision of zero.
+const timestamp = () => new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
 let pending = Promise.resolve();
 const serialize = work => {
   const result = pending.then(work);
@@ -38,4 +40,4 @@ function history(ticket, actor, action, oldValue, reason, now) {
     Action: action, OldValue: oldValue, NewValue: ticket.Status, Reason: reason || null,
     CreatedAt: now, CreatedBy: actor.EmployeeNumber };
 }
-module.exports = { INTERNAL, decorate, transitions, serialize, fail, text, reference, history };
+module.exports = { INTERNAL, decorate, transitions, serialize, fail, text, reference, history, timestamp };

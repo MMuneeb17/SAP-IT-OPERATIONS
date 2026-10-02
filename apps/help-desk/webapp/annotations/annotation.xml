@@ -44,15 +44,13 @@
               <PropertyValue Property="Value" Path="Priority" />
               <PropertyValue Property="Criticality" Path="PriorityCriticality" />
             </Record>
-            <Record Type="UI.DataFieldWithNavigationPath">
+            <Record Type="UI.DataField">
               <PropertyValue Property="Label" String="Requester" />
               <PropertyValue Property="Value" Path="Requester/DisplayName" />
-              <PropertyValue Property="Target" NavigationPropertyPath="Requester" />
             </Record>
-            <Record Type="UI.DataFieldWithNavigationPath">
+            <Record Type="UI.DataField">
               <PropertyValue Property="Label" String="Asset tag" />
               <PropertyValue Property="Value" Path="Asset/AssetTag" />
-              <PropertyValue Property="Target" NavigationPropertyPath="Asset" />
             </Record>
           </Collection>
         </Annotation>
@@ -88,10 +86,9 @@
                 <Record Type="UI.DataField">
                   <PropertyValue Property="Value" Path="Category" />
                 </Record>
-                <Record Type="UI.DataFieldWithNavigationPath">
+                <Record Type="UI.DataField">
                   <PropertyValue Property="Label" String="Requester" />
                   <PropertyValue Property="Value" Path="Requester/DisplayName" />
-                  <PropertyValue Property="Target" NavigationPropertyPath="Requester" />
                 </Record>
                 <Record Type="UI.DataField">
                   <PropertyValue Property="Label" String="Requester department" />
@@ -101,10 +98,9 @@
                   <PropertyValue Property="Label" String="Technician" />
                   <PropertyValue Property="Value" Path="Technician/DisplayName" />
                 </Record>
-                <Record Type="UI.DataFieldWithNavigationPath">
+                <Record Type="UI.DataField">
                   <PropertyValue Property="Label" String="Asset tag" />
                   <PropertyValue Property="Value" Path="Asset/AssetTag" />
-                  <PropertyValue Property="Target" NavigationPropertyPath="Asset" />
                 </Record>
                 <Record Type="UI.DataField">
                   <PropertyValue Property="Label" String="Asset model" />

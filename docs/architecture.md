@@ -19,8 +19,10 @@ flowchart TD
 
 Phase 1 generated the Help Desk application under `apps/help-desk`. Phase 2 now
 provides the [read contract](service-contract.md) for Employees, Tickets, Assets,
-TicketComments and TicketHistory, with realistic synthetic fixtures and navigation. No mock
-mutation is evidence of implemented business rules or SAP authorization.
+TicketComments and TicketHistory, with realistic synthetic fixtures and navigation.
+Phase 3 adds [validated local ticket creation/actions](help-desk-workflow.md),
+serialized writes and event history. These local rules do not imply SAP authorization,
+durable transactions, ETags or deployment readiness.
 
 The stable frontend service root is `/odata/v4/it-operations/`; an eventual
 landscape destination/proxy maps it to the RAP binding. Components use the manifest

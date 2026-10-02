@@ -49,7 +49,7 @@ state transitions and audit writes. Fiori controls and fixtures do not enforce
 these rules. Retain root records with audit dependencies; composition does not
 permit deleting history. Comments/history must remain attached to their root.
 
-## Planned ticket actions — not exposed in phase 2
+## Ticket actions — implemented locally in phase 3, planned for RAP
 
 | Action | Proposed input | Result / required backend rule |
 | --- | --- | --- |
@@ -62,11 +62,12 @@ permit deleting history. Comments/history must remain attached to their root.
 | Close | Ticket context | RESOLVED → CLOSED; employee confirmation/authorized closure |
 | Reopen | Reason | RESOLVED → IN_PROGRESS; nonblank reason required |
 
-These are design intentions, not callable action signatures. Phase 3 and the target
-RAP package must decide parameter structures, return types, binding, reassignment
-and reopening of closed tickets, errors and action availability. The metadata
-currently contains no actions, draft actions or mutation guarantees. `Reopen` is
-an event/action, never a persisted `REOPENED` status.
+Phase 3 now defines these bound actions in EDMX, with a Ticket return value and
+the [parameters/errors documented in the workflow guide](../../docs/help-desk-workflow.md).
+Local contributors implement validation and history; the target RAP package must
+implement the corresponding behavior with real identity, authorization, locking
+and transactional guarantees. Reassignment and reopening CLOSED tickets are not
+supported in the MVP. `Reopen` is never a persisted `REOPENED` status.
 
 Asset behavior later covers Tag, MakeAvailable, Assign, Transfer, Return,
 SendToRepair, CompleteRepair, Retire and Dispose. Assignment changes must maintain

@@ -1,9 +1,9 @@
-# IT Operations OData service contract — phase 2
+# IT Operations OData service contract — phases 2–3
 
-The phase 2 contract supports local Fiori **reads** of Employees, Tickets, Assets,
-TicketComments and TicketHistory. It supplies representative development fixtures;
-it does not implement ticket creation, workflow actions, authorization or persistence.
-The [phase plan](phases.md) assigns those capabilities to later work.
+The contract supports Fiori reads of Employees, Tickets, Assets, TicketComments
+and TicketHistory. Phase 3 adds validated ticket creation and workflow actions;
+see the [operation signatures and walkthrough](help-desk-workflow.md). Durable
+persistence and production authorization remain later work.
 
 ## Identity and source of truth
 
@@ -73,6 +73,11 @@ have no local transactional audit fields.
 | `LastChangedAt` | Edm.DateTimeOffset | No |
 | `LastChangedBy` | String(80) | No |
 
+Phase 3 adds non-null, service-computed `StatusCriticality` and `PriorityCriticality`
+(`Edm.Int32`), plus `CanSubmit`, `CanAssignTechnician`, `CanStartWork`,
+`CanPutOnHold`, `CanResume`, `CanResolve`, `CanClose` and `CanReopen` (`Edm.Boolean`).
+DateTimeOffset fields use the default precision of zero: timestamps have whole seconds.
+
 | Navigation | Target set | Cardinality | Foreign key |
 | --- | --- | --- | --- |
 | `Requester` | Employees | 1 | `RequesterUUID` |
@@ -132,7 +137,7 @@ have no local transactional audit fields.
 | `Action` | String(40) | No |
 | `OldValue` | String(1000) | Yes |
 | `NewValue` | String(1000) | Yes |
-| `Reason` | String(1000) | Yes |
+| `Reason` | String(4000) | Yes |
 | `CreatedAt` | Edm.DateTimeOffset | No |
 | `CreatedBy` | String(80) | No |
 
@@ -187,7 +192,8 @@ Clients must distinguish an empty collection (`value: []`) from a nullable to-on
 relationship (`null`). `$count=true` reports the filtered collection count before
 client paging. This phase does not define a maximum page size, server-driven
 continuation policy, every filter function or a complete OData conformance claim.
-`$search` is disabled; use the supported property filters.
+Phase 3 enables case-insensitive `$search` on Tickets; it can be combined with
+property filters, ordering and paging.
 
 The installed FE mock middleware 2.4.17 mishandles equality filters on null
 GUID/string/date fields. A small contributor adapter in `mock/data/_nullable-filter.js`
@@ -195,11 +201,11 @@ implements `eq null` and `ne null`, preserving the distinction from the quoted
 string `'null'`. Service regression tests cover these cases; other comparisons
 continue through the standard middleware.
 
-The Fiori model uses OData batch reads. Batch support for reads does not establish
-transactional writes. The public capability annotations disable insert/update/delete
-on every set. Any generic mutation features of the development mock middleware are
-outside this contract and must not be treated as business workflow implementation.
-Local data is test data and is not a durable system of record.
+The Fiori model uses OData batch reads and bound actions. Tickets permits insert;
+direct update/delete remain disabled and are rejected by local contributors.
+Other sets reject external insert/update/delete. Workflow actions append history
+internally. Individual writes are serialized locally, but batch changeset rollback
+and durable transaction guarantees are not part of this mock contract.
 
 ## Workflow and compatibility boundary
 
@@ -207,7 +213,8 @@ Ticket status values are `NEW`, `SUBMITTED`, `ASSIGNED`, `IN_PROGRESS`, `WAITING
 `RESOLVED` and `CLOSED`. `Reopen` returns a ticket to `IN_PROGRESS`; `REOPENED` is
 not a status. Asset lifecycle values are `RECEIVED`, `TAGGED`, `AVAILABLE`,
 `ASSIGNED`, `IN_REPAIR`, `RETIRED` and `DISPOSED`; transfer and return are actions.
-These are domain codes represented as strings, not callable workflow behavior.
+These are domain codes represented as strings; phase 3 ticket actions control
+their permitted transitions. Asset lifecycle behavior remains later work.
 
 Comments belong to a ticket; history captures ticket events and is append-only in
 the future business model. Requester/technician/asset references cross root
@@ -215,11 +222,11 @@ boundaries and do not transfer ownership. Asset.CurrentEmployeeUUID represents
 current custody; a historical ticket's requester need not match the current asset
 custodian. Asset assignment and repair history are later entities.
 
-There are no exposed business actions, ETag/If-Match guarantees, draft entities,
-SLA calculations, role enforcement or authenticated identity in phase 2. Audit
-fields do not imply optimistic concurrency. Future action parameters, concurrency,
-draft, transactional errors and authorization must be agreed and tested before
-writes are enabled. See the [planned RAP mapping](../sap-design/services/rap-mapping.md).
+Phase 3 exposes eight bound ticket actions. There are no ETag/If-Match guarantees,
+draft entities, SLA calculations, role enforcement or authenticated identity.
+Audit fields do not imply optimistic concurrency. Production concurrency, draft,
+transactional errors and authorization must be verified against the SAP landscape.
+See the [planned RAP mapping](../sap-design/services/rap-mapping.md).
 
 Keep public identifiers stable. A future service change that renames/removes fields,
 changes types/nullability or alters relationships needs an explicit contract

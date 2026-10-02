@@ -7,7 +7,7 @@ sap.ui.define([
   return PageController.extend("itoms.helpdesk.ext.support.MySupport", {
     onInit: function () {
       PageController.prototype.onInit.apply(this, arguments);
-      this.getView().setModel(new JSONModel({ busy: false, error: "", employee: "", employees: [], assets: [], tickets: [],
+      this.getView().setModel(new JSONModel({ busy: true, error: "", employee: "", employees: [], assets: [], tickets: [],
         form: emptyForm(), states: { Subject: "None", Description: "None" }, showForm: true,
         categories: ["Hardware", "Software", "Network", "SAP", "Email", "Printer", "Access", "Other"].map(key => ({ key })) }), "support");
     },
@@ -45,6 +45,7 @@ sap.ui.define([
     onCreate: async function () {
       const vm = this.getView().getModel("support");
       if (vm.getProperty("/busy")) return;
+      if (!vm.getProperty("/employee")) { vm.setProperty("/error", this.text("noEmployees")); return; }
       const form = { ...vm.getProperty("/form") };
       let invalid = false;
       for (const field of ["Subject", "Description"]) {
