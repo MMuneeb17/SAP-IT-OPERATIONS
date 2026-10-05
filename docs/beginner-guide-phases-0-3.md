@@ -516,7 +516,7 @@ Comments can be read but not added through this MVP. The intake page currently l
 
 The Phase 2 audit recorded 47 development dependency findings and zero production dependency findings at that time. Phase 3 did not change dependency versions or claim those findings were remediated. Those historical results are not a current security certification.
 
-Checkpoint `ee96467` was pushed to `origin/main` and contains completed Phase 2 plus the initial Phase 3 work. The final Phase 3 fixes, tests and reports were added locally afterward. This teaching report does not imply those later changes have been committed or pushed.
+Checkpoint `ee96467` contains completed Phase 2 plus the initial Phase 3 work. Commit `ed77d01` subsequently pushed the completed Phase 3 implementation, tests, reports, this guide and the manual practice table to `origin/main`. Completion-recheck test fixes and documentation updates made after that commit remain local until another commit and push.
 
 The next planned phase is **Phase 4 — Asset Lifecycle MVP**, expanding the current asset reference detail into asset management, assignment and history features. Existing ticket-to-asset navigation is a starting point for that work.
 

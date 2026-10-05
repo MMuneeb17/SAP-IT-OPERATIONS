@@ -1,8 +1,8 @@
 # SAP Fiori IT Operations Management System
 
-ITOMS connects Help Desk, IT Asset Lifecycle and MIS Inventory. Phases 0–3 provide
-the architecture, OData V4 contract and a local Help Desk MVP with employee ticket
-creation and validated workflow actions, without an SAP backend.
+ITOMS connects Help Desk, IT Asset Lifecycle and MIS Inventory. Phases 0–4 provide
+the architecture, OData V4 contract, local Help Desk and Asset Management modules,
+with validated ticket and asset lifecycle actions, without an SAP backend.
 
 ## Run locally
 
@@ -31,7 +31,7 @@ installation and SAPUI5 CDN resources; no SAP account or backend is needed.
 
 ```sh
 npm run doctor   # Node/Git and service configuration checks
-npm run validate:contract # Validate all 66 synthetic records against metadata
+npm run validate:contract # Validate all 82 synthetic records against metadata
 npm run build    # Build the Fiori application into apps/help-desk/dist
 npm test         # OData + actual browser smoke tests (Google Chrome required)
 ```
@@ -55,6 +55,8 @@ VS Code Insiders application on this machine already has SAP Fiori tools.
 
 - [Beginner teaching guide: Phases 0–3](docs/beginner-guide-phases-0-3.md)
 - [Architecture baseline](docs/architecture.md)
+- [Complete architecture, workflows and mock/ABAP setup](PROJECT_ARCHITECTURE_AND_WORKFLOW.md)
+- [Mock app architecture: frontend, backend and connections](docs/mock-app-architecture.md)
 - [Workflow](docs/workflow.md)
 - [Phases](docs/phases.md)
 - [Original product and architecture document](docs/SAP_Fiori_IT_Operations_Management_System.md)
@@ -64,9 +66,16 @@ VS Code Insiders application on this machine already has SAP Fiori tools.
 - [Phase 2 completion and swarm review report](docs/phase-2-report.md)
 - [Phase 3 workflow and API operations](docs/help-desk-workflow.md)
 - [Phase 3 completion report](docs/phase-3-report.md)
+- [Phase 4 asset lifecycle and API guide](docs/asset-lifecycle.md)
+- [Phase 4 completion report](docs/phase-4-report.md)
 
-The app starts with 6 employees, 6 assets, 9 tickets, 14 comments and 31 history
-events. All data is synthetic. New tickets and workflow history persist in server
+Choose **Asset Management** in Help Desk to open the asset list. **My IT Assets**
+shows equipment for a selected preview employee. Asset details include assignments,
+repairs, warranty, related tickets and lifecycle history.
+
+The app starts with 6 employees, 8 assets, 9 tickets, 14 comments, 31 ticket history
+events, 4 assignments, 2 repairs and 8 asset events. All data is synthetic.
+New tickets and workflow history persist in server
 memory until restart/fixture reload. Preview employee selection is not authentication;
 production backend persistence and authorization remain later phases.
 

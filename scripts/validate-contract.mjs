@@ -9,7 +9,8 @@ const array = value => value == null ? [] : Array.isArray(value) ? value : [valu
 const guid = /^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/i;
 export const domains = {
   Tickets: { Status: ['NEW', 'SUBMITTED', 'ASSIGNED', 'IN_PROGRESS', 'WAITING', 'RESOLVED', 'CLOSED'], Priority: ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL'] },
-  Assets: { Status: ['RECEIVED', 'TAGGED', 'AVAILABLE', 'ASSIGNED', 'IN_REPAIR', 'RETIRED', 'DISPOSED'] }
+  Assets: { Status: ['RECEIVED', 'TAGGED', 'AVAILABLE', 'ASSIGNED', 'IN_REPAIR', 'RETIRED', 'DISPOSED'] },
+  AssetRepairs: { Status: ['OPEN', 'COMPLETED'] }
 };
 
 export function loadContract() {
@@ -47,7 +48,7 @@ export function relatedRows(contract, set, row, nav) {
 
 export function validateContract(contract = loadContract()) {
   const { sets, metadata } = contract;
-  assert.deepEqual(Object.keys(sets).sort(), ['Assets', 'Employees', 'TicketComments', 'TicketHistory', 'Tickets']);
+  assert.deepEqual(Object.keys(sets).sort(), ['AssetAssignments', 'AssetHistory', 'AssetRepairs', 'Assets', 'Employees', 'TicketComments', 'TicketHistory', 'Tickets']);
   const businessKeys = { Employees: 'EmployeeNumber', Tickets: 'TicketNumber', Assets: 'AssetTag' };
   for (const set of Object.values(sets)) {
     assert.ok(set.type, `${set.name}: missing entity type`);
@@ -118,8 +119,33 @@ export function validateContract(contract = loadContract()) {
     const appFile = path.join(root, `apps/help-desk/webapp/localService/mainService/data/${set.name}.json`);
     assert.deepEqual(JSON.parse(fs.readFileSync(appFile, 'utf8')), set.rows, `${set.name}: app fixture differs from canonical data`);
   }
+  validateAssetLifecycle(contract);
   assert.equal(fs.readFileSync(path.join(root, 'apps/help-desk/webapp/localService/mainService/metadata.xml'), 'utf8'), metadata, 'App metadata differs from canonical contract');
   return Object.values(sets).map(set => `${set.name}: ${set.rows.length} records`).join(', ');
+}
+
+export function validateAssetLifecycle({ sets }) {
+  for (const asset of sets.Assets.rows) {
+    const assignments = sets.AssetAssignments.rows.filter(row => row.AssetUUID === asset.AssetUUID);
+    const open = assignments.filter(row => row.EndAt === null);
+    assert.equal(open.length, asset.CurrentEmployeeUUID ? 1 : 0, 'Asset needs exactly one open assignment per custodian');
+    if (open.length) assert.equal(open[0].EmployeeUUID, asset.CurrentEmployeeUUID, 'Current custodian must match open assignment');
+    if (asset.CurrentEmployeeUUID) assert.ok(['ASSIGNED', 'IN_REPAIR'].includes(asset.Status), 'Custodian requires assigned or repair status');
+    for (const [index, row] of assignments.entries()) {
+      assert.ok(!row.EndAt || Date.parse(row.EndAt) >= Date.parse(row.StartAt), 'Assignment end precedes start');
+      for (const other of assignments.slice(index + 1)) {
+        assert.ok(Date.parse(row.StartAt) >= (other.EndAt ? Date.parse(other.EndAt) : Infinity) || Date.parse(other.StartAt) >= (row.EndAt ? Date.parse(row.EndAt) : Infinity), 'Assignment intervals overlap');
+      }
+    }
+    const openRepairs = sets.AssetRepairs.rows.filter(row => row.AssetUUID === asset.AssetUUID && row.Status === 'OPEN');
+    assert.equal(openRepairs.length, asset.Status === 'IN_REPAIR' ? 1 : 0, 'Repair state must match open repair');
+  }
+  for (const repair of sets.AssetRepairs.rows) {
+    assert.equal(sets.Employees.rows.find(row => row.EmployeeUUID === repair.TechnicianUUID).Department, 'IT Support', 'Repair technician must belong to IT Support');
+    if (repair.TicketUUID) assert.equal(sets.Tickets.rows.find(row => row.TicketUUID === repair.TicketUUID).AssetUUID, repair.AssetUUID, 'Repair ticket must reference the same asset');
+    if (repair.Status === 'COMPLETED') assert.ok(repair.RepairDescription?.trim() && repair.RepairedAt && Date.parse(repair.RepairedAt) >= Date.parse(repair.StartedAt), 'Completed repair needs description and valid completion time');
+    else assert.ok(!repair.RepairedAt && !repair.RepairDescription, 'Open repair cannot have completion data');
+  }
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

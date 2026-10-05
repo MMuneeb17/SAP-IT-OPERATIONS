@@ -24,6 +24,12 @@ Phase 3 adds [validated local ticket creation/actions](help-desk-workflow.md),
 serialized writes and event history. These local rules do not imply SAP authorization,
 durable transactions, ETags or deployment readiness.
 
+Phase 4 adds Asset Management List Report/Object Page routes and My IT Assets in
+the existing application component. It extends the shared service with asset
+assignments, repairs, lifecycle events and actions. Related ticket and employee
+tables route to canonical object pages through a Fiori controller extension.
+See the [asset lifecycle architecture and contract](asset-lifecycle.md).
+
 The stable frontend service root is `/odata/v4/it-operations/`; an eventual
 landscape destination/proxy maps it to the RAP binding. Components use the manifest
 OData V4 model, never SAP table names or an alternative REST API. Local annotations

@@ -14,7 +14,7 @@ test('employee creates a ticket and Help Desk completes the Fiori workflow', asy
     url.searchParams.set('sap-client', tenant);
     return route.continue({ url: url.toString() });
   });
-  await page.goto('/test/flp.html#app-preview');
+  await page.goto('/test/flp.html#app-preview', { waitUntil: 'domcontentloaded' });
   await page.getByRole('button', { name: 'My IT Support', exact: true }).click({ timeout: 90000 });
   await expect(page).toHaveURL(/MySupport/);
   const create = page.getByRole('button', { name: 'Create ticket', exact: true });
@@ -44,13 +44,15 @@ test('employee creates a ticket and Help Desk completes the Fiori workflow', asy
   const assignDialog = page.getByRole('dialog');
   await assignDialog.getByRole('textbox', { name: /Technician/ }).fill('00000001-0000-4000-8000-000000000004');
   await assignDialog.getByRole('button', { name: 'Assign technician', exact: true }).click();
+  await expect(assignDialog).not.toBeVisible();
   await page.getByRole('button', { name: 'Start work', exact: true }).click();
   await page.getByRole('button', { name: 'Resolve ticket', exact: true }).click();
   const resolveDialog = page.getByRole('dialog');
   await resolveDialog.getByRole('textbox', { name: /Resolution/ }).fill('Replaced the charger and verified the display through three restart cycles.');
   await resolveDialog.getByRole('button', { name: 'Resolve ticket', exact: true }).click();
+  await expect(resolveDialog).not.toBeVisible();
   await page.getByRole('button', { name: 'Confirm and close', exact: true }).click();
-  await expect(page.getByText('CLOSED', { exact: true }).first()).toBeVisible();
+  await expect(page.getByRole('region', { name: 'Overview', exact: true }).getByText('CLOSED', { exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Submit ticket', exact: true })).toHaveCount(0);
   const response = await request.get(`/odata/v4/it-operations/Tickets(${ticketUUID})?$expand=History&sap-client=${tenant}`);
   expect(response.ok()).toBeTruthy();
@@ -59,7 +61,7 @@ test('employee creates a ticket and Help Desk completes the Fiori workflow', asy
   expect(ticket.History.map(event => event.Action)).toEqual(['Create', 'Submit', 'AssignTechnician', 'StartWork', 'Resolve', 'Close']);
   await page.getByRole('button', { name: 'Help Desk', exact: true }).click();
   await page.getByRole('button', { name: 'Go', exact: true }).click();
-  await expect(page.getByText('Intermittent laptop display failure', { exact: true })).toBeVisible();
+  await expect(page.getByText('Intermittent laptop display failure', { exact: true }).filter({ visible: true })).toBeVisible();
   await page.screenshot({ path: 'test-results/phase-3-help-desk.png' });
   expect(errors).toEqual([]);
 });

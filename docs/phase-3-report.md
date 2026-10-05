@@ -54,6 +54,18 @@ Fiori action dialogs, assignment, start work, resolution, closure and finding th
 new ticket in Help Desk. New test data is isolated using the middleware's `sap-client`
 namespaces, preserving the normal preview fixtures.
 
+Completion recheck after the manual table exercise found two test issues: seed
+assertions were reading the user's changed preview data, and a browser assertion
+matched CLOSED text in a cached, hidden practice table. Contract reads and
+seed-based browser checks now use isolated mock namespaces; workflow assertions
+target the active Overview section and visible list result. The practice table
+and the user's runtime tickets are retained.
+
+Final completion recheck: **28 tests passed in 50.2 seconds** against the running
+preview, including the complete create-to-close browser flow with the practice
+table present. Build, environment doctor, mock parity and fixture validation also
+passed.
+
 ## Scope and limits
 
 This is a local demonstration. Employee selection and action actors are simulated;
@@ -85,6 +97,8 @@ Lifecycle MVP, is the next planned phase.
 
 ## Git checkpoint
 
-As requested, checkpoint `ee96467` was pushed to `origin/main` during this work.
-That checkpoint contains completed phase 2 and the initial phase 3 implementation.
-The final fixes, tests and this report were added locally after that checkpoint.
+Checkpoint `ee96467` contained completed phase 2 and the initial phase 3 implementation.
+Commit `ed77d01` subsequently pushed the completed phase 3 implementation, tests,
+reports, beginner guide and manual practice table to `origin/main`.
+The completion-recheck test fixes and documentation updates are local changes
+after that commit.

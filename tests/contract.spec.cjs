@@ -1,4 +1,6 @@
 const { test, expect } = require('@playwright/test');
+const { randomUUID } = require('node:crypto');
+const tenant = `contract-${randomUUID()}`;
 const base = '/odata/v4/it-operations';
 let contract;
 let relatedRows;
@@ -11,12 +13,12 @@ test.beforeAll(async () => {
 });
 
 async function getJson(request, url) {
-  const response = await request.get(url);
+  const response = await request.get(`${url}${url.includes('?') ? '&' : '?'}sap-client=${tenant}`);
   expect(response.ok(), `${url}: HTTP ${response.status()} ${await response.text()}`).toBeTruthy();
   return response.json();
 }
 
-for (const name of ['Employees', 'Tickets', 'Assets', 'TicketComments', 'TicketHistory']) {
+for (const name of ['Employees', 'Tickets', 'Assets', 'TicketComments', 'TicketHistory', 'AssetAssignments', 'AssetRepairs', 'AssetHistory']) {
   test(`${name}: exposes seeded collection, count, key reads and projection`, async ({ request }) => {
     const set = contract.sets[name];
     const key = set.type.keys[0];
@@ -31,7 +33,7 @@ for (const name of ['Employees', 'Tickets', 'Assets', 'TicketComments', 'TicketH
     const projected = await getJson(request, `${base}/${name}?$select=${key}&$top=1`);
     expect(projected.value).toHaveLength(1);
     expect(Object.keys(projected.value[0]).filter(field => !field.startsWith('@'))).toEqual([key]);
-    const missing = await request.get(`${base}/${name}(ffffffff-ffff-ffff-ffff-ffffffffffff)`);
+    const missing = await request.get(`${base}/${name}(ffffffff-ffff-ffff-ffff-ffffffffffff)?sap-client=${tenant}`);
     expect(missing.status()).toBe(404);
   });
 

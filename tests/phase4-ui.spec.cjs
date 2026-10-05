@@ -1,0 +1,82 @@
+const { test, expect } = require('@playwright/test');
+const { randomUUID } = require('node:crypto');
+test.use({ actionTimeout: 15000 });
+test.beforeEach(async ({ page }) => {
+  const tenant = `asset-browser-${randomUUID()}`;
+  await page.route('**/odata/v4/it-operations/**', route => {
+    const url = new URL(route.request().url()); url.searchParams.set('sap-client', tenant);
+    return route.continue({ url: url.toString() });
+  });
+});
+const employee = n => `00000001-0000-4000-8000-${String(n).padStart(12, '0')}`;
+async function action(page, label, inputs) {
+  await page.getByRole('button', { name: label, exact: true }).click();
+  const dialog = page.getByRole('dialog');
+  for (const [name, value] of Object.entries(inputs)) await dialog.getByRole('textbox', { name, exact: true }).fill(value);
+  await dialog.getByRole('button', { name: label, exact: true }).click();
+  await expect(dialog).not.toBeVisible();
+}
+test('asset manager assigns, transfers, repairs, returns and disposes equipment', async ({ page }) => {
+  const errors = [];
+  page.on('pageerror', error => errors.push(error.message));
+  page.on('console', message => { if (message.type() === 'error' && /FormatException|TypeError|ReferenceError/.test(message.text())) errors.push(message.text()); });
+  await page.goto('/test/flp.html#app-preview', { waitUntil: 'domcontentloaded' });
+  await page.getByRole('button', { name: 'Asset Management', exact: true }).click({ timeout: 90000 });
+  await expect(page.getByRole('heading', { name: 'Assets', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Go', exact: true }).click();
+  await page.getByText('IT-LAP-00502', { exact: true }).click();
+  await expect(page).toHaveURL(/Assets\(/);
+  await action(page, 'Make available', { Reason: 'Receiving inspection passed' });
+  await action(page, 'Assign asset', { Employee: employee(1), Reason: 'Employee workstation' });
+  const details = page.getByRole('region', { name: 'Asset details', exact: true });
+  await expect(details.getByText('Ayesha Khan', { exact: true })).toBeVisible();
+  await action(page, 'Transfer asset', { Employee: employee(2), Reason: 'Transfer to Sales' });
+  await expect(details.getByText('Bilal Ahmed', { exact: true })).toBeVisible();
+  await action(page, 'Send for repair', { Technician: employee(4), Diagnosis: 'Display cable fault' });
+  await expect(details.getByText('IN_REPAIR', { exact: true })).toBeVisible();
+  await action(page, 'Complete repair', { 'Repair description': 'Replaced cable and verified display' });
+  await expect(details.getByText('ASSIGNED', { exact: true })).toBeVisible();
+  await page.getByText('Assignment history', { exact: true }).first().click();
+  await expect(page.getByRole('region', { name: 'Assignment history', exact: true }).getByText('Bilal Ahmed', { exact: true })).toBeVisible();
+  await page.screenshot({ path: 'test-results/phase-4-asset-history.png' });
+  await action(page, 'Return asset', { Reason: 'Returned to IT storage' });
+  await action(page, 'Retire asset', { Reason: 'Beyond supported service life' });
+  await action(page, 'Dispose asset', { Reason: 'Disposal approved and completed' });
+  await page.getByText('Asset details', { exact: true }).first().click();
+  await expect(details.getByText('DISPOSED', { exact: true })).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test('employee assets and ticket-to-asset navigation work on desktop and mobile', async ({ page }) => {
+  const errors = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/test/flp.html#app-preview', { waitUntil: 'domcontentloaded' });
+  await page.getByRole('button', { name: 'My IT Support', exact: true }).click({ timeout: 90000 });
+  await expect(page.getByRole('button', { name: 'Create ticket', exact: true })).toBeEnabled();
+  await page.getByRole('button', { name: 'My IT Assets', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'My IT Assets', exact: true })).toBeVisible({ timeout: 30000 });
+  await expect(page.getByText('IT-LAP-00452', { exact: true }).filter({ visible: true })).toBeVisible();
+  await page.getByRole('combobox', { name: 'Preview employee', exact: true }).press('F4');
+  await page.getByRole('option', { name: 'Usman Ali', exact: true }).click();
+  await expect(page.getByText('No equipment is currently assigned to this employee.', { exact: true })).toBeVisible();
+  await page.getByRole('combobox', { name: 'Preview employee', exact: true }).press('F4');
+  await page.getByRole('option', { name: 'Ayesha Khan', exact: true }).click();
+  await expect(page.getByRole('option', { name: 'Ayesha Khan', exact: true })).not.toBeVisible();
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.getByText('IT-LAP-00452', { exact: true }).filter({ visible: true })).toBeVisible();
+  await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.screenshot({ path: 'test-results/phase-4-my-assets-mobile.png' });
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.getByText('IT-LAP-00452', { exact: true }).filter({ visible: true }).click();
+  await page.getByText('Related tickets', { exact: true }).first().click();
+  const tickets = page.getByRole('region', { name: 'Related tickets', exact: true });
+  await tickets.getByText('Laptop not booting after restart', { exact: true }).click();
+  await expect(page).toHaveURL(/Tickets\(/);
+  await page.getByRole('button', { name: 'View requester', exact: true }).click();
+  await page.getByText('Assigned assets', { exact: true }).first().click();
+  const assets = page.getByRole('region', { name: 'Assigned assets', exact: true });
+  await assets.getByText('IT-LAP-00452', { exact: true }).click();
+  await expect(page).toHaveURL(/Assets\(/);
+  await expect(page.getByRole('region', { name: 'Asset details', exact: true }).getByText('Latitude 5440', { exact: true })).toBeVisible();
+  expect(errors).toEqual([]);
+});

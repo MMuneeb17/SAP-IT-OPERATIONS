@@ -1,418 +1,667 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <edmx:Edmx xmlns="http://docs.oasis-open.org/odata/ns/edm" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
   <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
-    <edmx:Include Namespace="Org.OData.Core.V1" Alias="Core" />
+    <edmx:Include Namespace="Org.OData.Core.V1" Alias="Core"/>
   </edmx:Reference>
   <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
-    <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI" />
+    <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
   </edmx:Reference>
   <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
-    <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common" />
+    <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
   </edmx:Reference>
   <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
-    <edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="Capabilities" />
+    <edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="Capabilities"/>
   </edmx:Reference>
   <edmx:DataServices>
     <Schema Namespace="ITOperations">
       <EntityType Name="Employee">
         <Key>
-          <PropertyRef Name="EmployeeUUID" />
+          <PropertyRef Name="EmployeeUUID"/>
         </Key>
         <Property Name="EmployeeUUID" Type="Edm.Guid" Nullable="false">
-          <Annotation Term="Common.Label" String="EmployeeUUID" />
+          <Annotation Term="Common.Label" String="EmployeeUUID"/>
         </Property>
         <Property Name="EmployeeNumber" Type="Edm.String" Nullable="false" MaxLength="20">
-          <Annotation Term="Common.Label" String="Employee number" />
+          <Annotation Term="Common.Label" String="Employee number"/>
         </Property>
         <Property Name="DisplayName" Type="Edm.String" Nullable="false" MaxLength="100">
-          <Annotation Term="Common.Label" String="Name" />
+          <Annotation Term="Common.Label" String="Name"/>
         </Property>
         <Property Name="Email" Type="Edm.String" Nullable="false" MaxLength="254">
-          <Annotation Term="Common.Label" String="Email" />
+          <Annotation Term="Common.Label" String="Email"/>
         </Property>
         <Property Name="Department" Type="Edm.String" Nullable="false" MaxLength="80">
-          <Annotation Term="Common.Label" String="Department" />
+          <Annotation Term="Common.Label" String="Department"/>
         </Property>
         <Property Name="Location" Type="Edm.String" Nullable="false" MaxLength="80">
-          <Annotation Term="Common.Label" String="Location" />
+          <Annotation Term="Common.Label" String="Location"/>
         </Property>
-        <NavigationProperty Name="RequestedTickets" Type="Collection(ITOperations.Ticket)" Partner="Requester" />
-        <NavigationProperty Name="AssignedTickets" Type="Collection(ITOperations.Ticket)" Partner="Technician" />
-        <NavigationProperty Name="Assets" Type="Collection(ITOperations.Asset)" Partner="CurrentEmployee" />
+        <NavigationProperty Name="RequestedTickets" Type="Collection(ITOperations.Ticket)" Partner="Requester"/>
+        <NavigationProperty Name="AssignedTickets" Type="Collection(ITOperations.Ticket)" Partner="Technician"/>
+        <NavigationProperty Name="Assets" Type="Collection(ITOperations.Asset)" Partner="CurrentEmployee"/>
       </EntityType>
       <EntityType Name="Ticket">
         <Key>
-          <PropertyRef Name="TicketUUID" />
+          <PropertyRef Name="TicketUUID"/>
         </Key>
         <Property Name="TicketUUID" Type="Edm.Guid" Nullable="false">
-          <Annotation Term="Common.Label" String="TicketUUID" />
-          <Annotation Term="Core.Computed" Bool="true" />
+          <Annotation Term="Common.Label" String="TicketUUID"/>
+          <Annotation Term="Core.Computed" Bool="true"/>
         </Property>
         <Property Name="TicketNumber" Type="Edm.String" Nullable="false" MaxLength="20">
-          <Annotation Term="Common.Label" String="Ticket" />
-          <Annotation Term="Core.Computed" Bool="true" />
+          <Annotation Term="Common.Label" String="Ticket"/>
+          <Annotation Term="Core.Computed" Bool="true"/>
         </Property>
         <Property Name="Subject" Type="Edm.String" Nullable="false" MaxLength="200">
-          <Annotation Term="Common.Label" String="Subject" />
+          <Annotation Term="Common.Label" String="Subject"/>
         </Property>
         <Property Name="Description" Type="Edm.String" Nullable="false" MaxLength="4000">
-          <Annotation Term="Common.Label" String="Description" />
+          <Annotation Term="Common.Label" String="Description"/>
         </Property>
         <Property Name="Status" Type="Edm.String" Nullable="false" MaxLength="20">
-          <Annotation Term="Common.Label" String="Status" />
-          <Annotation Term="Core.Computed" Bool="true" />
+          <Annotation Term="Common.Label" String="Status"/>
+          <Annotation Term="Core.Computed" Bool="true"/>
         </Property>
         <Property Name="Priority" Type="Edm.String" Nullable="false" MaxLength="10">
-          <Annotation Term="Common.Label" String="Priority" />
+          <Annotation Term="Common.Label" String="Priority"/>
         </Property>
         <Property Name="Category" Type="Edm.String" Nullable="false" MaxLength="40">
-          <Annotation Term="Common.Label" String="Category" />
+          <Annotation Term="Common.Label" String="Category"/>
         </Property>
         <Property Name="RequesterUUID" Type="Edm.Guid" Nullable="false">
-          <Annotation Term="Common.Label" String="Requester" />
+          <Annotation Term="Common.Label" String="Requester"/>
         </Property>
         <Property Name="TechnicianUUID" Type="Edm.Guid" Nullable="true">
-          <Annotation Term="Common.Label" String="Technician" />
-          <Annotation Term="Core.Computed" Bool="true" />
+          <Annotation Term="Common.Label" String="Technician"/>
+          <Annotation Term="Core.Computed" Bool="true"/>
         </Property>
         <Property Name="AssetUUID" Type="Edm.Guid" Nullable="true">
-          <Annotation Term="Common.Label" String="Asset" />
+          <Annotation Term="Common.Label" String="Asset"/>
         </Property>
         <Property Name="Resolution" Type="Edm.String" Nullable="true" MaxLength="4000">
-          <Annotation Term="Common.Label" String="Resolution" />
-          <Annotation Term="Core.Computed" Bool="true" />
+          <Annotation Term="Common.Label" String="Resolution"/>
+          <Annotation Term="Core.Computed" Bool="true"/>
         </Property>
         <Property Name="WaitingReason" Type="Edm.String" Nullable="true" MaxLength="500">
-          <Annotation Term="Common.Label" String="Waiting reason" />
-          <Annotation Term="Core.Computed" Bool="true" />
+          <Annotation Term="Common.Label" String="Waiting reason"/>
+          <Annotation Term="Core.Computed" Bool="true"/>
         </Property>
         <Property Name="ResolvedAt" Type="Edm.DateTimeOffset" Nullable="true">
-          <Annotation Term="Common.Label" String="Resolved at" />
-          <Annotation Term="Core.Computed" Bool="true" />
+          <Annotation Term="Common.Label" String="Resolved at"/>
+          <Annotation Term="Core.Computed" Bool="true"/>
         </Property>
         <Property Name="ClosedAt" Type="Edm.DateTimeOffset" Nullable="true">
-          <Annotation Term="Common.Label" String="Closed at" />
-          <Annotation Term="Core.Computed" Bool="true" />
+          <Annotation Term="Common.Label" String="Closed at"/>
+          <Annotation Term="Core.Computed" Bool="true"/>
         </Property>
         <Property Name="CreatedAt" Type="Edm.DateTimeOffset" Nullable="false">
-          <Annotation Term="Common.Label" String="Created at" />
-          <Annotation Term="Core.Computed" Bool="true" />
+          <Annotation Term="Common.Label" String="Created at"/>
+          <Annotation Term="Core.Computed" Bool="true"/>
         </Property>
         <Property Name="CreatedBy" Type="Edm.String" Nullable="false" MaxLength="80">
-          <Annotation Term="Common.Label" String="CreatedBy" />
-          <Annotation Term="Core.Computed" Bool="true" />
+          <Annotation Term="Common.Label" String="CreatedBy"/>
+          <Annotation Term="Core.Computed" Bool="true"/>
         </Property>
         <Property Name="LastChangedAt" Type="Edm.DateTimeOffset" Nullable="false">
-          <Annotation Term="Common.Label" String="Last changed at" />
-          <Annotation Term="Core.Computed" Bool="true" />
+          <Annotation Term="Common.Label" String="Last changed at"/>
+          <Annotation Term="Core.Computed" Bool="true"/>
         </Property>
         <Property Name="LastChangedBy" Type="Edm.String" Nullable="false" MaxLength="80">
-          <Annotation Term="Common.Label" String="LastChangedBy" />
-          <Annotation Term="Core.Computed" Bool="true" />
+          <Annotation Term="Common.Label" String="LastChangedBy"/>
+          <Annotation Term="Core.Computed" Bool="true"/>
         </Property>
         <NavigationProperty Name="Requester" Type="ITOperations.Employee" Nullable="false" Partner="RequestedTickets">
-          <ReferentialConstraint Property="RequesterUUID" ReferencedProperty="EmployeeUUID" />
+          <ReferentialConstraint Property="RequesterUUID" ReferencedProperty="EmployeeUUID"/>
         </NavigationProperty>
         <NavigationProperty Name="Technician" Type="ITOperations.Employee" Nullable="true" Partner="AssignedTickets">
-          <ReferentialConstraint Property="TechnicianUUID" ReferencedProperty="EmployeeUUID" />
+          <ReferentialConstraint Property="TechnicianUUID" ReferencedProperty="EmployeeUUID"/>
         </NavigationProperty>
         <NavigationProperty Name="Asset" Type="ITOperations.Asset" Nullable="true" Partner="Tickets">
-          <ReferentialConstraint Property="AssetUUID" ReferencedProperty="AssetUUID" />
+          <ReferentialConstraint Property="AssetUUID" ReferencedProperty="AssetUUID"/>
         </NavigationProperty>
-        <NavigationProperty Name="Comments" Type="Collection(ITOperations.TicketComment)" Partner="Ticket" />
-        <NavigationProperty Name="History" Type="Collection(ITOperations.TicketHistory)" Partner="Ticket" />
+        <NavigationProperty Name="Comments" Type="Collection(ITOperations.TicketComment)" Partner="Ticket"/>
+        <NavigationProperty Name="History" Type="Collection(ITOperations.TicketHistory)" Partner="Ticket"/>
         <Property Name="StatusCriticality" Type="Edm.Int32" Nullable="false">
-          <Annotation Term="Core.Computed" Bool="true" />
-          <Annotation Term="UI.Hidden" Bool="true" />
+          <Annotation Term="Core.Computed" Bool="true"/>
+          <Annotation Term="UI.Hidden" Bool="true"/>
         </Property>
         <Property Name="PriorityCriticality" Type="Edm.Int32" Nullable="false">
-          <Annotation Term="Core.Computed" Bool="true" />
-          <Annotation Term="UI.Hidden" Bool="true" />
+          <Annotation Term="Core.Computed" Bool="true"/>
+          <Annotation Term="UI.Hidden" Bool="true"/>
         </Property>
         <Property Name="CanSubmit" Type="Edm.Boolean" Nullable="false">
-          <Annotation Term="Core.Computed" Bool="true" />
-          <Annotation Term="UI.Hidden" Bool="true" />
+          <Annotation Term="Core.Computed" Bool="true"/>
+          <Annotation Term="UI.Hidden" Bool="true"/>
         </Property>
         <Property Name="CanAssignTechnician" Type="Edm.Boolean" Nullable="false">
-          <Annotation Term="Core.Computed" Bool="true" />
-          <Annotation Term="UI.Hidden" Bool="true" />
+          <Annotation Term="Core.Computed" Bool="true"/>
+          <Annotation Term="UI.Hidden" Bool="true"/>
         </Property>
         <Property Name="CanStartWork" Type="Edm.Boolean" Nullable="false">
-          <Annotation Term="Core.Computed" Bool="true" />
-          <Annotation Term="UI.Hidden" Bool="true" />
+          <Annotation Term="Core.Computed" Bool="true"/>
+          <Annotation Term="UI.Hidden" Bool="true"/>
         </Property>
         <Property Name="CanPutOnHold" Type="Edm.Boolean" Nullable="false">
-          <Annotation Term="Core.Computed" Bool="true" />
-          <Annotation Term="UI.Hidden" Bool="true" />
+          <Annotation Term="Core.Computed" Bool="true"/>
+          <Annotation Term="UI.Hidden" Bool="true"/>
         </Property>
         <Property Name="CanResume" Type="Edm.Boolean" Nullable="false">
-          <Annotation Term="Core.Computed" Bool="true" />
-          <Annotation Term="UI.Hidden" Bool="true" />
+          <Annotation Term="Core.Computed" Bool="true"/>
+          <Annotation Term="UI.Hidden" Bool="true"/>
         </Property>
         <Property Name="CanResolve" Type="Edm.Boolean" Nullable="false">
-          <Annotation Term="Core.Computed" Bool="true" />
-          <Annotation Term="UI.Hidden" Bool="true" />
+          <Annotation Term="Core.Computed" Bool="true"/>
+          <Annotation Term="UI.Hidden" Bool="true"/>
         </Property>
         <Property Name="CanClose" Type="Edm.Boolean" Nullable="false">
-          <Annotation Term="Core.Computed" Bool="true" />
-          <Annotation Term="UI.Hidden" Bool="true" />
+          <Annotation Term="Core.Computed" Bool="true"/>
+          <Annotation Term="UI.Hidden" Bool="true"/>
         </Property>
         <Property Name="CanReopen" Type="Edm.Boolean" Nullable="false">
-          <Annotation Term="Core.Computed" Bool="true" />
-          <Annotation Term="UI.Hidden" Bool="true" />
+          <Annotation Term="Core.Computed" Bool="true"/>
+          <Annotation Term="UI.Hidden" Bool="true"/>
         </Property>
       </EntityType>
       <EntityType Name="Asset">
         <Key>
-          <PropertyRef Name="AssetUUID" />
+          <PropertyRef Name="AssetUUID"/>
         </Key>
         <Property Name="AssetUUID" Type="Edm.Guid" Nullable="false">
-          <Annotation Term="Common.Label" String="Asset" />
+          <Annotation Term="Common.Label" String="Asset"/>
         </Property>
         <Property Name="AssetTag" Type="Edm.String" Nullable="false" MaxLength="30">
-          <Annotation Term="Common.Label" String="Asset tag" />
+          <Annotation Term="Common.Label" String="Asset tag"/>
         </Property>
         <Property Name="SerialNumber" Type="Edm.String" Nullable="true" MaxLength="80">
-          <Annotation Term="Common.Label" String="SerialNumber" />
+          <Annotation Term="Common.Label" String="Serial number"/>
         </Property>
         <Property Name="AssetType" Type="Edm.String" Nullable="false" MaxLength="40">
-          <Annotation Term="Common.Label" String="AssetType" />
+          <Annotation Term="Common.Label" String="Asset type"/>
         </Property>
         <Property Name="Manufacturer" Type="Edm.String" Nullable="false" MaxLength="80">
-          <Annotation Term="Common.Label" String="Manufacturer" />
+          <Annotation Term="Common.Label" String="Manufacturer"/>
         </Property>
         <Property Name="Model" Type="Edm.String" Nullable="false" MaxLength="100">
-          <Annotation Term="Common.Label" String="Model" />
+          <Annotation Term="Common.Label" String="Model"/>
         </Property>
         <Property Name="Status" Type="Edm.String" Nullable="false" MaxLength="20">
-          <Annotation Term="Common.Label" String="Status" />
+          <Annotation Term="Common.Label" String="Status"/>
         </Property>
         <Property Name="CurrentEmployeeUUID" Type="Edm.Guid" Nullable="true">
-          <Annotation Term="Common.Label" String="Current custodian" />
+          <Annotation Term="Common.Label" String="Current custodian"/>
         </Property>
         <Property Name="Location" Type="Edm.String" Nullable="false" MaxLength="80">
-          <Annotation Term="Common.Label" String="Location" />
+          <Annotation Term="Common.Label" String="Location"/>
         </Property>
         <Property Name="PurchaseDate" Type="Edm.Date" Nullable="true">
-          <Annotation Term="Common.Label" String="PurchaseDate" />
+          <Annotation Term="Common.Label" String="Purchase date"/>
         </Property>
         <Property Name="WarrantyEnd" Type="Edm.Date" Nullable="true">
-          <Annotation Term="Common.Label" String="Warranty end" />
+          <Annotation Term="Common.Label" String="Warranty end"/>
         </Property>
         <Property Name="CreatedAt" Type="Edm.DateTimeOffset" Nullable="false">
-          <Annotation Term="Common.Label" String="Created at" />
+          <Annotation Term="Common.Label" String="Created at"/>
         </Property>
         <Property Name="CreatedBy" Type="Edm.String" Nullable="false" MaxLength="80">
-          <Annotation Term="Common.Label" String="CreatedBy" />
+          <Annotation Term="Common.Label" String="CreatedBy"/>
         </Property>
         <Property Name="LastChangedAt" Type="Edm.DateTimeOffset" Nullable="false">
-          <Annotation Term="Common.Label" String="Last changed at" />
+          <Annotation Term="Common.Label" String="Last changed at"/>
         </Property>
         <Property Name="LastChangedBy" Type="Edm.String" Nullable="false" MaxLength="80">
-          <Annotation Term="Common.Label" String="LastChangedBy" />
+          <Annotation Term="Common.Label" String="LastChangedBy"/>
         </Property>
         <NavigationProperty Name="CurrentEmployee" Type="ITOperations.Employee" Nullable="true" Partner="Assets">
-          <ReferentialConstraint Property="CurrentEmployeeUUID" ReferencedProperty="EmployeeUUID" />
+          <ReferentialConstraint Property="CurrentEmployeeUUID" ReferencedProperty="EmployeeUUID"/>
         </NavigationProperty>
-        <NavigationProperty Name="Tickets" Type="Collection(ITOperations.Ticket)" Partner="Asset" />
+        <NavigationProperty Name="Tickets" Type="Collection(ITOperations.Ticket)" Partner="Asset"/>
+        <Property Name="StatusCriticality" Type="Edm.Int32" Nullable="false">
+          <Annotation Term="Core.Computed" Bool="true"/>
+          <Annotation Term="UI.Hidden" Bool="true"/>
+        </Property>
+        <Property Name="CanMakeAvailable" Type="Edm.Boolean" Nullable="false">
+          <Annotation Term="Core.Computed" Bool="true"/>
+          <Annotation Term="UI.Hidden" Bool="true"/>
+        </Property>
+        <Property Name="CanAssignAsset" Type="Edm.Boolean" Nullable="false">
+          <Annotation Term="Core.Computed" Bool="true"/>
+          <Annotation Term="UI.Hidden" Bool="true"/>
+        </Property>
+        <Property Name="CanTransferAsset" Type="Edm.Boolean" Nullable="false">
+          <Annotation Term="Core.Computed" Bool="true"/>
+          <Annotation Term="UI.Hidden" Bool="true"/>
+        </Property>
+        <Property Name="CanReturnAsset" Type="Edm.Boolean" Nullable="false">
+          <Annotation Term="Core.Computed" Bool="true"/>
+          <Annotation Term="UI.Hidden" Bool="true"/>
+        </Property>
+        <Property Name="CanSendForRepair" Type="Edm.Boolean" Nullable="false">
+          <Annotation Term="Core.Computed" Bool="true"/>
+          <Annotation Term="UI.Hidden" Bool="true"/>
+        </Property>
+        <Property Name="CanCompleteRepair" Type="Edm.Boolean" Nullable="false">
+          <Annotation Term="Core.Computed" Bool="true"/>
+          <Annotation Term="UI.Hidden" Bool="true"/>
+        </Property>
+        <Property Name="CanRetireAsset" Type="Edm.Boolean" Nullable="false">
+          <Annotation Term="Core.Computed" Bool="true"/>
+          <Annotation Term="UI.Hidden" Bool="true"/>
+        </Property>
+        <Property Name="CanDisposeAsset" Type="Edm.Boolean" Nullable="false">
+          <Annotation Term="Core.Computed" Bool="true"/>
+          <Annotation Term="UI.Hidden" Bool="true"/>
+        </Property>
+        <NavigationProperty Name="Assignments" Type="Collection(ITOperations.AssetAssignment)" Partner="Asset"/>
+        <NavigationProperty Name="Repairs" Type="Collection(ITOperations.AssetRepair)" Partner="Asset"/>
+        <NavigationProperty Name="History" Type="Collection(ITOperations.AssetHistory)" Partner="Asset"/>
       </EntityType>
       <EntityType Name="TicketComment">
         <Key>
-          <PropertyRef Name="TicketCommentUUID" />
+          <PropertyRef Name="TicketCommentUUID"/>
         </Key>
         <Property Name="TicketCommentUUID" Type="Edm.Guid" Nullable="false">
-          <Annotation Term="Common.Label" String="TicketCommentUUID" />
+          <Annotation Term="Common.Label" String="TicketCommentUUID"/>
         </Property>
         <Property Name="TicketUUID" Type="Edm.Guid" Nullable="false">
-          <Annotation Term="Common.Label" String="TicketUUID" />
+          <Annotation Term="Common.Label" String="TicketUUID"/>
         </Property>
         <Property Name="AuthorUUID" Type="Edm.Guid" Nullable="false">
-          <Annotation Term="Common.Label" String="AuthorUUID" />
+          <Annotation Term="Common.Label" String="AuthorUUID"/>
         </Property>
         <Property Name="Text" Type="Edm.String" Nullable="false" MaxLength="4000">
-          <Annotation Term="Common.Label" String="Comment" />
+          <Annotation Term="Common.Label" String="Comment"/>
         </Property>
         <Property Name="CreatedAt" Type="Edm.DateTimeOffset" Nullable="false">
-          <Annotation Term="Common.Label" String="Created at" />
+          <Annotation Term="Common.Label" String="Created at"/>
         </Property>
         <Property Name="CreatedBy" Type="Edm.String" Nullable="false" MaxLength="80">
-          <Annotation Term="Common.Label" String="CreatedBy" />
+          <Annotation Term="Common.Label" String="CreatedBy"/>
         </Property>
         <NavigationProperty Name="Ticket" Type="ITOperations.Ticket" Nullable="false" Partner="Comments">
-          <ReferentialConstraint Property="TicketUUID" ReferencedProperty="TicketUUID" />
+          <ReferentialConstraint Property="TicketUUID" ReferencedProperty="TicketUUID"/>
         </NavigationProperty>
         <NavigationProperty Name="Author" Type="ITOperations.Employee" Nullable="false">
-          <ReferentialConstraint Property="AuthorUUID" ReferencedProperty="EmployeeUUID" />
+          <ReferentialConstraint Property="AuthorUUID" ReferencedProperty="EmployeeUUID"/>
         </NavigationProperty>
       </EntityType>
       <EntityType Name="TicketHistory">
         <Key>
-          <PropertyRef Name="TicketHistoryUUID" />
+          <PropertyRef Name="TicketHistoryUUID"/>
         </Key>
         <Property Name="TicketHistoryUUID" Type="Edm.Guid" Nullable="false">
-          <Annotation Term="Common.Label" String="TicketHistoryUUID" />
+          <Annotation Term="Common.Label" String="TicketHistoryUUID"/>
         </Property>
         <Property Name="TicketUUID" Type="Edm.Guid" Nullable="false">
-          <Annotation Term="Common.Label" String="TicketUUID" />
+          <Annotation Term="Common.Label" String="TicketUUID"/>
         </Property>
         <Property Name="ActorUUID" Type="Edm.Guid" Nullable="false">
-          <Annotation Term="Common.Label" String="ActorUUID" />
+          <Annotation Term="Common.Label" String="ActorUUID"/>
         </Property>
         <Property Name="Action" Type="Edm.String" Nullable="false" MaxLength="40">
-          <Annotation Term="Common.Label" String="Action" />
+          <Annotation Term="Common.Label" String="Action"/>
         </Property>
         <Property Name="OldValue" Type="Edm.String" Nullable="true" MaxLength="1000">
-          <Annotation Term="Common.Label" String="Previous value" />
+          <Annotation Term="Common.Label" String="Previous value"/>
         </Property>
         <Property Name="NewValue" Type="Edm.String" Nullable="true" MaxLength="1000">
-          <Annotation Term="Common.Label" String="New value" />
+          <Annotation Term="Common.Label" String="New value"/>
         </Property>
         <Property Name="Reason" Type="Edm.String" Nullable="true" MaxLength="4000">
-          <Annotation Term="Common.Label" String="Reason" />
+          <Annotation Term="Common.Label" String="Reason"/>
         </Property>
         <Property Name="CreatedAt" Type="Edm.DateTimeOffset" Nullable="false">
-          <Annotation Term="Common.Label" String="Created at" />
+          <Annotation Term="Common.Label" String="Created at"/>
         </Property>
         <Property Name="CreatedBy" Type="Edm.String" Nullable="false" MaxLength="80">
-          <Annotation Term="Common.Label" String="CreatedBy" />
+          <Annotation Term="Common.Label" String="CreatedBy"/>
         </Property>
         <NavigationProperty Name="Ticket" Type="ITOperations.Ticket" Nullable="false" Partner="History">
-          <ReferentialConstraint Property="TicketUUID" ReferencedProperty="TicketUUID" />
+          <ReferentialConstraint Property="TicketUUID" ReferencedProperty="TicketUUID"/>
         </NavigationProperty>
         <NavigationProperty Name="Actor" Type="ITOperations.Employee" Nullable="false">
-          <ReferentialConstraint Property="ActorUUID" ReferencedProperty="EmployeeUUID" />
+          <ReferentialConstraint Property="ActorUUID" ReferencedProperty="EmployeeUUID"/>
+        </NavigationProperty>
+      </EntityType>
+      <EntityType Name="AssetAssignment">
+        <Key>
+          <PropertyRef Name="AssetAssignmentUUID"/>
+        </Key>
+        <Property Name="AssetAssignmentUUID" Type="Edm.Guid" Nullable="false">
+          <Annotation Term="Common.Label" String="AssetAssignmentUUID"/>
+        </Property>
+        <Property Name="AssetUUID" Type="Edm.Guid" Nullable="false">
+          <Annotation Term="Common.Label" String="AssetUUID"/>
+        </Property>
+        <Property Name="EmployeeUUID" Type="Edm.Guid" Nullable="false">
+          <Annotation Term="Common.Label" String="EmployeeUUID"/>
+        </Property>
+        <Property Name="StartAt" Type="Edm.DateTimeOffset" Nullable="false">
+          <Annotation Term="Common.Label" String="Assigned at"/>
+        </Property>
+        <Property Name="EndAt" Type="Edm.DateTimeOffset" Nullable="true">
+          <Annotation Term="Common.Label" String="Returned / transferred at"/>
+        </Property>
+        <Property Name="Reason" Type="Edm.String" Nullable="false" MaxLength="4000">
+          <Annotation Term="Common.Label" String="Assignment reason"/>
+        </Property>
+        <Property Name="EndReason" Type="Edm.String" Nullable="true" MaxLength="4000">
+          <Annotation Term="Common.Label" String="End reason"/>
+        </Property>
+        <Property Name="CreatedBy" Type="Edm.String" Nullable="false" MaxLength="80">
+          <Annotation Term="Common.Label" String="CreatedBy"/>
+        </Property>
+        <Property Name="ClosedBy" Type="Edm.String" Nullable="true" MaxLength="80">
+          <Annotation Term="Common.Label" String="ClosedBy"/>
+        </Property>
+        <NavigationProperty Name="Asset" Type="ITOperations.Asset" Nullable="false" Partner="Assignments">
+          <ReferentialConstraint Property="AssetUUID" ReferencedProperty="AssetUUID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Employee" Type="ITOperations.Employee" Nullable="false">
+          <ReferentialConstraint Property="EmployeeUUID" ReferencedProperty="EmployeeUUID"/>
+        </NavigationProperty>
+      </EntityType>
+      <EntityType Name="AssetRepair">
+        <Key>
+          <PropertyRef Name="AssetRepairUUID"/>
+        </Key>
+        <Property Name="AssetRepairUUID" Type="Edm.Guid" Nullable="false">
+          <Annotation Term="Common.Label" String="AssetRepairUUID"/>
+        </Property>
+        <Property Name="AssetUUID" Type="Edm.Guid" Nullable="false">
+          <Annotation Term="Common.Label" String="AssetUUID"/>
+        </Property>
+        <Property Name="TicketUUID" Type="Edm.Guid" Nullable="true">
+          <Annotation Term="Common.Label" String="TicketUUID"/>
+        </Property>
+        <Property Name="TechnicianUUID" Type="Edm.Guid" Nullable="false">
+          <Annotation Term="Common.Label" String="TechnicianUUID"/>
+        </Property>
+        <Property Name="Status" Type="Edm.String" Nullable="false" MaxLength="20">
+          <Annotation Term="Common.Label" String="Status"/>
+        </Property>
+        <Property Name="Diagnosis" Type="Edm.String" Nullable="false" MaxLength="4000">
+          <Annotation Term="Common.Label" String="Diagnosis"/>
+        </Property>
+        <Property Name="RepairDescription" Type="Edm.String" Nullable="true" MaxLength="4000">
+          <Annotation Term="Common.Label" String="Repair description"/>
+        </Property>
+        <Property Name="StartedAt" Type="Edm.DateTimeOffset" Nullable="false">
+          <Annotation Term="Common.Label" String="Started at"/>
+        </Property>
+        <Property Name="RepairedAt" Type="Edm.DateTimeOffset" Nullable="true">
+          <Annotation Term="Common.Label" String="Completed at"/>
+        </Property>
+        <Property Name="CreatedBy" Type="Edm.String" Nullable="false" MaxLength="80">
+          <Annotation Term="Common.Label" String="CreatedBy"/>
+        </Property>
+        <Property Name="CompletedBy" Type="Edm.String" Nullable="true" MaxLength="80">
+          <Annotation Term="Common.Label" String="CompletedBy"/>
+        </Property>
+        <NavigationProperty Name="Asset" Type="ITOperations.Asset" Nullable="false" Partner="Repairs">
+          <ReferentialConstraint Property="AssetUUID" ReferencedProperty="AssetUUID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Ticket" Type="ITOperations.Ticket" Nullable="true">
+          <ReferentialConstraint Property="TicketUUID" ReferencedProperty="TicketUUID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Technician" Type="ITOperations.Employee" Nullable="false">
+          <ReferentialConstraint Property="TechnicianUUID" ReferencedProperty="EmployeeUUID"/>
+        </NavigationProperty>
+      </EntityType>
+      <EntityType Name="AssetHistory">
+        <Key>
+          <PropertyRef Name="AssetHistoryUUID"/>
+        </Key>
+        <Property Name="AssetHistoryUUID" Type="Edm.Guid" Nullable="false">
+          <Annotation Term="Common.Label" String="AssetHistoryUUID"/>
+        </Property>
+        <Property Name="AssetUUID" Type="Edm.Guid" Nullable="false">
+          <Annotation Term="Common.Label" String="AssetUUID"/>
+        </Property>
+        <Property Name="ActorUUID" Type="Edm.Guid" Nullable="false">
+          <Annotation Term="Common.Label" String="ActorUUID"/>
+        </Property>
+        <Property Name="Action" Type="Edm.String" Nullable="false" MaxLength="40">
+          <Annotation Term="Common.Label" String="Action"/>
+        </Property>
+        <Property Name="OldStatus" Type="Edm.String" Nullable="true" MaxLength="20">
+          <Annotation Term="Common.Label" String="Previous status"/>
+        </Property>
+        <Property Name="NewStatus" Type="Edm.String" Nullable="false" MaxLength="20">
+          <Annotation Term="Common.Label" String="New status"/>
+        </Property>
+        <Property Name="OldEmployeeUUID" Type="Edm.Guid" Nullable="true">
+          <Annotation Term="Common.Label" String="OldEmployeeUUID"/>
+        </Property>
+        <Property Name="NewEmployeeUUID" Type="Edm.Guid" Nullable="true">
+          <Annotation Term="Common.Label" String="NewEmployeeUUID"/>
+        </Property>
+        <Property Name="Reason" Type="Edm.String" Nullable="false" MaxLength="4000">
+          <Annotation Term="Common.Label" String="Reason"/>
+        </Property>
+        <Property Name="CreatedAt" Type="Edm.DateTimeOffset" Nullable="false">
+          <Annotation Term="Common.Label" String="Recorded at"/>
+        </Property>
+        <NavigationProperty Name="Asset" Type="ITOperations.Asset" Nullable="false" Partner="History">
+          <ReferentialConstraint Property="AssetUUID" ReferencedProperty="AssetUUID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Actor" Type="ITOperations.Employee" Nullable="false">
+          <ReferentialConstraint Property="ActorUUID" ReferencedProperty="EmployeeUUID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="PreviousEmployee" Type="ITOperations.Employee" Nullable="true">
+          <ReferentialConstraint Property="OldEmployeeUUID" ReferencedProperty="EmployeeUUID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="NewEmployee" Type="ITOperations.Employee" Nullable="true">
+          <ReferentialConstraint Property="NewEmployeeUUID" ReferencedProperty="EmployeeUUID"/>
         </NavigationProperty>
       </EntityType>
       <EntityContainer Name="Container">
         <EntitySet Name="Employees" EntityType="ITOperations.Employee">
-          <NavigationPropertyBinding Path="RequestedTickets" Target="Tickets" />
-          <NavigationPropertyBinding Path="AssignedTickets" Target="Tickets" />
-          <NavigationPropertyBinding Path="Assets" Target="Assets" />
+          <NavigationPropertyBinding Path="RequestedTickets" Target="Tickets"/>
+          <NavigationPropertyBinding Path="AssignedTickets" Target="Tickets"/>
+          <NavigationPropertyBinding Path="Assets" Target="Assets"/>
           <Annotation Term="Capabilities.InsertRestrictions">
             <Record>
-              <PropertyValue Property="Insertable" Bool="false" />
+              <PropertyValue Property="Insertable" Bool="false"/>
             </Record>
           </Annotation>
           <Annotation Term="Capabilities.UpdateRestrictions">
             <Record>
-              <PropertyValue Property="Updatable" Bool="false" />
+              <PropertyValue Property="Updatable" Bool="false"/>
             </Record>
           </Annotation>
           <Annotation Term="Capabilities.DeleteRestrictions">
             <Record>
-              <PropertyValue Property="Deletable" Bool="false" />
+              <PropertyValue Property="Deletable" Bool="false"/>
             </Record>
           </Annotation>
           <Annotation Term="Capabilities.SearchRestrictions">
             <Record>
-              <PropertyValue Property="Searchable" Bool="false" />
+              <PropertyValue Property="Searchable" Bool="false"/>
             </Record>
           </Annotation>
         </EntitySet>
         <EntitySet Name="Tickets" EntityType="ITOperations.Ticket">
-          <NavigationPropertyBinding Path="Requester" Target="Employees" />
-          <NavigationPropertyBinding Path="Technician" Target="Employees" />
-          <NavigationPropertyBinding Path="Asset" Target="Assets" />
-          <NavigationPropertyBinding Path="Comments" Target="TicketComments" />
-          <NavigationPropertyBinding Path="History" Target="TicketHistory" />
+          <NavigationPropertyBinding Path="Requester" Target="Employees"/>
+          <NavigationPropertyBinding Path="Technician" Target="Employees"/>
+          <NavigationPropertyBinding Path="Asset" Target="Assets"/>
+          <NavigationPropertyBinding Path="Comments" Target="TicketComments"/>
+          <NavigationPropertyBinding Path="History" Target="TicketHistory"/>
           <Annotation Term="Capabilities.InsertRestrictions">
             <Record>
-              <PropertyValue Property="Insertable" Bool="true" />
+              <PropertyValue Property="Insertable" Bool="true"/>
             </Record>
           </Annotation>
           <Annotation Term="Capabilities.UpdateRestrictions">
             <Record>
-              <PropertyValue Property="Updatable" Bool="false" />
+              <PropertyValue Property="Updatable" Bool="false"/>
             </Record>
           </Annotation>
           <Annotation Term="Capabilities.DeleteRestrictions">
             <Record>
-              <PropertyValue Property="Deletable" Bool="false" />
+              <PropertyValue Property="Deletable" Bool="false"/>
             </Record>
           </Annotation>
           <Annotation Term="Capabilities.SearchRestrictions">
             <Record>
-              <PropertyValue Property="Searchable" Bool="true" />
+              <PropertyValue Property="Searchable" Bool="true"/>
             </Record>
           </Annotation>
         </EntitySet>
         <EntitySet Name="Assets" EntityType="ITOperations.Asset">
-          <NavigationPropertyBinding Path="CurrentEmployee" Target="Employees" />
-          <NavigationPropertyBinding Path="Tickets" Target="Tickets" />
+          <NavigationPropertyBinding Path="CurrentEmployee" Target="Employees"/>
+          <NavigationPropertyBinding Path="Tickets" Target="Tickets"/>
           <Annotation Term="Capabilities.InsertRestrictions">
             <Record>
-              <PropertyValue Property="Insertable" Bool="false" />
+              <PropertyValue Property="Insertable" Bool="false"/>
             </Record>
           </Annotation>
           <Annotation Term="Capabilities.UpdateRestrictions">
             <Record>
-              <PropertyValue Property="Updatable" Bool="false" />
+              <PropertyValue Property="Updatable" Bool="false"/>
             </Record>
           </Annotation>
           <Annotation Term="Capabilities.DeleteRestrictions">
             <Record>
-              <PropertyValue Property="Deletable" Bool="false" />
+              <PropertyValue Property="Deletable" Bool="false"/>
             </Record>
           </Annotation>
           <Annotation Term="Capabilities.SearchRestrictions">
             <Record>
-              <PropertyValue Property="Searchable" Bool="false" />
+              <PropertyValue Property="Searchable" Bool="true"/>
             </Record>
           </Annotation>
+          <NavigationPropertyBinding Path="Assignments" Target="AssetAssignments"/>
+          <NavigationPropertyBinding Path="Repairs" Target="AssetRepairs"/>
+          <NavigationPropertyBinding Path="History" Target="AssetHistory"/>
         </EntitySet>
         <EntitySet Name="TicketComments" EntityType="ITOperations.TicketComment">
-          <NavigationPropertyBinding Path="Ticket" Target="Tickets" />
-          <NavigationPropertyBinding Path="Author" Target="Employees" />
+          <NavigationPropertyBinding Path="Ticket" Target="Tickets"/>
+          <NavigationPropertyBinding Path="Author" Target="Employees"/>
           <Annotation Term="Capabilities.InsertRestrictions">
             <Record>
-              <PropertyValue Property="Insertable" Bool="false" />
+              <PropertyValue Property="Insertable" Bool="false"/>
             </Record>
           </Annotation>
           <Annotation Term="Capabilities.UpdateRestrictions">
             <Record>
-              <PropertyValue Property="Updatable" Bool="false" />
+              <PropertyValue Property="Updatable" Bool="false"/>
             </Record>
           </Annotation>
           <Annotation Term="Capabilities.DeleteRestrictions">
             <Record>
-              <PropertyValue Property="Deletable" Bool="false" />
+              <PropertyValue Property="Deletable" Bool="false"/>
             </Record>
           </Annotation>
           <Annotation Term="Capabilities.SearchRestrictions">
             <Record>
-              <PropertyValue Property="Searchable" Bool="false" />
+              <PropertyValue Property="Searchable" Bool="false"/>
             </Record>
           </Annotation>
         </EntitySet>
         <EntitySet Name="TicketHistory" EntityType="ITOperations.TicketHistory">
-          <NavigationPropertyBinding Path="Ticket" Target="Tickets" />
-          <NavigationPropertyBinding Path="Actor" Target="Employees" />
+          <NavigationPropertyBinding Path="Ticket" Target="Tickets"/>
+          <NavigationPropertyBinding Path="Actor" Target="Employees"/>
           <Annotation Term="Capabilities.InsertRestrictions">
             <Record>
-              <PropertyValue Property="Insertable" Bool="false" />
+              <PropertyValue Property="Insertable" Bool="false"/>
             </Record>
           </Annotation>
           <Annotation Term="Capabilities.UpdateRestrictions">
             <Record>
-              <PropertyValue Property="Updatable" Bool="false" />
+              <PropertyValue Property="Updatable" Bool="false"/>
             </Record>
           </Annotation>
           <Annotation Term="Capabilities.DeleteRestrictions">
             <Record>
-              <PropertyValue Property="Deletable" Bool="false" />
+              <PropertyValue Property="Deletable" Bool="false"/>
             </Record>
           </Annotation>
           <Annotation Term="Capabilities.SearchRestrictions">
             <Record>
-              <PropertyValue Property="Searchable" Bool="false" />
+              <PropertyValue Property="Searchable" Bool="false"/>
+            </Record>
+          </Annotation>
+        </EntitySet>
+        <EntitySet Name="AssetAssignments" EntityType="ITOperations.AssetAssignment">
+          <NavigationPropertyBinding Path="Asset" Target="Assets"/>
+          <NavigationPropertyBinding Path="Employee" Target="Employees"/>
+          <Annotation Term="Capabilities.InsertRestrictions">
+            <Record>
+              <PropertyValue Property="Insertable" Bool="false"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Capabilities.UpdateRestrictions">
+            <Record>
+              <PropertyValue Property="Updatable" Bool="false"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Capabilities.DeleteRestrictions">
+            <Record>
+              <PropertyValue Property="Deletable" Bool="false"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Capabilities.SearchRestrictions">
+            <Record>
+              <PropertyValue Property="Searchable" Bool="false"/>
+            </Record>
+          </Annotation>
+        </EntitySet>
+        <EntitySet Name="AssetRepairs" EntityType="ITOperations.AssetRepair">
+          <NavigationPropertyBinding Path="Asset" Target="Assets"/>
+          <NavigationPropertyBinding Path="Ticket" Target="Tickets"/>
+          <NavigationPropertyBinding Path="Technician" Target="Employees"/>
+          <Annotation Term="Capabilities.InsertRestrictions">
+            <Record>
+              <PropertyValue Property="Insertable" Bool="false"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Capabilities.UpdateRestrictions">
+            <Record>
+              <PropertyValue Property="Updatable" Bool="false"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Capabilities.DeleteRestrictions">
+            <Record>
+              <PropertyValue Property="Deletable" Bool="false"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Capabilities.SearchRestrictions">
+            <Record>
+              <PropertyValue Property="Searchable" Bool="false"/>
+            </Record>
+          </Annotation>
+        </EntitySet>
+        <EntitySet Name="AssetHistory" EntityType="ITOperations.AssetHistory">
+          <NavigationPropertyBinding Path="Asset" Target="Assets"/>
+          <NavigationPropertyBinding Path="Actor" Target="Employees"/>
+          <NavigationPropertyBinding Path="PreviousEmployee" Target="Employees"/>
+          <NavigationPropertyBinding Path="NewEmployee" Target="Employees"/>
+          <Annotation Term="Capabilities.InsertRestrictions">
+            <Record>
+              <PropertyValue Property="Insertable" Bool="false"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Capabilities.UpdateRestrictions">
+            <Record>
+              <PropertyValue Property="Updatable" Bool="false"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Capabilities.DeleteRestrictions">
+            <Record>
+              <PropertyValue Property="Deletable" Bool="false"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Capabilities.SearchRestrictions">
+            <Record>
+              <PropertyValue Property="Searchable" Bool="false"/>
             </Record>
           </Annotation>
         </EntitySet>
       </EntityContainer>
       <Action Name="Submit" IsBound="true" EntitySetPath="ticket">
-        <Parameter Name="ticket" Type="ITOperations.Ticket" Nullable="false" />
-        <ReturnType Type="ITOperations.Ticket" Nullable="false" />
-        <Annotation Term="Core.OperationAvailable" Path="ticket/CanSubmit" />
+        <Parameter Name="ticket" Type="ITOperations.Ticket" Nullable="false"/>
+        <ReturnType Type="ITOperations.Ticket" Nullable="false"/>
+        <Annotation Term="Core.OperationAvailable" Path="ticket/CanSubmit"/>
         <Annotation Term="Common.SideEffects">
           <Record Type="Common.SideEffectsType">
             <PropertyValue Property="TargetEntities">
@@ -424,35 +673,35 @@
         </Annotation>
       </Action>
       <Action Name="AssignTechnician" IsBound="true" EntitySetPath="ticket">
-        <Parameter Name="ticket" Type="ITOperations.Ticket" Nullable="false" />
+        <Parameter Name="ticket" Type="ITOperations.Ticket" Nullable="false"/>
         <Parameter Name="TechnicianUUID" Type="Edm.Guid" Nullable="false">
-          <Annotation Term="Common.Label" String="Technician" />
+          <Annotation Term="Common.Label" String="Technician"/>
           <Annotation Term="Common.ValueList">
             <Record Type="Common.ValueListType">
-              <PropertyValue Property="CollectionPath" String="Employees" />
+              <PropertyValue Property="CollectionPath" String="Employees"/>
               <PropertyValue Property="Parameters">
                 <Collection>
                   <Record Type="Common.ValueListParameterInOut">
-                    <PropertyValue Property="LocalDataProperty" PropertyPath="TechnicianUUID" />
-                    <PropertyValue Property="ValueListProperty" String="EmployeeUUID" />
+                    <PropertyValue Property="LocalDataProperty" PropertyPath="TechnicianUUID"/>
+                    <PropertyValue Property="ValueListProperty" String="EmployeeUUID"/>
                   </Record>
                   <Record Type="Common.ValueListParameterDisplayOnly">
-                    <PropertyValue Property="ValueListProperty" String="DisplayName" />
+                    <PropertyValue Property="ValueListProperty" String="DisplayName"/>
                   </Record>
                   <Record Type="Common.ValueListParameterDisplayOnly">
-                    <PropertyValue Property="ValueListProperty" String="Department" />
+                    <PropertyValue Property="ValueListProperty" String="Department"/>
                   </Record>
                   <Record Type="Common.ValueListParameterConstant">
-                    <PropertyValue Property="ValueListProperty" String="Department" />
-                    <PropertyValue Property="Constant" String="IT Support" />
+                    <PropertyValue Property="ValueListProperty" String="Department"/>
+                    <PropertyValue Property="Constant" String="IT Support"/>
                   </Record>
                 </Collection>
               </PropertyValue>
             </Record>
           </Annotation>
         </Parameter>
-        <ReturnType Type="ITOperations.Ticket" Nullable="false" />
-        <Annotation Term="Core.OperationAvailable" Path="ticket/CanAssignTechnician" />
+        <ReturnType Type="ITOperations.Ticket" Nullable="false"/>
+        <Annotation Term="Core.OperationAvailable" Path="ticket/CanAssignTechnician"/>
         <Annotation Term="Common.SideEffects">
           <Record Type="Common.SideEffectsType">
             <PropertyValue Property="TargetEntities">
@@ -464,9 +713,9 @@
         </Annotation>
       </Action>
       <Action Name="StartWork" IsBound="true" EntitySetPath="ticket">
-        <Parameter Name="ticket" Type="ITOperations.Ticket" Nullable="false" />
-        <ReturnType Type="ITOperations.Ticket" Nullable="false" />
-        <Annotation Term="Core.OperationAvailable" Path="ticket/CanStartWork" />
+        <Parameter Name="ticket" Type="ITOperations.Ticket" Nullable="false"/>
+        <ReturnType Type="ITOperations.Ticket" Nullable="false"/>
+        <Annotation Term="Core.OperationAvailable" Path="ticket/CanStartWork"/>
         <Annotation Term="Common.SideEffects">
           <Record Type="Common.SideEffectsType">
             <PropertyValue Property="TargetEntities">
@@ -478,13 +727,13 @@
         </Annotation>
       </Action>
       <Action Name="PutOnHold" IsBound="true" EntitySetPath="ticket">
-        <Parameter Name="ticket" Type="ITOperations.Ticket" Nullable="false" />
+        <Parameter Name="ticket" Type="ITOperations.Ticket" Nullable="false"/>
         <Parameter Name="Reason" Type="Edm.String" Nullable="false" MaxLength="500">
-          <Annotation Term="Common.Label" String="Reason" />
-          <Annotation Term="UI.MultiLineText" Bool="true" />
+          <Annotation Term="Common.Label" String="Reason"/>
+          <Annotation Term="UI.MultiLineText" Bool="true"/>
         </Parameter>
-        <ReturnType Type="ITOperations.Ticket" Nullable="false" />
-        <Annotation Term="Core.OperationAvailable" Path="ticket/CanPutOnHold" />
+        <ReturnType Type="ITOperations.Ticket" Nullable="false"/>
+        <Annotation Term="Core.OperationAvailable" Path="ticket/CanPutOnHold"/>
         <Annotation Term="Common.SideEffects">
           <Record Type="Common.SideEffectsType">
             <PropertyValue Property="TargetEntities">
@@ -496,9 +745,9 @@
         </Annotation>
       </Action>
       <Action Name="Resume" IsBound="true" EntitySetPath="ticket">
-        <Parameter Name="ticket" Type="ITOperations.Ticket" Nullable="false" />
-        <ReturnType Type="ITOperations.Ticket" Nullable="false" />
-        <Annotation Term="Core.OperationAvailable" Path="ticket/CanResume" />
+        <Parameter Name="ticket" Type="ITOperations.Ticket" Nullable="false"/>
+        <ReturnType Type="ITOperations.Ticket" Nullable="false"/>
+        <Annotation Term="Core.OperationAvailable" Path="ticket/CanResume"/>
         <Annotation Term="Common.SideEffects">
           <Record Type="Common.SideEffectsType">
             <PropertyValue Property="TargetEntities">
@@ -510,13 +759,13 @@
         </Annotation>
       </Action>
       <Action Name="Resolve" IsBound="true" EntitySetPath="ticket">
-        <Parameter Name="ticket" Type="ITOperations.Ticket" Nullable="false" />
+        <Parameter Name="ticket" Type="ITOperations.Ticket" Nullable="false"/>
         <Parameter Name="Resolution" Type="Edm.String" Nullable="false" MaxLength="4000">
-          <Annotation Term="Common.Label" String="Resolution" />
-          <Annotation Term="UI.MultiLineText" Bool="true" />
+          <Annotation Term="Common.Label" String="Resolution"/>
+          <Annotation Term="UI.MultiLineText" Bool="true"/>
         </Parameter>
-        <ReturnType Type="ITOperations.Ticket" Nullable="false" />
-        <Annotation Term="Core.OperationAvailable" Path="ticket/CanResolve" />
+        <ReturnType Type="ITOperations.Ticket" Nullable="false"/>
+        <Annotation Term="Core.OperationAvailable" Path="ticket/CanResolve"/>
         <Annotation Term="Common.SideEffects">
           <Record Type="Common.SideEffectsType">
             <PropertyValue Property="TargetEntities">
@@ -528,9 +777,9 @@
         </Annotation>
       </Action>
       <Action Name="Close" IsBound="true" EntitySetPath="ticket">
-        <Parameter Name="ticket" Type="ITOperations.Ticket" Nullable="false" />
-        <ReturnType Type="ITOperations.Ticket" Nullable="false" />
-        <Annotation Term="Core.OperationAvailable" Path="ticket/CanClose" />
+        <Parameter Name="ticket" Type="ITOperations.Ticket" Nullable="false"/>
+        <ReturnType Type="ITOperations.Ticket" Nullable="false"/>
+        <Annotation Term="Core.OperationAvailable" Path="ticket/CanClose"/>
         <Annotation Term="Common.SideEffects">
           <Record Type="Common.SideEffectsType">
             <PropertyValue Property="TargetEntities">
@@ -542,18 +791,266 @@
         </Annotation>
       </Action>
       <Action Name="Reopen" IsBound="true" EntitySetPath="ticket">
-        <Parameter Name="ticket" Type="ITOperations.Ticket" Nullable="false" />
+        <Parameter Name="ticket" Type="ITOperations.Ticket" Nullable="false"/>
         <Parameter Name="Reason" Type="Edm.String" Nullable="false" MaxLength="500">
-          <Annotation Term="Common.Label" String="Reason" />
-          <Annotation Term="UI.MultiLineText" Bool="true" />
+          <Annotation Term="Common.Label" String="Reason"/>
+          <Annotation Term="UI.MultiLineText" Bool="true"/>
         </Parameter>
-        <ReturnType Type="ITOperations.Ticket" Nullable="false" />
-        <Annotation Term="Core.OperationAvailable" Path="ticket/CanReopen" />
+        <ReturnType Type="ITOperations.Ticket" Nullable="false"/>
+        <Annotation Term="Core.OperationAvailable" Path="ticket/CanReopen"/>
         <Annotation Term="Common.SideEffects">
           <Record Type="Common.SideEffectsType">
             <PropertyValue Property="TargetEntities">
               <Collection>
                 <NavigationPropertyPath>ticket</NavigationPropertyPath>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Action>
+      <Action Name="MakeAvailable" IsBound="true" EntitySetPath="asset">
+        <Parameter Name="asset" Type="ITOperations.Asset" Nullable="false"/>
+        <Parameter Name="Reason" Type="Edm.String" Nullable="false" MaxLength="4000">
+          <Annotation Term="Common.Label" String="Reason"/>
+          <Annotation Term="UI.MultiLineText" Bool="true"/>
+        </Parameter>
+        <ReturnType Type="ITOperations.Asset" Nullable="false"/>
+        <Annotation Term="Core.OperationAvailable" Path="asset/CanMakeAvailable"/>
+        <Annotation Term="Common.SideEffects">
+          <Record Type="Common.SideEffectsType">
+            <PropertyValue Property="TargetEntities">
+              <Collection>
+                <NavigationPropertyPath>asset</NavigationPropertyPath>
+                <NavigationPropertyPath>asset/Assignments</NavigationPropertyPath>
+                <NavigationPropertyPath>asset/Repairs</NavigationPropertyPath>
+                <NavigationPropertyPath>asset/History</NavigationPropertyPath>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Action>
+      <Action Name="AssignAsset" IsBound="true" EntitySetPath="asset">
+        <Parameter Name="asset" Type="ITOperations.Asset" Nullable="false"/>
+        <Parameter Name="EmployeeUUID" Type="Edm.Guid" Nullable="false">
+          <Annotation Term="Common.Label" String="Employee"/>
+          <Annotation Term="Common.ValueList">
+            <Record Type="Common.ValueListType">
+              <PropertyValue Property="CollectionPath" String="Employees"/>
+              <PropertyValue Property="Parameters">
+                <Collection>
+                  <Record Type="Common.ValueListParameterInOut">
+                    <PropertyValue Property="LocalDataProperty" PropertyPath="EmployeeUUID"/>
+                    <PropertyValue Property="ValueListProperty" String="EmployeeUUID"/>
+                  </Record>
+                  <Record Type="Common.ValueListParameterDisplayOnly">
+                    <PropertyValue Property="ValueListProperty" String="DisplayName"/>
+                  </Record>
+                </Collection>
+              </PropertyValue>
+            </Record>
+          </Annotation>
+        </Parameter>
+        <Parameter Name="Reason" Type="Edm.String" Nullable="false" MaxLength="4000">
+          <Annotation Term="Common.Label" String="Reason"/>
+          <Annotation Term="UI.MultiLineText" Bool="true"/>
+        </Parameter>
+        <ReturnType Type="ITOperations.Asset" Nullable="false"/>
+        <Annotation Term="Core.OperationAvailable" Path="asset/CanAssignAsset"/>
+        <Annotation Term="Common.SideEffects">
+          <Record Type="Common.SideEffectsType">
+            <PropertyValue Property="TargetEntities">
+              <Collection>
+                <NavigationPropertyPath>asset</NavigationPropertyPath>
+                <NavigationPropertyPath>asset/Assignments</NavigationPropertyPath>
+                <NavigationPropertyPath>asset/Repairs</NavigationPropertyPath>
+                <NavigationPropertyPath>asset/History</NavigationPropertyPath>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Action>
+      <Action Name="TransferAsset" IsBound="true" EntitySetPath="asset">
+        <Parameter Name="asset" Type="ITOperations.Asset" Nullable="false"/>
+        <Parameter Name="EmployeeUUID" Type="Edm.Guid" Nullable="false">
+          <Annotation Term="Common.Label" String="Employee"/>
+          <Annotation Term="Common.ValueList">
+            <Record Type="Common.ValueListType">
+              <PropertyValue Property="CollectionPath" String="Employees"/>
+              <PropertyValue Property="Parameters">
+                <Collection>
+                  <Record Type="Common.ValueListParameterInOut">
+                    <PropertyValue Property="LocalDataProperty" PropertyPath="EmployeeUUID"/>
+                    <PropertyValue Property="ValueListProperty" String="EmployeeUUID"/>
+                  </Record>
+                  <Record Type="Common.ValueListParameterDisplayOnly">
+                    <PropertyValue Property="ValueListProperty" String="DisplayName"/>
+                  </Record>
+                </Collection>
+              </PropertyValue>
+            </Record>
+          </Annotation>
+        </Parameter>
+        <Parameter Name="Reason" Type="Edm.String" Nullable="false" MaxLength="4000">
+          <Annotation Term="Common.Label" String="Reason"/>
+          <Annotation Term="UI.MultiLineText" Bool="true"/>
+        </Parameter>
+        <ReturnType Type="ITOperations.Asset" Nullable="false"/>
+        <Annotation Term="Core.OperationAvailable" Path="asset/CanTransferAsset"/>
+        <Annotation Term="Common.SideEffects">
+          <Record Type="Common.SideEffectsType">
+            <PropertyValue Property="TargetEntities">
+              <Collection>
+                <NavigationPropertyPath>asset</NavigationPropertyPath>
+                <NavigationPropertyPath>asset/Assignments</NavigationPropertyPath>
+                <NavigationPropertyPath>asset/Repairs</NavigationPropertyPath>
+                <NavigationPropertyPath>asset/History</NavigationPropertyPath>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Action>
+      <Action Name="ReturnAsset" IsBound="true" EntitySetPath="asset">
+        <Parameter Name="asset" Type="ITOperations.Asset" Nullable="false"/>
+        <Parameter Name="Reason" Type="Edm.String" Nullable="false" MaxLength="4000">
+          <Annotation Term="Common.Label" String="Reason"/>
+          <Annotation Term="UI.MultiLineText" Bool="true"/>
+        </Parameter>
+        <ReturnType Type="ITOperations.Asset" Nullable="false"/>
+        <Annotation Term="Core.OperationAvailable" Path="asset/CanReturnAsset"/>
+        <Annotation Term="Common.SideEffects">
+          <Record Type="Common.SideEffectsType">
+            <PropertyValue Property="TargetEntities">
+              <Collection>
+                <NavigationPropertyPath>asset</NavigationPropertyPath>
+                <NavigationPropertyPath>asset/Assignments</NavigationPropertyPath>
+                <NavigationPropertyPath>asset/Repairs</NavigationPropertyPath>
+                <NavigationPropertyPath>asset/History</NavigationPropertyPath>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Action>
+      <Action Name="SendForRepair" IsBound="true" EntitySetPath="asset">
+        <Parameter Name="asset" Type="ITOperations.Asset" Nullable="false"/>
+        <Parameter Name="TechnicianUUID" Type="Edm.Guid" Nullable="false">
+          <Annotation Term="Common.Label" String="Technician"/>
+          <Annotation Term="Common.ValueList">
+            <Record Type="Common.ValueListType">
+              <PropertyValue Property="CollectionPath" String="Employees"/>
+              <PropertyValue Property="Parameters">
+                <Collection>
+                  <Record Type="Common.ValueListParameterInOut">
+                    <PropertyValue Property="LocalDataProperty" PropertyPath="TechnicianUUID"/>
+                    <PropertyValue Property="ValueListProperty" String="EmployeeUUID"/>
+                  </Record>
+                  <Record Type="Common.ValueListParameterDisplayOnly">
+                    <PropertyValue Property="ValueListProperty" String="DisplayName"/>
+                  </Record>
+                  <Record Type="Common.ValueListParameterConstant">
+                    <PropertyValue Property="ValueListProperty" String="Department"/>
+                    <PropertyValue Property="Constant" String="IT Support"/>
+                  </Record>
+                </Collection>
+              </PropertyValue>
+            </Record>
+          </Annotation>
+        </Parameter>
+        <Parameter Name="TicketUUID" Type="Edm.Guid" Nullable="true">
+          <Annotation Term="Common.Label" String="Related ticket (optional)"/>
+          <Annotation Term="Common.ValueList">
+            <Record Type="Common.ValueListType">
+              <PropertyValue Property="CollectionPath" String="Tickets"/>
+              <PropertyValue Property="Parameters">
+                <Collection>
+                  <Record Type="Common.ValueListParameterInOut">
+                    <PropertyValue Property="LocalDataProperty" PropertyPath="TicketUUID"/>
+                    <PropertyValue Property="ValueListProperty" String="TicketUUID"/>
+                  </Record>
+                  <Record Type="Common.ValueListParameterDisplayOnly">
+                    <PropertyValue Property="ValueListProperty" String="TicketNumber"/>
+                  </Record>
+                </Collection>
+              </PropertyValue>
+            </Record>
+          </Annotation>
+        </Parameter>
+        <Parameter Name="Diagnosis" Type="Edm.String" Nullable="false" MaxLength="4000">
+          <Annotation Term="Common.Label" String="Diagnosis"/>
+          <Annotation Term="UI.MultiLineText" Bool="true"/>
+        </Parameter>
+        <ReturnType Type="ITOperations.Asset" Nullable="false"/>
+        <Annotation Term="Core.OperationAvailable" Path="asset/CanSendForRepair"/>
+        <Annotation Term="Common.SideEffects">
+          <Record Type="Common.SideEffectsType">
+            <PropertyValue Property="TargetEntities">
+              <Collection>
+                <NavigationPropertyPath>asset</NavigationPropertyPath>
+                <NavigationPropertyPath>asset/Assignments</NavigationPropertyPath>
+                <NavigationPropertyPath>asset/Repairs</NavigationPropertyPath>
+                <NavigationPropertyPath>asset/History</NavigationPropertyPath>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Action>
+      <Action Name="CompleteRepair" IsBound="true" EntitySetPath="asset">
+        <Parameter Name="asset" Type="ITOperations.Asset" Nullable="false"/>
+        <Parameter Name="RepairDescription" Type="Edm.String" Nullable="false" MaxLength="4000">
+          <Annotation Term="Common.Label" String="Repair description"/>
+          <Annotation Term="UI.MultiLineText" Bool="true"/>
+        </Parameter>
+        <ReturnType Type="ITOperations.Asset" Nullable="false"/>
+        <Annotation Term="Core.OperationAvailable" Path="asset/CanCompleteRepair"/>
+        <Annotation Term="Common.SideEffects">
+          <Record Type="Common.SideEffectsType">
+            <PropertyValue Property="TargetEntities">
+              <Collection>
+                <NavigationPropertyPath>asset</NavigationPropertyPath>
+                <NavigationPropertyPath>asset/Assignments</NavigationPropertyPath>
+                <NavigationPropertyPath>asset/Repairs</NavigationPropertyPath>
+                <NavigationPropertyPath>asset/History</NavigationPropertyPath>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Action>
+      <Action Name="RetireAsset" IsBound="true" EntitySetPath="asset">
+        <Parameter Name="asset" Type="ITOperations.Asset" Nullable="false"/>
+        <Parameter Name="Reason" Type="Edm.String" Nullable="false" MaxLength="4000">
+          <Annotation Term="Common.Label" String="Reason"/>
+          <Annotation Term="UI.MultiLineText" Bool="true"/>
+        </Parameter>
+        <ReturnType Type="ITOperations.Asset" Nullable="false"/>
+        <Annotation Term="Core.OperationAvailable" Path="asset/CanRetireAsset"/>
+        <Annotation Term="Common.SideEffects">
+          <Record Type="Common.SideEffectsType">
+            <PropertyValue Property="TargetEntities">
+              <Collection>
+                <NavigationPropertyPath>asset</NavigationPropertyPath>
+                <NavigationPropertyPath>asset/Assignments</NavigationPropertyPath>
+                <NavigationPropertyPath>asset/Repairs</NavigationPropertyPath>
+                <NavigationPropertyPath>asset/History</NavigationPropertyPath>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Action>
+      <Action Name="DisposeAsset" IsBound="true" EntitySetPath="asset">
+        <Parameter Name="asset" Type="ITOperations.Asset" Nullable="false"/>
+        <Parameter Name="Reason" Type="Edm.String" Nullable="false" MaxLength="4000">
+          <Annotation Term="Common.Label" String="Reason"/>
+          <Annotation Term="UI.MultiLineText" Bool="true"/>
+        </Parameter>
+        <ReturnType Type="ITOperations.Asset" Nullable="false"/>
+        <Annotation Term="Core.OperationAvailable" Path="asset/CanDisposeAsset"/>
+        <Annotation Term="Common.SideEffects">
+          <Record Type="Common.SideEffectsType">
+            <PropertyValue Property="TargetEntities">
+              <Collection>
+                <NavigationPropertyPath>asset</NavigationPropertyPath>
+                <NavigationPropertyPath>asset/Assignments</NavigationPropertyPath>
+                <NavigationPropertyPath>asset/Repairs</NavigationPropertyPath>
+                <NavigationPropertyPath>asset/History</NavigationPropertyPath>
               </Collection>
             </PropertyValue>
           </Record>

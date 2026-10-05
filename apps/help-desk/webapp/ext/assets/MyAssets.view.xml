@@ -1,0 +1,23 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" controllerName="itoms.helpdesk.ext.assets.MyAssets">
+  <Page title="{i18n>myAssets}" busy="{assets>/busy}" busyIndicatorDelay="0">
+    <headerContent><Button text="{i18n>assetManagement}" press=".onAssetManagement"/><Button text="{i18n>mySupport}" press=".onSupport"/></headerContent>
+    <content><VBox class="sapUiResponsiveContentPadding" width="100%">
+      <MessageStrip text="{i18n>previewAssetEmployeeNote}" type="Information" showIcon="true" class="sapUiSmallMarginBottom"/>
+      <MessageStrip text="{assets>/error}" visible="{= !!${assets>/error} }" type="Error" showIcon="true" class="sapUiSmallMarginBottom"/>
+      <f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanS="12" labelSpanM="3" labelSpanL="3" columnsM="1" columnsL="1" adjustLabelSpan="false">
+        <f:content><Label text="{i18n>previewEmployee}" labelFor="assetEmployee"/>
+          <Select id="assetEmployee" selectedKey="{assets>/employee}" change=".onRefresh" items="{assets>/employees}"><core:Item key="{assets>EmployeeUUID}" text="{assets>DisplayName}"/></Select>
+        </f:content>
+      </f:SimpleForm>
+      <Table id="employeeAssets" items="{assets>/rows}" noDataText="{i18n>noAssignedAssets}" growing="true">
+        <headerToolbar><OverflowToolbar><Title text="{i18n>assignedAssets}" level="H2"/><ToolbarSpacer/><Button text="{i18n>refresh}" icon="sap-icon://refresh" press=".onRefresh"/></OverflowToolbar></headerToolbar>
+        <columns><Column><Text text="{i18n>assetTag}"/></Column><Column><Text text="{i18n>assetModel}"/></Column><Column minScreenWidth="Tablet" demandPopin="true"><Text text="{i18n>status}"/></Column><Column minScreenWidth="Tablet" demandPopin="true"><Text text="{i18n>warrantyEnd}"/></Column></columns>
+        <items><ColumnListItem type="Navigation" press=".onOpenAsset"><cells>
+          <Text text="{assets>AssetTag}"/><Text text="{assets>Model}"/>
+          <ObjectStatus text="{assets>Status}" state="{path:'assets>StatusCriticality',formatter:'.criticalityState'}"/>
+          <Text text="{path:'assets>WarrantyEnd',formatter:'.warrantyText'}"/>
+        </cells></ColumnListItem></items>
+      </Table>
+    </VBox></content>
+  </Page>
+</mvc:View>

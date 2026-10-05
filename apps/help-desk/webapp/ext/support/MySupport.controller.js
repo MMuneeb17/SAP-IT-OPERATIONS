@@ -83,6 +83,7 @@ sap.ui.define([
       this.getExtensionAPI().getRouting().navigateToRoute("TicketsObjectPage", { key: ticket.TicketUUID });
     },
     onHelpDesk: function () { this.getExtensionAPI().getRouting().navigateToRoute("TicketsList"); },
+    onMyAssets: function () { this.getExtensionAPI().getRouting().navigateToRoute("MyAssets"); },
     criticalityState: function (value) { return ({ 1: "Error", 2: "Warning", 3: "Success", 5: "Information" })[value] || "None"; }
   });
 });

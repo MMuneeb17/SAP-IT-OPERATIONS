@@ -1,6 +1,6 @@
 <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" controllerName="itoms.helpdesk.ext.support.MySupport">
   <Page id="supportPage" title="{i18n>mySupport}" busy="{support>/busy}" busyIndicatorDelay="0">
-    <headerContent><Button text="{i18n>helpDesk}" press=".onHelpDesk" icon="sap-icon://customer-view"/></headerContent>
+    <headerContent><Button text="{i18n>myAssets}" press=".onMyAssets"/><Button text="{i18n>helpDesk}" press=".onHelpDesk" icon="sap-icon://customer-view"/></headerContent>
     <content>
       <VBox class="sapUiResponsiveContentPadding" width="100%">
         <MessageStrip text="{i18n>previewEmployeeNote}" type="Information" showIcon="true" class="sapUiSmallMarginBottom"/>

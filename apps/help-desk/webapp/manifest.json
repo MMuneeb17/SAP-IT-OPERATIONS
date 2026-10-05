@@ -52,13 +52,23 @@
     }
   },
   "sap.ui5": {
+    "extends": {
+      "extensions": {
+        "sap.ui.controllerExtensions": {
+          "sap.fe.templates.ObjectPage.ObjectPageController": {
+            "controllerName": "itoms.helpdesk.ext.RelatedNavigation"
+          }
+        }
+      }
+    },
     "flexEnabled": true,
     "dependencies": {
       "minUI5Version": "1.144.0",
       "libs": {
         "sap.m": {},
         "sap.ui.core": {},
-        "sap.fe.templates": {}
+        "sap.fe.templates": {},
+        "sap.ui.layout": {}
       }
     },
     "contentDensities": {
@@ -116,6 +126,21 @@
           "pattern": "Tickets({key})/Asset:?query:",
           "name": "AssetObjectPage",
           "target": "AssetObjectPage"
+        },
+        {
+          "pattern": "Assets:?query:",
+          "name": "AssetsList",
+          "target": "AssetsList"
+        },
+        {
+          "pattern": "Assets({key}):?query:",
+          "name": "AssetsObjectPage",
+          "target": "AssetsObjectPage"
+        },
+        {
+          "pattern": "MyAssets:?query:",
+          "name": "MyAssets",
+          "target": "MyAssets"
         }
       ],
       "targets": {
@@ -143,6 +168,11 @@
                     "MySupport": {
                       "text": "{i18n>mySupport}",
                       "press": "itoms.helpdesk.ext.Navigation.mySupport",
+                      "requiresSelection": false
+                    },
+                    "AssetsList": {
+                      "text": "{i18n>assetManagement}",
+                      "press": "itoms.helpdesk.ext.Navigation.assets",
                       "requiresSelection": false
                     }
                   }
@@ -191,6 +221,11 @@
                       "text": "View asset",
                       "press": "itoms.helpdesk.ext.Navigation.asset",
                       "enabled": "{= !!%{AssetUUID} }"
+                    },
+                    "AssetsList": {
+                      "text": "{i18n>assetManagement}",
+                      "press": "itoms.helpdesk.ext.Navigation.assets",
+                      "requiresSelection": false
                     }
                   }
                 }
@@ -215,7 +250,14 @@
           "options": {
             "settings": {
               "contextPath": "/Tickets/Requester",
-              "editableHeaderContent": false
+              "editableHeaderContent": false,
+              "navigation": {
+                "Assets": {
+                  "detail": {
+                    "route": "AssetsObjectPage"
+                  }
+                }
+              }
             }
           }
         },
@@ -226,7 +268,121 @@
           "options": {
             "settings": {
               "contextPath": "/Tickets/Asset",
-              "editableHeaderContent": false
+              "editableHeaderContent": false,
+              "navigation": {
+                "Tickets": {
+                  "detail": {
+                    "route": "TicketsObjectPage"
+                  }
+                }
+              },
+              "content": {
+                "header": {
+                  "actions": {
+                    "AssetsList": {
+                      "text": "{i18n>assetManagement}",
+                      "press": "itoms.helpdesk.ext.Navigation.assets",
+                      "requiresSelection": false
+                    },
+                    "HelpDesk": {
+                      "text": "{i18n>helpDesk}",
+                      "press": "itoms.helpdesk.ext.Navigation.helpDesk",
+                      "requiresSelection": false
+                    },
+                    "MyAssets": {
+                      "text": "{i18n>myAssets}",
+                      "press": "itoms.helpdesk.ext.Navigation.myAssets",
+                      "requiresSelection": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "AssetsList": {
+          "type": "Component",
+          "id": "AssetsList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/Assets",
+              "variantManagement": "Page",
+              "navigation": {
+                "Assets": {
+                  "detail": {
+                    "route": "AssetsObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable"
+                  },
+                  "actions": {
+                    "HelpDesk": {
+                      "text": "{i18n>helpDesk}",
+                      "press": "itoms.helpdesk.ext.Navigation.helpDesk",
+                      "requiresSelection": false
+                    },
+                    "MyAssets": {
+                      "text": "{i18n>myAssets}",
+                      "press": "itoms.helpdesk.ext.Navigation.myAssets",
+                      "requiresSelection": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "AssetsObjectPage": {
+          "type": "Component",
+          "id": "AssetsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "contextPath": "/Assets",
+              "editableHeaderContent": false,
+              "navigation": {
+                "Tickets": {
+                  "detail": {
+                    "route": "TicketsObjectPage"
+                  }
+                }
+              },
+              "content": {
+                "header": {
+                  "actions": {
+                    "AssetsList": {
+                      "text": "{i18n>assetManagement}",
+                      "press": "itoms.helpdesk.ext.Navigation.assets",
+                      "requiresSelection": false
+                    },
+                    "HelpDesk": {
+                      "text": "{i18n>helpDesk}",
+                      "press": "itoms.helpdesk.ext.Navigation.helpDesk",
+                      "requiresSelection": false
+                    },
+                    "MyAssets": {
+                      "text": "{i18n>myAssets}",
+                      "press": "itoms.helpdesk.ext.Navigation.myAssets",
+                      "requiresSelection": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "MyAssets": {
+          "type": "Component",
+          "id": "MyAssets",
+          "name": "sap.fe.core.fpm",
+          "options": {
+            "settings": {
+              "viewName": "itoms.helpdesk.ext.assets.MyAssets"
             }
           }
         }

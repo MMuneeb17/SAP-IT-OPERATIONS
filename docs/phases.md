@@ -151,6 +151,10 @@ An employee can create a ticket and an IT user can open it from a Fiori List Rep
 
 ## Phase 4 — Asset Lifecycle MVP
 
+Status: **Complete — 5 October 2026**. Delivered as an Asset Management module
+inside the existing application, with lifecycle actions, employee assets and
+ticket navigation. All 46 tests pass; see [completion report](phase-4-report.md).
+
 ### Objective
 Introduce serialized IT assets and connect them to tickets/employees.
 

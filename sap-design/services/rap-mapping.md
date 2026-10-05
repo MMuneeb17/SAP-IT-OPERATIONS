@@ -69,11 +69,13 @@ implement the corresponding behavior with real identity, authorization, locking
 and transactional guarantees. Reassignment and reopening CLOSED tickets are not
 supported in the MVP. `Reopen` is never a persisted `REOPENED` status.
 
-Asset behavior later covers Tag, MakeAvailable, Assign, Transfer, Return,
-SendToRepair, CompleteRepair, Retire and Dispose. Assignment changes must maintain
-one open assignment per asset and derive CurrentEmployeeUUID. AssetAssignments,
-AssetRepairs, Materials, Stocks, Reservations and StockTransactions remain later
-entities; no placeholder sets are part of the phase 2 service.
+Phase 4 implements MakeAvailable, AssignAsset, TransferAsset, ReturnAsset,
+SendForRepair, CompleteRepair, RetireAsset and DisposeAsset locally. AssetAssignments,
+AssetRepairs and AssetHistory are now concrete sets; map them to asset-owned RAP
+children. Tag allocation remains future work. Materials, Stocks, Reservations
+and StockTransactions remain later entities.
+See the [asset contract and RAP continuation](../../docs/asset-lifecycle.md) for
+parameters, ownership, persistence mappings and consistency requirements.
 
 ## Concurrency, transactions and security decisions
 

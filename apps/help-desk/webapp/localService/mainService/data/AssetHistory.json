@@ -1,0 +1,98 @@
+[
+  {
+    "AssetHistoryUUID": "00000008-0000-4000-8000-000000000001",
+    "AssetUUID": "00000002-0000-4000-8000-000000000001",
+    "ActorUUID": "00000001-0000-4000-8000-000000000006",
+    "Action": "Baseline",
+    "OldStatus": null,
+    "NewStatus": "IN_REPAIR",
+    "OldEmployeeUUID": null,
+    "NewEmployeeUUID": "00000001-0000-4000-8000-000000000001",
+    "Reason": "Imported synthetic lifecycle baseline; earlier events are represented by assignment and repair records.",
+    "CreatedAt": "2026-09-22T08:00:00Z"
+  },
+  {
+    "AssetHistoryUUID": "00000008-0000-4000-8000-000000000002",
+    "AssetUUID": "00000002-0000-4000-8000-000000000002",
+    "ActorUUID": "00000001-0000-4000-8000-000000000006",
+    "Action": "TransferAsset",
+    "OldStatus": "ASSIGNED",
+    "NewStatus": "ASSIGNED",
+    "OldEmployeeUUID": "00000001-0000-4000-8000-000000000001",
+    "NewEmployeeUUID": "00000001-0000-4000-8000-000000000002",
+    "Reason": "Transferred to Sales",
+    "CreatedAt": "2026-09-01T08:00:00Z"
+  },
+  {
+    "AssetHistoryUUID": "00000008-0000-4000-8000-000000000003",
+    "AssetUUID": "00000002-0000-4000-8000-000000000003",
+    "ActorUUID": "00000001-0000-4000-8000-000000000006",
+    "Action": "Baseline",
+    "OldStatus": null,
+    "NewStatus": "ASSIGNED",
+    "OldEmployeeUUID": null,
+    "NewEmployeeUUID": "00000001-0000-4000-8000-000000000003",
+    "Reason": "Imported synthetic lifecycle baseline; earlier events are represented by assignment and repair records.",
+    "CreatedAt": "2026-09-22T08:00:00Z"
+  },
+  {
+    "AssetHistoryUUID": "00000008-0000-4000-8000-000000000004",
+    "AssetUUID": "00000002-0000-4000-8000-000000000004",
+    "ActorUUID": "00000001-0000-4000-8000-000000000006",
+    "Action": "Baseline",
+    "OldStatus": null,
+    "NewStatus": "AVAILABLE",
+    "OldEmployeeUUID": null,
+    "NewEmployeeUUID": null,
+    "Reason": "Imported synthetic lifecycle baseline; earlier events are represented by assignment and repair records.",
+    "CreatedAt": "2026-09-22T08:00:00Z"
+  },
+  {
+    "AssetHistoryUUID": "00000008-0000-4000-8000-000000000005",
+    "AssetUUID": "00000002-0000-4000-8000-000000000005",
+    "ActorUUID": "00000001-0000-4000-8000-000000000006",
+    "Action": "Baseline",
+    "OldStatus": null,
+    "NewStatus": "AVAILABLE",
+    "OldEmployeeUUID": null,
+    "NewEmployeeUUID": null,
+    "Reason": "Imported synthetic lifecycle baseline; earlier events are represented by assignment and repair records.",
+    "CreatedAt": "2026-09-22T08:00:00Z"
+  },
+  {
+    "AssetHistoryUUID": "00000008-0000-4000-8000-000000000006",
+    "AssetUUID": "00000002-0000-4000-8000-000000000006",
+    "ActorUUID": "00000001-0000-4000-8000-000000000006",
+    "Action": "Baseline",
+    "OldStatus": null,
+    "NewStatus": "RETIRED",
+    "OldEmployeeUUID": null,
+    "NewEmployeeUUID": null,
+    "Reason": "Imported synthetic lifecycle baseline; earlier events are represented by assignment and repair records.",
+    "CreatedAt": "2026-09-22T08:00:00Z"
+  },
+  {
+    "AssetHistoryUUID": "00000008-0000-4000-8000-000000000007",
+    "AssetUUID": "00000002-0000-4000-8000-000000000007",
+    "ActorUUID": "00000001-0000-4000-8000-000000000006",
+    "Action": "Baseline",
+    "OldStatus": null,
+    "NewStatus": "RECEIVED",
+    "OldEmployeeUUID": null,
+    "NewEmployeeUUID": null,
+    "Reason": "Imported synthetic lifecycle baseline; earlier events are represented by assignment and repair records.",
+    "CreatedAt": "2026-09-22T08:00:00Z"
+  },
+  {
+    "AssetHistoryUUID": "00000008-0000-4000-8000-000000000008",
+    "AssetUUID": "00000002-0000-4000-8000-000000000008",
+    "ActorUUID": "00000001-0000-4000-8000-000000000006",
+    "Action": "Baseline",
+    "OldStatus": null,
+    "NewStatus": "TAGGED",
+    "OldEmployeeUUID": null,
+    "NewEmployeeUUID": null,
+    "Reason": "Imported synthetic lifecycle baseline; earlier events are represented by assignment and repair records.",
+    "CreatedAt": "2026-09-22T08:00:00Z"
+  }
+]

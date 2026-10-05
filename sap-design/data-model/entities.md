@@ -1,8 +1,10 @@
 # Initial entity relationship model — v1
 
 All technical primary keys are UUIDs. `?` means nullable. Fields below are the
-minimum domain design. The five implemented phase 2 entities have a complete
-[field dictionary](../../docs/service-contract.md); later entities remain conceptual.
+minimum domain design. The five original entities have a complete
+[field dictionary](../../docs/service-contract.md). Phase 4 adds assignment,
+repair and asset-event sets documented in the [asset contract](../../docs/asset-lifecycle.md).
+Inventory entities remain conceptual.
 
 | Entity / set | Key | Principal fields and foreign keys | Owner |
 | --- | --- | --- | --- |
@@ -12,7 +14,8 @@ minimum domain design. The five implemented phase 2 entities have a complete
 | TicketComment / TicketComments | TicketCommentUUID | TicketUUID, AuthorUUID, Text, CreatedAt | Ticket child |
 | TicketHistory / TicketHistory | TicketHistoryUUID | TicketUUID, ActorUUID, Action, OldValue?, NewValue?, Reason?, CreatedAt | Ticket child, append-only |
 | AssetAssignment / AssetAssignments | AssetAssignmentUUID | AssetUUID, EmployeeUUID, StartAt, EndAt?, Reason | Asset child |
-| AssetRepair / AssetRepairs | AssetRepairUUID | AssetUUID, TicketUUID?, TechnicianUUID, Diagnosis, RepairDescription, RepairedAt | Asset child |
+| AssetRepair / AssetRepairs | AssetRepairUUID | AssetUUID, TicketUUID?, TechnicianUUID, Status, Diagnosis, RepairDescription?, StartedAt, RepairedAt? | Asset child |
+| AssetHistory / AssetHistory | AssetHistoryUUID | AssetUUID, ActorUUID, Action, OldStatus?, NewStatus, OldEmployeeUUID?, NewEmployeeUUID?, Reason, CreatedAt | Asset child, append-only |
 | Material / Materials | MaterialUUID | MaterialNumber, Description, UnitOfMeasure | Material root |
 | Stock / Stocks | StockUUID | MaterialUUID, StorageLocation, PhysicalQuantity, ReservedQuantity, AvailableQuantity (derived) | Material child |
 | Reservation / Reservations | ReservationUUID | MaterialUUID, StockUUID, TicketUUID?, AssetUUID?, Quantity, IssuedQuantity, Status, Reason | Material child |
@@ -32,6 +35,8 @@ erDiagram
   Ticket ||--o{ TicketHistory : owns
   Asset ||--o{ AssetAssignment : owns
   Asset ||--o{ AssetRepair : owns
+  Asset ||--o{ AssetHistory : owns
+  Employee ||--o{ AssetHistory : acts
   Ticket o|--o{ AssetRepair : originates
   Material ||--o{ Stock : owns
   Material ||--o{ Reservation : owns

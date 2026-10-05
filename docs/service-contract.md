@@ -1,9 +1,12 @@
-# IT Operations OData service contract — phases 2–3
+# IT Operations OData service contract — phases 2–4
 
 The contract supports Fiori reads of Employees, Tickets, Assets, TicketComments
 and TicketHistory. Phase 3 adds validated ticket creation and workflow actions;
 see the [operation signatures and walkthrough](help-desk-workflow.md). Durable
-persistence and production authorization remain later work.
+persistence and production authorization remain later work. Phase 4 adds
+AssetAssignments, AssetRepairs, AssetHistory and eight bound asset actions;
+their full field dictionary, navigation and rules are in the
+[asset lifecycle contract](asset-lifecycle.md).
 
 ## Identity and source of truth
 
@@ -192,7 +195,7 @@ Clients must distinguish an empty collection (`value: []`) from a nullable to-on
 relationship (`null`). `$count=true` reports the filtered collection count before
 client paging. This phase does not define a maximum page size, server-driven
 continuation policy, every filter function or a complete OData conformance claim.
-Phase 3 enables case-insensitive `$search` on Tickets; it can be combined with
+Case-insensitive `$search` is enabled on Tickets and Assets; it can be combined with
 property filters, ordering and paging.
 
 The installed FE mock middleware 2.4.17 mishandles equality filters on null
@@ -214,13 +217,14 @@ Ticket status values are `NEW`, `SUBMITTED`, `ASSIGNED`, `IN_PROGRESS`, `WAITING
 not a status. Asset lifecycle values are `RECEIVED`, `TAGGED`, `AVAILABLE`,
 `ASSIGNED`, `IN_REPAIR`, `RETIRED` and `DISPOSED`; transfer and return are actions.
 These are domain codes represented as strings; phase 3 ticket actions control
-their permitted transitions. Asset lifecycle behavior remains later work.
+their permitted transitions. Phase 4 asset actions enforce lifecycle transitions,
+consistent custody intervals and repair completion.
 
 Comments belong to a ticket; history captures ticket events and is append-only in
 the future business model. Requester/technician/asset references cross root
 boundaries and do not transfer ownership. Asset.CurrentEmployeeUUID represents
 current custody; a historical ticket's requester need not match the current asset
-custodian. Asset assignment and repair history are later entities.
+custodian. Phase 4 provides asset assignment, repair and lifecycle history sets.
 
 Phase 3 exposes eight bound ticket actions. There are no ETag/If-Match guarantees,
 draft entities, SLA calculations, role enforcement or authenticated identity.

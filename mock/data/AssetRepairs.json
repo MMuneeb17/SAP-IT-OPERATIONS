@@ -1,0 +1,28 @@
+[
+  {
+    "AssetRepairUUID": "00000007-0000-4000-8000-000000000001",
+    "AssetUUID": "00000002-0000-4000-8000-000000000001",
+    "TicketUUID": "00000003-0000-4000-8000-000000000001",
+    "TechnicianUUID": "00000001-0000-4000-8000-000000000004",
+    "Status": "OPEN",
+    "Diagnosis": "SSD failure confirmed; replacement part is pending.",
+    "RepairDescription": null,
+    "StartedAt": "2026-09-22T08:00:00Z",
+    "RepairedAt": null,
+    "CreatedBy": "EMP-0006",
+    "CompletedBy": null
+  },
+  {
+    "AssetRepairUUID": "00000007-0000-4000-8000-000000000002",
+    "AssetUUID": "00000002-0000-4000-8000-000000000002",
+    "TicketUUID": "00000003-0000-4000-8000-000000000007",
+    "TechnicianUUID": "00000001-0000-4000-8000-000000000005",
+    "Status": "COMPLETED",
+    "Diagnosis": "Docking display flickers",
+    "RepairDescription": "Updated dock firmware and verified display.",
+    "StartedAt": "2026-09-10T08:00:00Z",
+    "RepairedAt": "2026-09-11T08:00:00Z",
+    "CreatedBy": "EMP-0006",
+    "CompletedBy": "EMP-0006"
+  }
+]

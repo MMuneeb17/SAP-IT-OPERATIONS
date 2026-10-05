@@ -1,0 +1,46 @@
+[
+  {
+    "AssetAssignmentUUID": "00000006-0000-4000-8000-000000000001",
+    "AssetUUID": "00000002-0000-4000-8000-000000000002",
+    "EmployeeUUID": "00000001-0000-4000-8000-000000000001",
+    "StartAt": "2026-08-01T08:00:00Z",
+    "EndAt": "2026-09-01T08:00:00Z",
+    "Reason": "Initial assignment",
+    "EndReason": "Transferred to Sales",
+    "CreatedBy": "EMP-0006",
+    "ClosedBy": "EMP-0006"
+  },
+  {
+    "AssetAssignmentUUID": "00000006-0000-4000-8000-000000000002",
+    "AssetUUID": "00000002-0000-4000-8000-000000000001",
+    "EmployeeUUID": "00000001-0000-4000-8000-000000000001",
+    "StartAt": "2026-09-01T08:00:00Z",
+    "EndAt": null,
+    "Reason": "Employee workstation allocation",
+    "EndReason": null,
+    "CreatedBy": "EMP-0006",
+    "ClosedBy": null
+  },
+  {
+    "AssetAssignmentUUID": "00000006-0000-4000-8000-000000000003",
+    "AssetUUID": "00000002-0000-4000-8000-000000000002",
+    "EmployeeUUID": "00000001-0000-4000-8000-000000000002",
+    "StartAt": "2026-09-01T08:00:00Z",
+    "EndAt": null,
+    "Reason": "Employee workstation allocation",
+    "EndReason": null,
+    "CreatedBy": "EMP-0006",
+    "ClosedBy": null
+  },
+  {
+    "AssetAssignmentUUID": "00000006-0000-4000-8000-000000000004",
+    "AssetUUID": "00000002-0000-4000-8000-000000000003",
+    "EmployeeUUID": "00000001-0000-4000-8000-000000000003",
+    "StartAt": "2026-09-01T08:00:00Z",
+    "EndAt": null,
+    "Reason": "Employee workstation allocation",
+    "EndReason": null,
+    "CreatedBy": "EMP-0006",
+    "ClosedBy": null
+  }
+]

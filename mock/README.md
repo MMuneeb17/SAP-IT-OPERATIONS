@@ -3,11 +3,13 @@
 `metadata.xml` and `data/*.json` are the canonical service inputs.
 The `data/*.js` contributors implement validated ticket creation/actions, protect
 reference/audit records, adapt null comparisons and provide case-insensitive search.
-They retain the native JSON loader. The five public
-entity sets are Employees, Tickets, Assets, TicketComments and TicketHistory.
+They retain the native JSON loader. The eight public entity sets are Employees,
+Tickets, Assets, TicketComments, TicketHistory, AssetAssignments, AssetRepairs
+and AssetHistory.
 All people, identifiers and incidents are synthetic; email uses `example.test`.
-The fixed September 2026 snapshot contains 6 employees, 6 assets, 9 tickets,
-14 comments and 31 ticket history events. See the [contract](../docs/service-contract.md)
+The fixed September 2026 snapshot contains 6 employees, 8 assets, 9 tickets,
+14 comments, 31 ticket history events, 4 assignments, 2 repairs and 8 asset events.
+See the [contract](../docs/service-contract.md)
 for fields, nullability, navigation, allowed codes, sample queries and limitations.
 
 `npm run mock:sync` copies these inputs into the generated app's `localService`
@@ -27,3 +29,9 @@ TicketHistory are rejected. See the [workflow/API guide](../docs/help-desk-workf
 Writes are serialized locally with audit history; this is not a secured, durable
 backend or a promise of batch changeset atomicity. Restart to restore fixtures.
 Workflow tests use unique `sap-client` namespaces so they do not modify preview data.
+
+Phase 4 adds eight bound asset lifecycle actions. Direct writes to Assets and its
+assignment/repair/history sets remain blocked. Actions update custody intervals,
+repair completion and append lifecycle events using the same write queue as tickets.
+See the [asset lifecycle guide](../docs/asset-lifecycle.md). There are 22 synchronized
+files; the fixture validator also checks custody intervals and repair consistency.

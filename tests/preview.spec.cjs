@@ -1,6 +1,17 @@
 const { test, expect } = require('@playwright/test');
+const { randomUUID } = require('node:crypto');
 
 const service = '/odata/v4/it-operations/';
+
+// Seed-based browser assertions must not depend on the user's preview mutations.
+test.beforeEach(async ({ page }) => {
+  const tenant = `preview-${randomUUID()}`;
+  await page.route('**/odata/v4/it-operations/**', route => {
+    const url = new URL(route.request().url());
+    url.searchParams.set('sap-client', tenant);
+    return route.continue({ url: url.toString() });
+  });
+});
 
 test('local OData V4 metadata and realistic fixture are served', async ({ request }) => {
   const metadata = await request.get(`${service}$metadata`);
