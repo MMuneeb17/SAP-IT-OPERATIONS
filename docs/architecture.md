@@ -30,6 +30,12 @@ assignments, repairs, lifecycle events and actions. Related ticket and employee
 tables route to canonical object pages through a Fiori controller extension.
 See the [asset lifecycle architecture and contract](asset-lifecycle.md).
 
+Phases 5–6 add MIS Inventory and the ticket Repair workflow to that component.
+Materials, Stocks, Reservations and StockTransactions extend the service to
+12 sets and 50 navigation properties. Inventory actions share the write queue,
+use a compensating operation journal, and retain ticket/asset/repair references.
+See the [inventory contract](inventory-workflow.md) for quantities and transaction rules.
+
 The stable frontend service root is `/odata/v4/it-operations/`; an eventual
 landscape destination/proxy maps it to the RAP binding. Components use the manifest
 OData V4 model, never SAP table names or an alternative REST API. Local annotations

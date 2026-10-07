@@ -18,7 +18,7 @@ async function getJson(request, url) {
   return response.json();
 }
 
-for (const name of ['Employees', 'Tickets', 'Assets', 'TicketComments', 'TicketHistory', 'AssetAssignments', 'AssetRepairs', 'AssetHistory']) {
+for (const name of ['Employees', 'Tickets', 'Assets', 'TicketComments', 'TicketHistory', 'AssetAssignments', 'AssetRepairs', 'AssetHistory', 'Materials', 'Stocks', 'Reservations', 'StockTransactions']) {
   test(`${name}: exposes seeded collection, count, key reads and projection`, async ({ request }) => {
     const set = contract.sets[name];
     const key = set.type.keys[0];

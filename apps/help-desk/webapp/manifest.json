@@ -141,6 +141,51 @@
           "pattern": "MyAssets:?query:",
           "name": "MyAssets",
           "target": "MyAssets"
+        },
+        {
+          "pattern": "Materials:?query:",
+          "name": "MaterialsList",
+          "target": "MaterialsList"
+        },
+        {
+          "pattern": "Materials({key}):?query:",
+          "name": "MaterialsObjectPage",
+          "target": "MaterialsObjectPage"
+        },
+        {
+          "pattern": "Stocks:?query:",
+          "name": "StocksList",
+          "target": "StocksList"
+        },
+        {
+          "pattern": "Stocks({key}):?query:",
+          "name": "StocksObjectPage",
+          "target": "StocksObjectPage"
+        },
+        {
+          "pattern": "Reservations:?query:",
+          "name": "ReservationsList",
+          "target": "ReservationsList"
+        },
+        {
+          "pattern": "Reservations({key}):?query:",
+          "name": "ReservationsObjectPage",
+          "target": "ReservationsObjectPage"
+        },
+        {
+          "pattern": "StockTransactions:?query:",
+          "name": "StockTransactionsList",
+          "target": "StockTransactionsList"
+        },
+        {
+          "pattern": "StockTransactions({key}):?query:",
+          "name": "StockTransactionsObjectPage",
+          "target": "StockTransactionsObjectPage"
+        },
+        {
+          "pattern": "Repair:?query:",
+          "name": "RepairWorkspace",
+          "target": "RepairWorkspace"
         }
       ],
       "targets": {
@@ -174,6 +219,11 @@
                       "text": "{i18n>assetManagement}",
                       "press": "itoms.helpdesk.ext.Navigation.assets",
                       "requiresSelection": false
+                    },
+                    "Inventory": {
+                      "text": "{i18n>inventory}",
+                      "press": "itoms.helpdesk.ext.Navigation.inventory",
+                      "requiresSelection": false
                     }
                   }
                 }
@@ -198,6 +248,16 @@
                 "Asset": {
                   "detail": {
                     "route": "AssetObjectPage"
+                  }
+                },
+                "Reservations": {
+                  "detail": {
+                    "route": "ReservationsObjectPage"
+                  }
+                },
+                "StockTransactions": {
+                  "detail": {
+                    "route": "StockTransactionsObjectPage"
                   }
                 }
               },
@@ -225,6 +285,16 @@
                     "AssetsList": {
                       "text": "{i18n>assetManagement}",
                       "press": "itoms.helpdesk.ext.Navigation.assets",
+                      "requiresSelection": false
+                    },
+                    "Inventory": {
+                      "text": "{i18n>inventory}",
+                      "press": "itoms.helpdesk.ext.Navigation.inventory",
+                      "requiresSelection": false
+                    },
+                    "RepairWorkspace": {
+                      "text": "{i18n>repairWorkspace}",
+                      "press": "itoms.helpdesk.ext.Navigation.repair",
                       "requiresSelection": false
                     }
                   }
@@ -274,6 +344,16 @@
                   "detail": {
                     "route": "TicketsObjectPage"
                   }
+                },
+                "Reservations": {
+                  "detail": {
+                    "route": "ReservationsObjectPage"
+                  }
+                },
+                "StockTransactions": {
+                  "detail": {
+                    "route": "StockTransactionsObjectPage"
+                  }
                 }
               },
               "content": {
@@ -292,6 +372,11 @@
                     "MyAssets": {
                       "text": "{i18n>myAssets}",
                       "press": "itoms.helpdesk.ext.Navigation.myAssets",
+                      "requiresSelection": false
+                    },
+                    "Inventory": {
+                      "text": "{i18n>inventory}",
+                      "press": "itoms.helpdesk.ext.Navigation.inventory",
                       "requiresSelection": false
                     }
                   }
@@ -350,6 +435,16 @@
                   "detail": {
                     "route": "TicketsObjectPage"
                   }
+                },
+                "Reservations": {
+                  "detail": {
+                    "route": "ReservationsObjectPage"
+                  }
+                },
+                "StockTransactions": {
+                  "detail": {
+                    "route": "StockTransactionsObjectPage"
+                  }
                 }
               },
               "content": {
@@ -369,6 +464,11 @@
                       "text": "{i18n>myAssets}",
                       "press": "itoms.helpdesk.ext.Navigation.myAssets",
                       "requiresSelection": false
+                    },
+                    "Inventory": {
+                      "text": "{i18n>inventory}",
+                      "press": "itoms.helpdesk.ext.Navigation.inventory",
+                      "requiresSelection": false
                     }
                   }
                 }
@@ -383,6 +483,540 @@
           "options": {
             "settings": {
               "viewName": "itoms.helpdesk.ext.assets.MyAssets"
+            }
+          }
+        },
+        "MaterialsList": {
+          "type": "Component",
+          "id": "MaterialsList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/Materials",
+              "variantManagement": "Page",
+              "navigation": {
+                "Materials": {
+                  "detail": {
+                    "route": "MaterialsObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable"
+                  },
+                  "actions": {
+                    "Materials": {
+                      "text": "{i18n>inventory}",
+                      "press": "itoms.helpdesk.ext.Navigation.inventory",
+                      "requiresSelection": false
+                    },
+                    "Stocks": {
+                      "text": "{i18n>stockOverview}",
+                      "press": "itoms.helpdesk.ext.Navigation.stocks",
+                      "requiresSelection": false
+                    },
+                    "Reservations": {
+                      "text": "{i18n>reservations}",
+                      "press": "itoms.helpdesk.ext.Navigation.reservations",
+                      "requiresSelection": false
+                    },
+                    "Movements": {
+                      "text": "{i18n>stockMovements}",
+                      "press": "itoms.helpdesk.ext.Navigation.movements",
+                      "requiresSelection": false
+                    },
+                    "HelpDesk": {
+                      "text": "{i18n>helpDesk}",
+                      "press": "itoms.helpdesk.ext.Navigation.helpDesk",
+                      "requiresSelection": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "MaterialsObjectPage": {
+          "type": "Component",
+          "id": "MaterialsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "contextPath": "/Materials",
+              "editableHeaderContent": false,
+              "navigation": {
+                "Materials": {
+                  "detail": {
+                    "route": "MaterialsObjectPage"
+                  }
+                },
+                "Stocks": {
+                  "detail": {
+                    "route": "StocksObjectPage"
+                  }
+                },
+                "Reservations": {
+                  "detail": {
+                    "route": "ReservationsObjectPage"
+                  }
+                },
+                "StockTransactions": {
+                  "detail": {
+                    "route": "StockTransactionsObjectPage"
+                  }
+                },
+                "Transactions": {
+                  "detail": {
+                    "route": "StockTransactionsObjectPage"
+                  }
+                },
+                "Ticket": {
+                  "detail": {
+                    "route": "TicketsObjectPage"
+                  }
+                },
+                "Asset": {
+                  "detail": {
+                    "route": "AssetsObjectPage"
+                  }
+                }
+              },
+              "content": {
+                "header": {
+                  "actions": {
+                    "Materials": {
+                      "text": "{i18n>inventory}",
+                      "press": "itoms.helpdesk.ext.Navigation.inventory",
+                      "requiresSelection": false
+                    },
+                    "Stocks": {
+                      "text": "{i18n>stockOverview}",
+                      "press": "itoms.helpdesk.ext.Navigation.stocks",
+                      "requiresSelection": false
+                    },
+                    "Reservations": {
+                      "text": "{i18n>reservations}",
+                      "press": "itoms.helpdesk.ext.Navigation.reservations",
+                      "requiresSelection": false
+                    },
+                    "Movements": {
+                      "text": "{i18n>stockMovements}",
+                      "press": "itoms.helpdesk.ext.Navigation.movements",
+                      "requiresSelection": false
+                    },
+                    "HelpDesk": {
+                      "text": "{i18n>helpDesk}",
+                      "press": "itoms.helpdesk.ext.Navigation.helpDesk",
+                      "requiresSelection": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "StocksList": {
+          "type": "Component",
+          "id": "StocksList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/Stocks",
+              "variantManagement": "Page",
+              "navigation": {
+                "Stocks": {
+                  "detail": {
+                    "route": "StocksObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable"
+                  },
+                  "actions": {
+                    "Materials": {
+                      "text": "{i18n>inventory}",
+                      "press": "itoms.helpdesk.ext.Navigation.inventory",
+                      "requiresSelection": false
+                    },
+                    "Stocks": {
+                      "text": "{i18n>stockOverview}",
+                      "press": "itoms.helpdesk.ext.Navigation.stocks",
+                      "requiresSelection": false
+                    },
+                    "Reservations": {
+                      "text": "{i18n>reservations}",
+                      "press": "itoms.helpdesk.ext.Navigation.reservations",
+                      "requiresSelection": false
+                    },
+                    "Movements": {
+                      "text": "{i18n>stockMovements}",
+                      "press": "itoms.helpdesk.ext.Navigation.movements",
+                      "requiresSelection": false
+                    },
+                    "HelpDesk": {
+                      "text": "{i18n>helpDesk}",
+                      "press": "itoms.helpdesk.ext.Navigation.helpDesk",
+                      "requiresSelection": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "StocksObjectPage": {
+          "type": "Component",
+          "id": "StocksObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "contextPath": "/Stocks",
+              "editableHeaderContent": false,
+              "navigation": {
+                "Materials": {
+                  "detail": {
+                    "route": "MaterialsObjectPage"
+                  }
+                },
+                "Stocks": {
+                  "detail": {
+                    "route": "StocksObjectPage"
+                  }
+                },
+                "Reservations": {
+                  "detail": {
+                    "route": "ReservationsObjectPage"
+                  }
+                },
+                "StockTransactions": {
+                  "detail": {
+                    "route": "StockTransactionsObjectPage"
+                  }
+                },
+                "Transactions": {
+                  "detail": {
+                    "route": "StockTransactionsObjectPage"
+                  }
+                },
+                "Ticket": {
+                  "detail": {
+                    "route": "TicketsObjectPage"
+                  }
+                },
+                "Asset": {
+                  "detail": {
+                    "route": "AssetsObjectPage"
+                  }
+                }
+              },
+              "content": {
+                "header": {
+                  "actions": {
+                    "Materials": {
+                      "text": "{i18n>inventory}",
+                      "press": "itoms.helpdesk.ext.Navigation.inventory",
+                      "requiresSelection": false
+                    },
+                    "Stocks": {
+                      "text": "{i18n>stockOverview}",
+                      "press": "itoms.helpdesk.ext.Navigation.stocks",
+                      "requiresSelection": false
+                    },
+                    "Reservations": {
+                      "text": "{i18n>reservations}",
+                      "press": "itoms.helpdesk.ext.Navigation.reservations",
+                      "requiresSelection": false
+                    },
+                    "Movements": {
+                      "text": "{i18n>stockMovements}",
+                      "press": "itoms.helpdesk.ext.Navigation.movements",
+                      "requiresSelection": false
+                    },
+                    "HelpDesk": {
+                      "text": "{i18n>helpDesk}",
+                      "press": "itoms.helpdesk.ext.Navigation.helpDesk",
+                      "requiresSelection": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ReservationsList": {
+          "type": "Component",
+          "id": "ReservationsList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/Reservations",
+              "variantManagement": "Page",
+              "navigation": {
+                "Reservations": {
+                  "detail": {
+                    "route": "ReservationsObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable"
+                  },
+                  "actions": {
+                    "Materials": {
+                      "text": "{i18n>inventory}",
+                      "press": "itoms.helpdesk.ext.Navigation.inventory",
+                      "requiresSelection": false
+                    },
+                    "Stocks": {
+                      "text": "{i18n>stockOverview}",
+                      "press": "itoms.helpdesk.ext.Navigation.stocks",
+                      "requiresSelection": false
+                    },
+                    "Reservations": {
+                      "text": "{i18n>reservations}",
+                      "press": "itoms.helpdesk.ext.Navigation.reservations",
+                      "requiresSelection": false
+                    },
+                    "Movements": {
+                      "text": "{i18n>stockMovements}",
+                      "press": "itoms.helpdesk.ext.Navigation.movements",
+                      "requiresSelection": false
+                    },
+                    "HelpDesk": {
+                      "text": "{i18n>helpDesk}",
+                      "press": "itoms.helpdesk.ext.Navigation.helpDesk",
+                      "requiresSelection": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ReservationsObjectPage": {
+          "type": "Component",
+          "id": "ReservationsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "contextPath": "/Reservations",
+              "editableHeaderContent": false,
+              "navigation": {
+                "Materials": {
+                  "detail": {
+                    "route": "MaterialsObjectPage"
+                  }
+                },
+                "Stocks": {
+                  "detail": {
+                    "route": "StocksObjectPage"
+                  }
+                },
+                "Reservations": {
+                  "detail": {
+                    "route": "ReservationsObjectPage"
+                  }
+                },
+                "StockTransactions": {
+                  "detail": {
+                    "route": "StockTransactionsObjectPage"
+                  }
+                },
+                "Transactions": {
+                  "detail": {
+                    "route": "StockTransactionsObjectPage"
+                  }
+                },
+                "Ticket": {
+                  "detail": {
+                    "route": "TicketsObjectPage"
+                  }
+                },
+                "Asset": {
+                  "detail": {
+                    "route": "AssetsObjectPage"
+                  }
+                }
+              },
+              "content": {
+                "header": {
+                  "actions": {
+                    "Materials": {
+                      "text": "{i18n>inventory}",
+                      "press": "itoms.helpdesk.ext.Navigation.inventory",
+                      "requiresSelection": false
+                    },
+                    "Stocks": {
+                      "text": "{i18n>stockOverview}",
+                      "press": "itoms.helpdesk.ext.Navigation.stocks",
+                      "requiresSelection": false
+                    },
+                    "Reservations": {
+                      "text": "{i18n>reservations}",
+                      "press": "itoms.helpdesk.ext.Navigation.reservations",
+                      "requiresSelection": false
+                    },
+                    "Movements": {
+                      "text": "{i18n>stockMovements}",
+                      "press": "itoms.helpdesk.ext.Navigation.movements",
+                      "requiresSelection": false
+                    },
+                    "HelpDesk": {
+                      "text": "{i18n>helpDesk}",
+                      "press": "itoms.helpdesk.ext.Navigation.helpDesk",
+                      "requiresSelection": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "StockTransactionsList": {
+          "type": "Component",
+          "id": "StockTransactionsList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/StockTransactions",
+              "variantManagement": "Page",
+              "navigation": {
+                "StockTransactions": {
+                  "detail": {
+                    "route": "StockTransactionsObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable"
+                  },
+                  "actions": {
+                    "Materials": {
+                      "text": "{i18n>inventory}",
+                      "press": "itoms.helpdesk.ext.Navigation.inventory",
+                      "requiresSelection": false
+                    },
+                    "Stocks": {
+                      "text": "{i18n>stockOverview}",
+                      "press": "itoms.helpdesk.ext.Navigation.stocks",
+                      "requiresSelection": false
+                    },
+                    "Reservations": {
+                      "text": "{i18n>reservations}",
+                      "press": "itoms.helpdesk.ext.Navigation.reservations",
+                      "requiresSelection": false
+                    },
+                    "Movements": {
+                      "text": "{i18n>stockMovements}",
+                      "press": "itoms.helpdesk.ext.Navigation.movements",
+                      "requiresSelection": false
+                    },
+                    "HelpDesk": {
+                      "text": "{i18n>helpDesk}",
+                      "press": "itoms.helpdesk.ext.Navigation.helpDesk",
+                      "requiresSelection": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "StockTransactionsObjectPage": {
+          "type": "Component",
+          "id": "StockTransactionsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "contextPath": "/StockTransactions",
+              "editableHeaderContent": false,
+              "navigation": {
+                "Materials": {
+                  "detail": {
+                    "route": "MaterialsObjectPage"
+                  }
+                },
+                "Stocks": {
+                  "detail": {
+                    "route": "StocksObjectPage"
+                  }
+                },
+                "Reservations": {
+                  "detail": {
+                    "route": "ReservationsObjectPage"
+                  }
+                },
+                "StockTransactions": {
+                  "detail": {
+                    "route": "StockTransactionsObjectPage"
+                  }
+                },
+                "Transactions": {
+                  "detail": {
+                    "route": "StockTransactionsObjectPage"
+                  }
+                },
+                "Ticket": {
+                  "detail": {
+                    "route": "TicketsObjectPage"
+                  }
+                },
+                "Asset": {
+                  "detail": {
+                    "route": "AssetsObjectPage"
+                  }
+                }
+              },
+              "content": {
+                "header": {
+                  "actions": {
+                    "Materials": {
+                      "text": "{i18n>inventory}",
+                      "press": "itoms.helpdesk.ext.Navigation.inventory",
+                      "requiresSelection": false
+                    },
+                    "Stocks": {
+                      "text": "{i18n>stockOverview}",
+                      "press": "itoms.helpdesk.ext.Navigation.stocks",
+                      "requiresSelection": false
+                    },
+                    "Reservations": {
+                      "text": "{i18n>reservations}",
+                      "press": "itoms.helpdesk.ext.Navigation.reservations",
+                      "requiresSelection": false
+                    },
+                    "Movements": {
+                      "text": "{i18n>stockMovements}",
+                      "press": "itoms.helpdesk.ext.Navigation.movements",
+                      "requiresSelection": false
+                    },
+                    "HelpDesk": {
+                      "text": "{i18n>helpDesk}",
+                      "press": "itoms.helpdesk.ext.Navigation.helpDesk",
+                      "requiresSelection": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "RepairWorkspace": {
+          "type": "Component",
+          "id": "RepairWorkspace",
+          "name": "sap.fe.core.fpm",
+          "options": {
+            "settings": {
+              "viewName": "itoms.helpdesk.ext.inventory.RepairWorkspace"
             }
           }
         }

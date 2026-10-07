@@ -185,6 +185,11 @@ Opening a ticket shows its affected asset and opening an asset shows its related
 
 ## Phase 5 — MIS Inventory MVP
 
+Status: **Complete (local MVP) — 8 October 2026**. Materials, stock, reservations,
+inventory actions, movement history and low-stock indicators are implemented in
+the existing application. See the [Phases 5–6 report](phase-5-6-report.md) and
+[manual beginner guide](beginner-guide-phases-5-6.md).
+
 ### Objective
 Manage IT spare parts and consumables.
 
@@ -214,6 +219,11 @@ The system can reserve and issue a spare part while retaining an auditable trans
 ---
 
 ## Phase 6 — Cross-Module Repair Workflow
+
+Status: **Complete (local MVP) — 8 October 2026**. The SSD scenario runs from
+ticket creation through diagnosis, reservation, issue, repair and closure, with
+linked audit records and completion guards. See the
+[Phases 5–6 report](phase-5-6-report.md).
 
 ### Objective
 Connect Help Desk + Assets + Inventory into one process.

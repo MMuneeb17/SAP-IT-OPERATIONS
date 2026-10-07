@@ -10,7 +10,10 @@ const guid = /^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/i;
 export const domains = {
   Tickets: { Status: ['NEW', 'SUBMITTED', 'ASSIGNED', 'IN_PROGRESS', 'WAITING', 'RESOLVED', 'CLOSED'], Priority: ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL'] },
   Assets: { Status: ['RECEIVED', 'TAGGED', 'AVAILABLE', 'ASSIGNED', 'IN_REPAIR', 'RETIRED', 'DISPOSED'] },
-  AssetRepairs: { Status: ['OPEN', 'COMPLETED'] }
+  AssetRepairs: { Status: ['OPEN', 'COMPLETED'] },
+  Materials: { UnitOfMeasure: ['EA', 'M'] },
+  Reservations: { Status: ['OPEN', 'PARTIAL', 'FULFILLED', 'CANCELLED'] },
+  StockTransactions: { MovementType: ['RECEIVE', 'RESERVE', 'ISSUE', 'CANCEL', 'RETURN', 'TRANSFER_OUT', 'TRANSFER_IN', 'ADJUST'] }
 };
 
 export function loadContract() {
@@ -48,8 +51,8 @@ export function relatedRows(contract, set, row, nav) {
 
 export function validateContract(contract = loadContract()) {
   const { sets, metadata } = contract;
-  assert.deepEqual(Object.keys(sets).sort(), ['AssetAssignments', 'AssetHistory', 'AssetRepairs', 'Assets', 'Employees', 'TicketComments', 'TicketHistory', 'Tickets']);
-  const businessKeys = { Employees: 'EmployeeNumber', Tickets: 'TicketNumber', Assets: 'AssetTag' };
+  assert.deepEqual(Object.keys(sets).sort(), ['AssetAssignments', 'AssetHistory', 'AssetRepairs', 'Assets', 'Employees', 'Materials', 'Reservations', 'StockTransactions', 'Stocks', 'TicketComments', 'TicketHistory', 'Tickets']);
+  const businessKeys = { Employees: 'EmployeeNumber', Tickets: 'TicketNumber', Assets: 'AssetTag', Materials: 'MaterialNumber' };
   for (const set of Object.values(sets)) {
     assert.ok(set.type, `${set.name}: missing entity type`);
     assert.ok(set.rows.length > 0, `${set.name}: expected realistic data`);
@@ -79,6 +82,7 @@ export function validateContract(contract = loadContract()) {
             if (property.MaxLength && property.MaxLength !== 'max') assert.ok(value.length <= Number(property.MaxLength), `${field}: exceeds MaxLength`);
             break;
           case 'Edm.Boolean': assert.equal(typeof value, 'boolean', `${field}: expected boolean`); break;
+          case 'Edm.Decimal': assert.ok(/^-?\d{1,12}(\.\d{1,3})?$/.test(String(value)), `${field}: invalid decimal quantity`); break;
           case 'Edm.Int16': case 'Edm.Int32': case 'Edm.Byte': {
             const bounds = { 'Edm.Byte': [0, 255], 'Edm.Int16': [-32768, 32767], 'Edm.Int32': [-2147483648, 2147483647] }[property.Type];
             assert.ok(Number.isInteger(value) && value >= bounds[0] && value <= bounds[1], `${field}: invalid integer`); break;
@@ -120,6 +124,7 @@ export function validateContract(contract = loadContract()) {
     assert.deepEqual(JSON.parse(fs.readFileSync(appFile, 'utf8')), set.rows, `${set.name}: app fixture differs from canonical data`);
   }
   validateAssetLifecycle(contract);
+  validateInventory(contract);
   assert.equal(fs.readFileSync(path.join(root, 'apps/help-desk/webapp/localService/mainService/metadata.xml'), 'utf8'), metadata, 'App metadata differs from canonical contract');
   return Object.values(sets).map(set => `${set.name}: ${set.rows.length} records`).join(', ');
 }
@@ -145,6 +150,61 @@ export function validateAssetLifecycle({ sets }) {
     if (repair.TicketUUID) assert.equal(sets.Tickets.rows.find(row => row.TicketUUID === repair.TicketUUID).AssetUUID, repair.AssetUUID, 'Repair ticket must reference the same asset');
     if (repair.Status === 'COMPLETED') assert.ok(repair.RepairDescription?.trim() && repair.RepairedAt && Date.parse(repair.RepairedAt) >= Date.parse(repair.StartedAt), 'Completed repair needs description and valid completion time');
     else assert.ok(!repair.RepairedAt && !repair.RepairDescription, 'Open repair cannot have completion data');
+  }
+}
+
+export function validateInventory({ sets }) {
+  const n = value => Math.round(Number(value) * 1000);
+  const movements = sets.StockTransactions.rows;
+  const seen = new Set();
+  for (const stock of sets.Stocks.rows) {
+    const unique = stock.MaterialUUID + stock.StorageLocation;
+    assert.ok(!seen.has(unique), 'Duplicate material and storage location'); seen.add(unique);
+    assert.ok(n(stock.PhysicalQuantity) >= n(stock.ReservedQuantity) && n(stock.ReservedQuantity) >= 0 && n(stock.ReorderLevel) >= 0, 'Invalid physical or reserved stock');
+    assert.equal(n(stock.AvailableQuantity), n(stock.PhysicalQuantity) - n(stock.ReservedQuantity), 'Available stock must equal physical minus reserved');
+    assert.equal(stock.LowStock, n(stock.AvailableQuantity) <= n(stock.ReorderLevel), 'Low stock indicator mismatch');
+    assert.equal(stock.UnitOfMeasure, sets.Materials.rows.find(m => m.MaterialUUID === stock.MaterialUUID).UnitOfMeasure, 'Stock unit mismatch');
+    const reservations = sets.Reservations.rows.filter(r => r.StockUUID === stock.StockUUID);
+    assert.equal(n(stock.ReservedQuantity), reservations.reduce((sum,r) => sum + n(r.OutstandingQuantity),0), 'Reserved quantity must match outstanding requests');
+    const ledger = movements.filter(t => t.StockUUID === stock.StockUUID);
+    assert.equal(n(stock.PhysicalQuantity), ledger.reduce((sum,t) => sum + n(t.PhysicalDelta),0), 'Physical stock must reconcile to movement ledger');
+    assert.equal(n(stock.ReservedQuantity), ledger.reduce((sum,t) => sum + n(t.ReservedDelta),0), 'Reserved stock must reconcile to movement ledger');
+  }
+  for (const reservation of sets.Reservations.rows) {
+    assert.ok(n(reservation.Quantity) > 0 && n(reservation.IssuedQuantity) >= 0 && n(reservation.IssuedQuantity) <= n(reservation.Quantity), 'Invalid reservation quantities');
+    assert.equal(n(reservation.OutstandingQuantity), reservation.Status === 'CANCELLED' ? 0 : n(reservation.Quantity) - n(reservation.IssuedQuantity), 'Outstanding reservation mismatch');
+    assert.ok(reservation.Status !== 'FULFILLED' || n(reservation.OutstandingQuantity) === 0, 'Fulfilled reservation cannot have outstanding quantity');
+    const issued = movements.filter(t => t.ReservationUUID === reservation.ReservationUUID && t.MovementType === 'ISSUE').reduce((sum,t) => sum+n(t.Quantity),0);
+    assert.equal(n(reservation.IssuedQuantity),issued,'Issued quantity must reconcile to movements');
+  }
+  for (const row of [...sets.Reservations.rows,...movements]) {
+    const stock = sets.Stocks.rows.find(s => s.StockUUID === row.StockUUID);
+    assert.equal(row.MaterialUUID,stock.MaterialUUID,'Stock and material mismatch');
+    if (row.TicketUUID) assert.equal(row.AssetUUID,sets.Tickets.rows.find(t=>t.TicketUUID===row.TicketUUID).AssetUUID,'Ticket and inventory asset mismatch');
+    if (row.AssetRepairUUID) {
+      const repair=sets.AssetRepairs.rows.find(r=>r.AssetRepairUUID===row.AssetRepairUUID);
+      assert.equal(row.AssetUUID,repair.AssetUUID,'Repair and inventory asset mismatch');
+      assert.equal(row.TicketUUID,repair.TicketUUID,'Repair and inventory ticket mismatch');
+    }
+    if (stock.UnitOfMeasure==='EA') assert.equal(n(row.Quantity)%1000,0,'EA quantity must be whole');
+    if (row.StockTransactionUUID) {
+      assert.equal(row.UnitOfMeasure,stock.UnitOfMeasure,'Movement unit mismatch');
+      if(row.ReservationUUID) {
+        const reservation=sets.Reservations.rows.find(r=>r.ReservationUUID===row.ReservationUUID);
+        for(const key of ['StockUUID','MaterialUUID','TicketUUID','AssetUUID','AssetRepairUUID'])assert.equal(row[key],reservation[key],'Movement reservation reference mismatch');
+      }
+      if(row.OriginalTransactionUUID) {
+        const original=movements.find(t=>t.StockTransactionUUID===row.OriginalTransactionUUID);
+        assert.ok(original && original.MovementType==='ISSUE' && original.StockUUID===row.StockUUID,'Return must link original issue');
+        assert.ok(movements.filter(t=>t.OriginalTransactionUUID===original.StockTransactionUUID).reduce((sum,t)=>sum+n(t.Quantity),0)<=n(original.Quantity),'Returns exceed original issue');
+      }
+      if(row.TransferUUID) {
+        const pair=movements.filter(t=>t.TransferUUID===row.TransferUUID);
+        assert.equal(pair.length,2,'Transfer requires two movements');
+        assert.equal(pair.reduce((sum,t)=>sum+n(t.PhysicalDelta),0),0,'Transfer movements must balance');
+        assert.ok(pair[0].StockUUID!==pair[1].StockUUID && pair[0].MaterialUUID===pair[1].MaterialUUID,'Transfer locations or materials invalid');
+      }
+    }
   }
 }
 

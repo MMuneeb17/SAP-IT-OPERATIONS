@@ -51,6 +51,10 @@ module.exports = {
           RepairDescription: null, StartedAt: now, RepairedAt: null, CreatedBy: 'EMP-0006', CompletedBy: null });
         next.Status = 'IN_REPAIR';
       } else if (action === 'CompleteRepair') {
+        const reservations = await this.base.getEntityInterface('Reservations');
+        if ((await reservations.fetchEntries({ AssetRepairUUID: openRepairs[0].AssetRepairUUID }, request)).some(row => ['OPEN', 'PARTIAL'].includes(row.Status))) {
+          fail(this, 'Issue or cancel the outstanding part requests before completing this repair.', 409);
+        }
         update(repairs, 'AssetRepairUUID', openRepairs[0], { Status: 'COMPLETED', RepairDescription: reason, RepairedAt: now, CompletedBy: 'EMP-0006' });
         next.Status = current.CurrentEmployeeUUID ? 'ASSIGNED' : 'AVAILABLE';
       } else next.Status = { MakeAvailable: 'AVAILABLE', RetireAsset: 'RETIRED', DisposeAsset: 'DISPOSED' }[action];

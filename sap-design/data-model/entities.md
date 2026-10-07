@@ -4,7 +4,8 @@ All technical primary keys are UUIDs. `?` means nullable. Fields below are the
 minimum domain design. The five original entities have a complete
 [field dictionary](../../docs/service-contract.md). Phase 4 adds assignment,
 repair and asset-event sets documented in the [asset contract](../../docs/asset-lifecycle.md).
-Inventory entities remain conceptual.
+Phases 5–6 implement the inventory entities and their cross-module references;
+see the [inventory contract](../../docs/inventory-workflow.md).
 
 | Entity / set | Key | Principal fields and foreign keys | Owner |
 | --- | --- | --- | --- |
@@ -17,8 +18,8 @@ Inventory entities remain conceptual.
 | AssetRepair / AssetRepairs | AssetRepairUUID | AssetUUID, TicketUUID?, TechnicianUUID, Status, Diagnosis, RepairDescription?, StartedAt, RepairedAt? | Asset child |
 | AssetHistory / AssetHistory | AssetHistoryUUID | AssetUUID, ActorUUID, Action, OldStatus?, NewStatus, OldEmployeeUUID?, NewEmployeeUUID?, Reason, CreatedAt | Asset child, append-only |
 | Material / Materials | MaterialUUID | MaterialNumber, Description, UnitOfMeasure | Material root |
-| Stock / Stocks | StockUUID | MaterialUUID, StorageLocation, PhysicalQuantity, ReservedQuantity, AvailableQuantity (derived) | Material child |
-| Reservation / Reservations | ReservationUUID | MaterialUUID, StockUUID, TicketUUID?, AssetUUID?, Quantity, IssuedQuantity, Status, Reason | Material child |
+| Stock / Stocks | StockUUID | MaterialUUID, StorageLocation, PhysicalQuantity, ReservedQuantity, AvailableQuantity (derived), ReorderLevel, LowStock | Material child |
+| Reservation / Reservations | ReservationUUID | MaterialUUID, StockUUID, TicketUUID?, AssetUUID?, AssetRepairUUID?, Quantity, IssuedQuantity, OutstandingQuantity, Status, Reason | Material child |
 | StockTransaction / StockTransactions | StockTransactionUUID | MaterialUUID, StockUUID, ReservationUUID?, TicketUUID?, AssetUUID?, AssetRepairUUID?, MovementType, Quantity, UnitOfMeasure, TransferUUID?, Reason, CreatedAt, CreatedBy | Material child, append-only |
 
 ```mermaid
@@ -45,6 +46,7 @@ erDiagram
   Stock ||--o{ StockTransaction : records
   Ticket o|--o{ Reservation : requests
   Asset o|--o{ Reservation : needs
+  AssetRepair o|--o{ Reservation : requires
   Reservation o|--o{ StockTransaction : fulfilled_by
   Ticket o|--o{ StockTransaction : consumes
   Asset o|--o{ StockTransaction : repaired_with

@@ -1,0 +1,68 @@
+const {test,expect}=require('@playwright/test');
+const {randomUUID}=require('node:crypto');
+const id=(g,n)=>`${String(g).padStart(8,'0')}-0000-4000-8000-${String(n).padStart(12,'0')}`;
+test.use({actionTimeout:20000});
+async function setup(page){const tenant='inventory-ui-'+randomUUID();await page.route('**/odata/v4/it-operations/**',route=>{const url=new URL(route.request().url());url.searchParams.set('sap-client',tenant);return route.continue({url:url.toString()});});return tenant;}
+async function nativeAction(page,label,values){
+ await page.getByRole('button',{name:label,exact:true}).click();const dialog=page.getByRole('dialog');
+ for(const [field,value] of Object.entries(values))await dialog.getByRole('textbox',{name:field,exact:true}).fill(value);
+ await dialog.getByRole('button',{name:label,exact:true}).click();await expect(dialog).not.toBeVisible();
+}
+test('inventory list, stock actions and reservation navigation work through Fiori',async({page})=>{
+ await setup(page);const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto('/test/flp.html#app-preview',{waitUntil:'domcontentloaded'});
+ await page.getByRole('button',{name:'MIS Inventory',exact:true}).click({timeout:90000});
+ await expect(page.getByRole('heading',{name:'Materials',exact:true})).toBeVisible();await page.getByRole('button',{name:'Go',exact:true}).click();
+ await page.getByText('SSD-512',{exact:true}).click();
+ await expect(page).toHaveURL(/Materials\(/);
+ await page.getByRole('region',{name:'Stock by location',exact:true}).getByText('Karachi IT Store',{exact:true}).click();
+ await expect(page).toHaveURL(/Stocks\(/);
+ await nativeAction(page,'Receive stock',{Quantity:'2',Reason:'Delivery inspected'});
+ await nativeAction(page,'Reserve stock',{Quantity:'1',Reason:'Bench replacement'});
+ await page.getByText('Reservations',{exact:true}).filter({visible:true}).last().click();
+ const region=page.getByRole('region',{name:'Reservations',exact:true});
+ await region.getByText('OPEN',{exact:true}).click();
+ await expect(page).toHaveURL(/Reservations\(/);
+ await nativeAction(page,'Issue reservation',{Quantity:'1',Reason:'Handed to technician'});
+ await expect(page.getByRole('region',{name:'Reservation details',exact:true}).getByText('FULFILLED',{exact:true})).toBeVisible();
+ await page.screenshot({path:'test-results/phase-5-reservation.png'});
+ expect(errors).toEqual([]);
+});
+test('guided ticket repair requests and issues an SSD then completes repair and closes ticket',async({page,request})=>{
+ const tenant=await setup(page),base='/odata/v4/it-operations/';
+ const post=async(path,data)=>{const r=await request.post(base+path+'?sap-client='+tenant,{data});expect(r.ok(),await r.text()).toBe(true);return r.json();};
+ const ticket=await post('Tickets',{Subject:'SSD replacement browser demo',Description:'Disk diagnostics failed',Category:'Hardware',RequesterUUID:id(1,2),AssetUUID:id(2,2)});
+ const tk=ticket.TicketUUID;
+ for(const [action,data]of [['Submit',{}],['AssignTechnician',{TechnicianUUID:id(1,4)}],['StartWork',{}]])await post(`Tickets(${tk})/ITOperations.${action}`,data);
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto('/test/flp.html#app-preview&/Tickets('+tk+')',{waitUntil:'domcontentloaded'});
+ await expect(page.getByRole('toolbar',{name:'Header actions'})).toBeVisible({timeout:90000});
+ if(!await page.getByRole('button',{name:'Repair workflow',exact:true}).isVisible())await page.getByRole('button',{name:'Additional Options',exact:true}).click();
+ await page.getByRole('button',{name:'Repair workflow',exact:true}).click();
+ await expect(page.getByRole('button',{name:'Start repair',exact:true})).toBeEnabled({timeout:30000});
+ await page.getByRole('textbox',{name:'Diagnosis',exact:true}).fill('SSD failed self-test');
+ await page.getByRole('button',{name:'Start repair',exact:true}).click();
+ await expect(page.getByRole('button',{name:'Request part',exact:true})).toBeEnabled();
+ await page.getByRole('textbox',{name:'Request reason',exact:true}).fill('Replacement SSD for failed boot drive');
+ await page.getByRole('button',{name:'Request part',exact:true}).click();
+ await expect(page.getByRole('button',{name:/Issue remaining$/})).toBeEnabled();
+ await expect(page.getByRole('button',{name:'Complete repair',exact:true})).toBeDisabled();
+ await page.getByRole('button',{name:/Issue remaining$/}).click();
+ await expect(page.getByRole('button',{name:'Complete repair',exact:true})).toBeEnabled();
+ await page.getByRole('textbox',{name:'Work performed',exact:true}).fill('Installed SSD, restored image and verified boot');
+ await expect(page.locator('.sapMMessageToast:visible')).toHaveCount(0,{timeout:10000});
+ await page.getByRole('heading',{name:'Request part',exact:true}).scrollIntoViewIfNeeded();
+ await page.screenshot({path:'test-results/phase-6-repair-workflow.png',fullPage:true});
+ await page.setViewportSize({width:390,height:844});
+ await page.getByRole('heading',{name:'Request part',exact:true}).scrollIntoViewIfNeeded();
+ await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await page.screenshot({path:'test-results/phase-6-repair-mobile.png',fullPage:true});
+ await page.setViewportSize({width:1280,height:900});
+ await page.getByRole('button',{name:'Complete repair',exact:true}).click();
+ await expect(page.getByRole('button',{name:'Complete repair',exact:true})).toBeDisabled();
+ await page.getByRole('button',{name:'View ticket',exact:true}).click();
+ await nativeAction(page,'Resolve ticket',{Resolution:'Replacement verified with employee'});
+ await page.getByRole('button',{name:'Confirm and close',exact:true}).click();
+ await expect(page.getByRole('region',{name:'Overview',exact:true}).getByText('CLOSED',{exact:true})).toBeVisible();
+ expect(errors).toEqual([]);
+});

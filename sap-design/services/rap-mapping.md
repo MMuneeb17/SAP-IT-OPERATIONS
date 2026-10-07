@@ -72,8 +72,12 @@ supported in the MVP. `Reopen` is never a persisted `REOPENED` status.
 Phase 4 implements MakeAvailable, AssignAsset, TransferAsset, ReturnAsset,
 SendForRepair, CompleteRepair, RetireAsset and DisposeAsset locally. AssetAssignments,
 AssetRepairs and AssetHistory are now concrete sets; map them to asset-owned RAP
-children. Tag allocation remains future work. Materials, Stocks, Reservations
-and StockTransactions remain later entities.
+children. Tag allocation remains future work. Phases 5–6 now implement Materials,
+Stocks, Reservations and StockTransactions with ReceiveStock, ReserveStock,
+TransferStock, ReturnStock, AdjustStock, IssueReservation, CancelReservation and
+ticket-bound RequestPart. Map the exact parameters, reference checks and quantity
+semantics in the [inventory contract](../../docs/inventory-workflow.md) to RAP;
+inventory persistence and production authorization remain planned.
 See the [asset contract and RAP continuation](../../docs/asset-lifecycle.md) for
 parameters, ownership, persistence mappings and consistency requirements.
 

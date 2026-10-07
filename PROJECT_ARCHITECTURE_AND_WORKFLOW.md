@@ -2,7 +2,7 @@
 
 **Project:** SAP IT Operations Management System (ITOMS)
 
-**Snapshot:** 5 October 2026, through completed Phase 4
+**Snapshot:** 8 October 2026, through completed Phases 5–6 (local MVP)
 
 **Current runtime:** local SAPUI5/Fiori Elements application with a mock OData V4 service
 
@@ -29,7 +29,7 @@ dotted arrows mark planned connections where indicated.
 6. [OData contract and request workflow](#6-odata-contract-and-request-workflow)
 7. [Help Desk workflow](#7-help-desk-workflow)
 8. [Asset lifecycle workflow](#8-asset-lifecycle-workflow)
-9. [Planned inventory and integrated workflow](#9-planned-inventory-and-integrated-workflow)
+9. [Inventory and integrated workflow](#9-inventory-and-integrated-workflow)
 10. [Local mock setup](#10-local-mock-setup)
 11. [Target ABAP architecture](#11-target-abap-architecture)
 12. [ABAP setup and implementation sequence](#12-abap-setup-and-implementation-sequence)
@@ -41,7 +41,7 @@ dotted arrows mark planned connections where indicated.
 ## 1. Scope and delivery status
 
 ITOMS connects an employee's incident to the affected equipment, technician work,
-asset history and, in later phases, spare parts and inventory movements.
+asset history, spare parts and inventory movements.
 
 | Capability | Current status |
 | --- | --- |
@@ -49,17 +49,18 @@ asset history and, in later phases, spare parts and inventory movements.
 | Help Desk List Report/Object Page and My IT Support | Phase 3 complete locally |
 | Asset Management and My IT Assets | Phase 4 complete locally |
 | Asset assignments, transfers, repairs and lifecycle history | Implemented in mock service |
-| Materials, stock, reservations and stock movements | Phase 5 planned |
-| Integrated parts-to-repair process | Phase 6 planned |
+| Materials, stock, reservations and stock movements | Phase 5 implemented locally |
+| Integrated parts-to-repair process | Phase 6 implemented locally |
 | SLA rules, escalation and configuration | Phase 7 planned |
 | Role matrix and management analytics | Phases 8–9 planned |
 | Complete RAP design package and real ABAP implementation | Phases 10–11 planned; initial mappings exist |
 | SAP authorization, notifications and production launchpad | Phases 12–13 planned |
 
 There is **one application component**, `itoms.helpdesk`, under `apps/help-desk`.
-Help Desk and Asset Management are modules/routes within that component. They
-share one OData model and one local server. There is no separate inventory app,
-technician workbench, dashboard, SQL database, or independent REST backend yet.
+Help Desk, Asset Management and MIS Inventory are modules/routes within that
+component. A guided Repair workflow connects them. They share one OData model and
+one local server. There is no separate deployed inventory app, dashboard, SQL
+database, or independent REST backend yet.
 
 The older [business vision](docs/workflow.md) describes the intended final system.
 Where it differs from current behavior, the current action tables in this guide
@@ -129,7 +130,7 @@ connection to a deployed SAP business service.
 
 ```mermaid
 flowchart LR
-  Edit[Edit mock/metadata.xml or mock/data] --> Sync[Sync 22 files]
+  Edit[Edit mock/metadata.xml or mock/data] --> Sync[Sync 31 files]
   Sync --> Local[Application localService copy]
   Local --> Load[Server loads seed records]
   Load --> Runtime[(Runtime memory)]
@@ -153,6 +154,7 @@ flowchart LR
 | `Assets.js` | Lifecycle actions, custody, repairs, event writes and compensation |
 | `_workflow.js` | Shared queue, ticket transitions, validation, timestamps and internal-write Symbol |
 | `_asset-workflow.js` | Asset state eligibility, action flags and criticality |
+| `_inventory.js` | Quantity/reference validation, stock actions and compensation journal |
 | `_readonly.js` | Reject unsupported external writes; permit trusted internal insertion |
 | `_asset-child.js` | Internal assignment/repair updates and rollback removal |
 | `_nullable-filter.js` | Local handling of nullable filter values |
@@ -182,7 +184,7 @@ filters, and `UI.Facets` organizes Object Page sections. `UI.HeaderInfo` supplie
 the object title. Action annotations and `Can<Action>` fields drive buttons, while
 the backend independently validates whether an action is allowed.
 
-The custom employee pages instead declare `sap.m.Table`, forms and bindings in
+The custom employee and repair pages instead declare `sap.m.Table`, forms and bindings in
 XML. Their controllers read through the same OData model and put display state
 into JSONModel. The user's manual practice table in My IT Support is retained.
 
@@ -201,6 +203,11 @@ the entity UUID substituted by routing.
 | `Assets` | Asset Management List Report |
 | `Assets({key})` | Canonical Asset Object Page |
 | `MyAssets` | Equipment assigned to the selected preview employee |
+| `Materials` / `Materials({key})` | Material catalogue and stock by location |
+| `Stocks` / `Stocks({key})` | Stock overview, movements and inventory actions |
+| `Reservations` / `Reservations({key})` | Part requests, issue and cancellation |
+| `StockTransactions` / `StockTransactions({key})` | Read-only movement history |
+| `Repair?ticket={key}` | Guided diagnosis, part request, issue and repair completion |
 
 ```mermaid
 flowchart TD
@@ -215,6 +222,13 @@ flowchart TD
   Asset --> Related[Related tickets table]
   NestedAsset --> Related
   Related --> Ticket
+  Ticket --> Repair[Repair workflow]
+  Ticket --> Inventory[MIS Inventory]
+  Inventory --> Material[Material Object Page]
+  Material --> Stock[Stock Object Page]
+  Stock --> Reservation[Reservation Object Page]
+  Repair --> Reservation
+  Reservation --> Movements[Stock movements]
 ```
 
 `ext/Navigation.js` implements header navigation. The Object Page controller
@@ -240,7 +254,11 @@ empty. Clear filters and press Go before investigating missing records.
 | AssetAssignments | AssetAssignmentUUID | 4 | Asset-owned custody intervals |
 | AssetRepairs | AssetRepairUUID | 2 | Asset-owned repair records |
 | AssetHistory | AssetHistoryUUID | 8 | Asset-owned lifecycle events |
-| **Total** | | **82** | **8 sets, 26 navigation properties** |
+| Materials | MaterialUUID | 3 | Read-only spare-part and consumable catalogue |
+| Stocks | StockUUID | 4 | Material/location balances; action-controlled |
+| Reservations | ReservationUUID | 2 | Outstanding and issued part quantities |
+| StockTransactions | StockTransactionUUID | 8 | Protected movement ledger |
+| **Total** | | **99** | **12 sets, 50 navigation properties** |
 
 UUIDs are technical keys. TicketNumber, AssetTag and EmployeeNumber are readable
 business identifiers. Associations use UUIDs, not names or email addresses.
@@ -439,10 +457,13 @@ For a hands-on demonstration, open **Asset Management → Go → IT-LAP-00502** 
 make it available, assign, transfer, repair, return, retire and dispose it.
 Use **IT-LAP-00452** to inspect an existing ticket-linked repair.
 
-## 9. Planned inventory and integrated workflow
+## 9. Inventory and integrated workflow
 
-The following graph is the target process for Phases 5–6. Inventory operations
-shown here are not available in the current app.
+Phases 5–6 implement the following process in the local mock. Use **MIS Inventory**
+for material, stock, reservation and movement List Reports/Object Pages. Open a
+ticket's **Repair workflow** action (under **Additional Options** if necessary)
+for diagnosis, part request, store issue and repair completion. Its route is
+`Repair?ticket=UUID`. Procurement itself remains outside this MVP.
 
 ```mermaid
 flowchart TD
@@ -467,7 +488,7 @@ flowchart TD
   Reopen --> Diagnose
 ```
 
-### Planned inventory relationships
+### Implemented inventory relationships
 
 ```mermaid
 erDiagram
@@ -480,23 +501,41 @@ erDiagram
   Asset o|--o{ Reservation : needs
   Ticket o|--o{ StockTransaction : consumes
   AssetRepair o|--o{ StockTransaction : uses_part
+  AssetRepair o|--o{ Reservation : requests_part
 ```
 
-Planned quantities obey `available = physical − outstanding reserved`.
+Quantities obey `available = physical − outstanding reserved`.
 
-| Operation | Planned stock effect |
+| Operation | Stock effect |
 | --- | --- |
 | Receive / return | Increase physical quantity and record movement |
 | Reserve | Increase outstanding reserved quantity |
 | Issue reserved material | Reduce physical and reserved quantities together |
 | Cancel reservation | Release the unfulfilled reserved quantity |
 | Transfer | Linked debit/credit at two locations in one transaction |
-| Adjust | Authorized correction with mandatory reason and movement |
+| Adjust | Signed correction with mandatory reason and movement; actor simulated locally |
 
 Stock is unique per material and storage location. Balances are not edited
 directly. Repeated partial issues retain the reservation reference. Ticket, asset
 and repair references must agree. If standard SAP inventory owns these records,
 integrate its released APIs instead of maintaining competing stock balances.
+
+The eight bound actions are Stocks.ReceiveStock, ReserveStock, ReturnStock,
+TransferStock and AdjustStock; Reservations.IssueReservation and CancelReservation;
+and Tickets.RequestPart. Decimal(15,3) values use integer-thousandth arithmetic;
+EA requires whole units. Returns reference an original issue and cannot exceed
+its unreturned quantity. Transfers record matching debit/credit movement IDs.
+
+RequestPart derives the ticket's asset and open repair. Issue preserves those
+references and appends ticket/asset history. Outstanding requests block repair
+completion; open repairs or requests block ticket resolution. A shared mutation
+queue and compensation journal protect local action consistency, including
+rollback after a partial write. SAP must implement equivalent transactional
+behavior with database locking and save rollback.
+
+See [inventory architecture and invariants](docs/inventory-workflow.md), the
+[completion report](docs/phase-5-6-report.md), and the
+[beginner manual guide](docs/beginner-guide-phases-5-6.md).
 
 SLA determination, at-risk/breach monitoring, escalation, notifications and KPI
 drill-downs are later capabilities. Existing priority/status colors do not imply
@@ -530,7 +569,7 @@ npm run mock:sync
 npm run validate:contract
 ```
 
-Expected baseline: 22 synchronized files, eight entity sets and 82 seed records.
+Expected baseline: 31 synchronized files, twelve entity sets and 99 seed records.
 The validator checks keys, types, nullability, relationships, custody intervals
 and repair consistency. `mock:check` detects drift without copying files.
 
@@ -634,10 +673,10 @@ All names below are design identifiers to validate in the chosen SAP release.
 | AssetAssignments | ZIT_ASSET_ASSIGN | ZI_IT_AssetAssignment → ZC_IT_AssetAssignment |
 | AssetRepairs | ZIT_ASSET_REPAIR | ZI_IT_AssetRepair → ZC_IT_AssetRepair |
 | AssetHistory | ZIT_ASSET_HISTORY | ZI_IT_AssetHistory → ZC_IT_AssetHistory |
-| Materials — later | ZIT_MATERIAL or standard integration | ZI_IT_Material → ZC_IT_Material |
-| Stocks — later | ZIT_STOCK or standard integration | ZI_IT_Stock → ZC_IT_Stock |
-| Reservations — later | ZIT_RESERVATION or standard integration | ZI_IT_Reservation → ZC_IT_Reservation |
-| StockTransactions — later | ZIT_STOCK_TXN or standard integration | ZI_IT_StockTransaction → ZC_IT_StockTransaction |
+| Materials | ZIT_MATERIAL or standard integration | ZI_IT_Material → ZC_IT_Material |
+| Stocks | ZIT_STOCK or standard integration | ZI_IT_Stock → ZC_IT_Stock |
+| Reservations | ZIT_RESERVATION or standard integration | ZI_IT_Reservation → ZC_IT_Reservation |
+| StockTransactions | ZIT_STOCK_TXN or standard integration | ZI_IT_StockTransaction → ZC_IT_StockTransaction |
 
 Ticket and Asset are independent RAP roots. Their history and child records are
 compositions; Requester, Technician and affected Asset remain associations.
@@ -838,7 +877,7 @@ directly into SAP test isolation; build a dedicated integration-test configurati
 | Area | What must be checked |
 | --- | --- |
 | Schema | Entity-set aliases, UUID keys, field names/types/lengths/nullability |
-| Navigation | All 26 current navigation properties and nested expansion |
+| Navigation | All 50 current navigation properties and nested expansion |
 | Actions | Namespaces, parameters, binding, return values and side effects |
 | Queries | Filter, search, sort, count, paging and continuation handling |
 | Errors | User-readable OData errors and correct field/action targeting |
@@ -894,23 +933,24 @@ process or notification service is claimed by the local MVP.
 
 ## 15. Testing and acceptance
 
-The last completed Phase 4 run on 5 October 2026 recorded **46 passing tests**:
+The Phase 5–6 acceptance run recorded **68 passing tests**:
 
 | Test area | Count | Coverage |
 | --- | ---: | --- |
-| Contract | 27 | Eight sets, keys, fields, queries, nulls and navigation |
+| Contract | 39 | Twelve sets, keys, fields, queries, nulls and 50 navigation properties |
 | Asset workflow | 7 | Lifecycle, repairs, invalid actions, protected writes, concurrency and rollback |
 | Ticket workflow | 6 | Creation, transitions, history, invalid input and concurrency |
-| Preview/browser | 6 | OData model, ticket workflow, asset actions, navigation and mobile equipment view |
+| Inventory workflow | 8 | Quantity/ledger rules, actions, concurrency, rollback and SSD repair-to-closure |
+| Preview/browser | 8 | OData model, ticket/asset flows, inventory dialogs, guided repair and mobile views |
 
-Build and doctor checks also passed. This documents the prior acceptance run;
-it is not a claim that ABAP has passed these tests. See the
-[Phase 4 report](docs/phase-4-report.md) and its screenshots.
+Build, mock synchronization, contract validation and doctor checks also passed.
+These are local mock results; ABAP has not been tested. See the
+[Phases 5–6 report](docs/phase-5-6-report.md) for acceptance details and screenshots.
 
 Before declaring the SAP migration complete, require equivalent business outcomes
 against RAP plus authorization, concurrency, rollback and deployment validation.
-Test the current ticket and asset flows first; the full SSD/inventory scenario
-also requires Phases 5–6 to be implemented.
+Include the full SSD/inventory scenario alongside ticket and asset regression
+flows, using dedicated SAP integration data.
 
 ### Quick troubleshooting
 
@@ -972,6 +1012,9 @@ SAP IT OPERATIONS/
 - [Naming conventions](sap-design/naming-conventions.md)
 - [Beginner guide through Phase 3](docs/beginner-guide-phases-0-3.md)
 - [Phase 4 completion report](docs/phase-4-report.md)
+- [Phases 5–6 completion report](docs/phase-5-6-report.md)
+- [Phases 5–6 manual beginner guide](docs/beginner-guide-phases-5-6.md)
+- [Inventory and repair contract](docs/inventory-workflow.md)
 
 The diagrams summarize the checked-in implementation and planned domain design.
 They are not generated SAP system topology or proof of a deployed backend.

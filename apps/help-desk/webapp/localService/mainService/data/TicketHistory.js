@@ -1,1 +1,1 @@
-module.exports = require('./_readonly')();
+module.exports = require('./_asset-child')();

@@ -1,0 +1,40 @@
+[
+  {
+    "ReservationUUID": "00000011-0000-4000-8000-000000000001",
+    "MaterialUUID": "00000009-0000-4000-8000-000000000002",
+    "StockUUID": "00000010-0000-4000-8000-000000000003",
+    "TicketUUID": "00000003-0000-4000-8000-000000000007",
+    "AssetUUID": "00000002-0000-4000-8000-000000000002",
+    "AssetRepairUUID": "00000007-0000-4000-8000-000000000002",
+    "Quantity": "2.000",
+    "IssuedQuantity": "2.000",
+    "Status": "FULFILLED",
+    "Reason": "Dock cable diagnostics",
+    "CancelReason": null,
+    "CreatedAt": "2026-09-10T08:00:00Z",
+    "CreatedBy": "EMP-0006",
+    "LastChangedAt": "2026-09-10T09:00:00Z",
+    "OutstandingQuantity": "0.000",
+    "CanIssueReservation": false,
+    "CanCancelReservation": false
+  },
+  {
+    "ReservationUUID": "00000011-0000-4000-8000-000000000002",
+    "MaterialUUID": "00000009-0000-4000-8000-000000000003",
+    "StockUUID": "00000010-0000-4000-8000-000000000004",
+    "TicketUUID": null,
+    "AssetUUID": null,
+    "AssetRepairUUID": null,
+    "Quantity": "2.500",
+    "IssuedQuantity": "0.000",
+    "Status": "OPEN",
+    "Reason": "Network patch lead preparation",
+    "CancelReason": null,
+    "CreatedAt": "2026-09-22T08:00:00Z",
+    "CreatedBy": "EMP-0006",
+    "LastChangedAt": "2026-09-22T08:00:00Z",
+    "OutstandingQuantity": "2.500",
+    "CanIssueReservation": true,
+    "CanCancelReservation": true
+  }
+]

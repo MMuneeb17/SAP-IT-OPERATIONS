@@ -1,8 +1,9 @@
 # SAP Fiori IT Operations Management System
 
-ITOMS connects Help Desk, IT Asset Lifecycle and MIS Inventory. Phases 0–4 provide
+ITOMS connects Help Desk, IT Asset Lifecycle and MIS Inventory. Phases 0–6 provide
 the architecture, OData V4 contract, local Help Desk and Asset Management modules,
-with validated ticket and asset lifecycle actions, without an SAP backend.
+with validated ticket, asset and inventory actions plus a guided repair workflow,
+without an SAP backend.
 
 ## Run locally
 
@@ -31,7 +32,7 @@ installation and SAPUI5 CDN resources; no SAP account or backend is needed.
 
 ```sh
 npm run doctor   # Node/Git and service configuration checks
-npm run validate:contract # Validate all 82 synthetic records against metadata
+npm run validate:contract # Validate all 99 synthetic records against metadata
 npm run build    # Build the Fiori application into apps/help-desk/dist
 npm test         # OData + actual browser smoke tests (Google Chrome required)
 ```
@@ -68,13 +69,19 @@ VS Code Insiders application on this machine already has SAP Fiori tools.
 - [Phase 3 completion report](docs/phase-3-report.md)
 - [Phase 4 asset lifecycle and API guide](docs/asset-lifecycle.md)
 - [Phase 4 completion report](docs/phase-4-report.md)
+- [Phases 5–6 inventory and integrated repair contract](docs/inventory-workflow.md)
+- [Phases 5–6 manual beginner guide](docs/beginner-guide-phases-5-6.md)
+- [Phases 5–6 implementation report](docs/phase-5-6-report.md)
 
 Choose **Asset Management** in Help Desk to open the asset list. **My IT Assets**
 shows equipment for a selected preview employee. Asset details include assignments,
 repairs, warranty, related tickets and lifecycle history.
 
 The app starts with 6 employees, 8 assets, 9 tickets, 14 comments, 31 ticket history
-events, 4 assignments, 2 repairs and 8 asset events. All data is synthetic.
+events, 4 assignments, 2 repairs, 8 asset events, 3 materials, 4 stock locations,
+2 reservations and 8 stock movements. All data is synthetic.
+Choose **MIS Inventory** to manage stock and reservations. Open **Repair workflow**
+on a ticket to diagnose the asset, request and issue parts, then complete repair.
 New tickets and workflow history persist in server
 memory until restart/fixture reload. Preview employee selection is not authentication;
 production backend persistence and authorization remain later phases.

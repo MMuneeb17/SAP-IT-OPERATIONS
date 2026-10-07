@@ -161,6 +161,8 @@
           <Annotation Term="Core.Computed" Bool="true"/>
           <Annotation Term="UI.Hidden" Bool="true"/>
         </Property>
+        <NavigationProperty Name="Reservations" Type="Collection(ITOperations.Reservation)" Partner="Ticket"/>
+        <NavigationProperty Name="StockTransactions" Type="Collection(ITOperations.StockTransaction)" Partner="Ticket"/>
       </EntityType>
       <EntityType Name="Asset">
         <Key>
@@ -254,6 +256,8 @@
         <NavigationProperty Name="Assignments" Type="Collection(ITOperations.AssetAssignment)" Partner="Asset"/>
         <NavigationProperty Name="Repairs" Type="Collection(ITOperations.AssetRepair)" Partner="Asset"/>
         <NavigationProperty Name="History" Type="Collection(ITOperations.AssetHistory)" Partner="Asset"/>
+        <NavigationProperty Name="Reservations" Type="Collection(ITOperations.Reservation)" Partner="Asset"/>
+        <NavigationProperty Name="StockTransactions" Type="Collection(ITOperations.StockTransaction)" Partner="Asset"/>
       </EntityType>
       <EntityType Name="TicketComment">
         <Key>
@@ -406,6 +410,8 @@
         <NavigationProperty Name="Technician" Type="ITOperations.Employee" Nullable="false">
           <ReferentialConstraint Property="TechnicianUUID" ReferencedProperty="EmployeeUUID"/>
         </NavigationProperty>
+        <NavigationProperty Name="Reservations" Type="Collection(ITOperations.Reservation)" Partner="Repair"/>
+        <NavigationProperty Name="StockTransactions" Type="Collection(ITOperations.StockTransaction)" Partner="Repair"/>
       </EntityType>
       <EntityType Name="AssetHistory">
         <Key>
@@ -452,6 +458,221 @@
         </NavigationProperty>
         <NavigationProperty Name="NewEmployee" Type="ITOperations.Employee" Nullable="true">
           <ReferentialConstraint Property="NewEmployeeUUID" ReferencedProperty="EmployeeUUID"/>
+        </NavigationProperty>
+      </EntityType>
+      <EntityType Name="Material">
+        <Key>
+          <PropertyRef Name="MaterialUUID"/>
+        </Key>
+        <Property Name="MaterialUUID" Type="Edm.Guid" Nullable="false">
+          <Annotation Term="Common.Label" String="Material ID"/>
+        </Property>
+        <Property Name="MaterialNumber" Type="Edm.String" Nullable="false" MaxLength="4000">
+          <Annotation Term="Common.Label" String="Material"/>
+        </Property>
+        <Property Name="Description" Type="Edm.String" Nullable="false" MaxLength="4000">
+          <Annotation Term="Common.Label" String="Description"/>
+        </Property>
+        <Property Name="Category" Type="Edm.String" Nullable="false" MaxLength="4000">
+          <Annotation Term="Common.Label" String="Category"/>
+        </Property>
+        <Property Name="UnitOfMeasure" Type="Edm.String" Nullable="false" MaxLength="4000">
+          <Annotation Term="Common.Label" String="Unit"/>
+        </Property>
+        <NavigationProperty Name="Stocks" Type="Collection(ITOperations.Stock)" Partner="Material"/>
+        <NavigationProperty Name="Reservations" Type="Collection(ITOperations.Reservation)" Partner="Material"/>
+        <NavigationProperty Name="StockTransactions" Type="Collection(ITOperations.StockTransaction)" Partner="Material"/>
+      </EntityType>
+      <EntityType Name="Stock">
+        <Key>
+          <PropertyRef Name="StockUUID"/>
+        </Key>
+        <Property Name="StockUUID" Type="Edm.Guid" Nullable="false">
+          <Annotation Term="Common.Label" String="Stock ID"/>
+        </Property>
+        <Property Name="MaterialUUID" Type="Edm.Guid" Nullable="false">
+          <Annotation Term="Common.Label" String="Material ID"/>
+        </Property>
+        <Property Name="StockLabel" Type="Edm.String" Nullable="false" MaxLength="4000">
+          <Annotation Term="Common.Label" String="Material / location"/>
+        </Property>
+        <Property Name="StorageLocation" Type="Edm.String" Nullable="false" MaxLength="4000">
+          <Annotation Term="Common.Label" String="Storage location"/>
+        </Property>
+        <Property Name="UnitOfMeasure" Type="Edm.String" Nullable="false" MaxLength="4000">
+          <Annotation Term="Common.Label" String="Unit"/>
+        </Property>
+        <Property Name="PhysicalQuantity" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3">
+          <Annotation Term="Common.Label" String="Physical quantity"/>
+        </Property>
+        <Property Name="ReservedQuantity" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3">
+          <Annotation Term="Common.Label" String="Reserved quantity"/>
+        </Property>
+        <Property Name="AvailableQuantity" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3">
+          <Annotation Term="Common.Label" String="Available quantity"/>
+        </Property>
+        <Property Name="ReorderLevel" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3">
+          <Annotation Term="Common.Label" String="Reorder level"/>
+        </Property>
+        <Property Name="LowStock" Type="Edm.Boolean" Nullable="false">
+          <Annotation Term="Common.Label" String="Low stock"/>
+        </Property>
+        <Property Name="StockCriticality" Type="Edm.Int32" Nullable="false">
+          <Annotation Term="Common.Label" String="Stock criticality"/>
+        </Property>
+        <Property Name="LastChangedAt" Type="Edm.DateTimeOffset" Nullable="false">
+          <Annotation Term="Common.Label" String="Changed at"/>
+        </Property>
+        <NavigationProperty Name="Material" Type="ITOperations.Material" Nullable="false" Partner="Stocks">
+          <ReferentialConstraint Property="MaterialUUID" ReferencedProperty="MaterialUUID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Reservations" Type="Collection(ITOperations.Reservation)" Partner="Stock"/>
+        <NavigationProperty Name="StockTransactions" Type="Collection(ITOperations.StockTransaction)" Partner="Stock"/>
+      </EntityType>
+      <EntityType Name="Reservation">
+        <Key>
+          <PropertyRef Name="ReservationUUID"/>
+        </Key>
+        <Property Name="ReservationUUID" Type="Edm.Guid" Nullable="false">
+          <Annotation Term="Common.Label" String="Reservation ID"/>
+        </Property>
+        <Property Name="MaterialUUID" Type="Edm.Guid" Nullable="false">
+          <Annotation Term="Common.Label" String="Material ID"/>
+        </Property>
+        <Property Name="StockUUID" Type="Edm.Guid" Nullable="false">
+          <Annotation Term="Common.Label" String="Stock ID"/>
+        </Property>
+        <Property Name="TicketUUID" Type="Edm.Guid" Nullable="true">
+          <Annotation Term="Common.Label" String="Ticket ID"/>
+        </Property>
+        <Property Name="AssetUUID" Type="Edm.Guid" Nullable="true">
+          <Annotation Term="Common.Label" String="Asset ID"/>
+        </Property>
+        <Property Name="AssetRepairUUID" Type="Edm.Guid" Nullable="true">
+          <Annotation Term="Common.Label" String="Repair ID"/>
+        </Property>
+        <Property Name="Quantity" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3">
+          <Annotation Term="Common.Label" String="Requested quantity"/>
+        </Property>
+        <Property Name="IssuedQuantity" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3">
+          <Annotation Term="Common.Label" String="Issued quantity"/>
+        </Property>
+        <Property Name="OutstandingQuantity" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3">
+          <Annotation Term="Common.Label" String="Remaining quantity"/>
+        </Property>
+        <Property Name="Status" Type="Edm.String" Nullable="false" MaxLength="4000">
+          <Annotation Term="Common.Label" String="Status"/>
+        </Property>
+        <Property Name="Reason" Type="Edm.String" Nullable="false" MaxLength="4000">
+          <Annotation Term="Common.Label" String="Request reason"/>
+        </Property>
+        <Property Name="CancelReason" Type="Edm.String" Nullable="true" MaxLength="4000">
+          <Annotation Term="Common.Label" String="Cancellation reason"/>
+        </Property>
+        <Property Name="CreatedAt" Type="Edm.DateTimeOffset" Nullable="false">
+          <Annotation Term="Common.Label" String="Requested at"/>
+        </Property>
+        <Property Name="CreatedBy" Type="Edm.String" Nullable="false" MaxLength="4000">
+          <Annotation Term="Common.Label" String="Requested by"/>
+        </Property>
+        <Property Name="LastChangedAt" Type="Edm.DateTimeOffset" Nullable="false">
+          <Annotation Term="Common.Label" String="Changed at"/>
+        </Property>
+        <Property Name="CanIssueReservation" Type="Edm.Boolean" Nullable="false">
+          <Annotation Term="Common.Label" String="Can issue"/>
+        </Property>
+        <Property Name="CanCancelReservation" Type="Edm.Boolean" Nullable="false">
+          <Annotation Term="Common.Label" String="Can cancel"/>
+        </Property>
+        <NavigationProperty Name="Material" Type="ITOperations.Material" Nullable="false" Partner="Reservations">
+          <ReferentialConstraint Property="MaterialUUID" ReferencedProperty="MaterialUUID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Stock" Type="ITOperations.Stock" Nullable="false" Partner="Reservations">
+          <ReferentialConstraint Property="StockUUID" ReferencedProperty="StockUUID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Ticket" Type="ITOperations.Ticket" Nullable="true" Partner="Reservations">
+          <ReferentialConstraint Property="TicketUUID" ReferencedProperty="TicketUUID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Asset" Type="ITOperations.Asset" Nullable="true" Partner="Reservations">
+          <ReferentialConstraint Property="AssetUUID" ReferencedProperty="AssetUUID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Repair" Type="ITOperations.AssetRepair" Nullable="true" Partner="Reservations">
+          <ReferentialConstraint Property="AssetRepairUUID" ReferencedProperty="AssetRepairUUID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Transactions" Type="Collection(ITOperations.StockTransaction)" Partner="Reservation"/>
+      </EntityType>
+      <EntityType Name="StockTransaction">
+        <Key>
+          <PropertyRef Name="StockTransactionUUID"/>
+        </Key>
+        <Property Name="StockTransactionUUID" Type="Edm.Guid" Nullable="false">
+          <Annotation Term="Common.Label" String="Movement ID"/>
+        </Property>
+        <Property Name="MaterialUUID" Type="Edm.Guid" Nullable="false">
+          <Annotation Term="Common.Label" String="Material ID"/>
+        </Property>
+        <Property Name="StockUUID" Type="Edm.Guid" Nullable="false">
+          <Annotation Term="Common.Label" String="Stock ID"/>
+        </Property>
+        <Property Name="ReservationUUID" Type="Edm.Guid" Nullable="true">
+          <Annotation Term="Common.Label" String="Reservation ID"/>
+        </Property>
+        <Property Name="TicketUUID" Type="Edm.Guid" Nullable="true">
+          <Annotation Term="Common.Label" String="Ticket ID"/>
+        </Property>
+        <Property Name="AssetUUID" Type="Edm.Guid" Nullable="true">
+          <Annotation Term="Common.Label" String="Asset ID"/>
+        </Property>
+        <Property Name="AssetRepairUUID" Type="Edm.Guid" Nullable="true">
+          <Annotation Term="Common.Label" String="Repair ID"/>
+        </Property>
+        <Property Name="MovementType" Type="Edm.String" Nullable="false" MaxLength="4000">
+          <Annotation Term="Common.Label" String="Movement"/>
+        </Property>
+        <Property Name="Quantity" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3">
+          <Annotation Term="Common.Label" String="Quantity"/>
+        </Property>
+        <Property Name="PhysicalDelta" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3">
+          <Annotation Term="Common.Label" String="Physical change"/>
+        </Property>
+        <Property Name="ReservedDelta" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3">
+          <Annotation Term="Common.Label" String="Reserved change"/>
+        </Property>
+        <Property Name="UnitOfMeasure" Type="Edm.String" Nullable="false" MaxLength="4000">
+          <Annotation Term="Common.Label" String="Unit"/>
+        </Property>
+        <Property Name="TransferUUID" Type="Edm.Guid" Nullable="true">
+          <Annotation Term="Common.Label" String="Transfer pair"/>
+        </Property>
+        <Property Name="OriginalTransactionUUID" Type="Edm.Guid" Nullable="true">
+          <Annotation Term="Common.Label" String="Original issue"/>
+        </Property>
+        <Property Name="Reason" Type="Edm.String" Nullable="false" MaxLength="4000">
+          <Annotation Term="Common.Label" String="Reason"/>
+        </Property>
+        <Property Name="CreatedAt" Type="Edm.DateTimeOffset" Nullable="false">
+          <Annotation Term="Common.Label" String="Recorded at"/>
+        </Property>
+        <Property Name="CreatedBy" Type="Edm.String" Nullable="false" MaxLength="4000">
+          <Annotation Term="Common.Label" String="Actor"/>
+        </Property>
+        <NavigationProperty Name="Material" Type="ITOperations.Material" Nullable="false" Partner="StockTransactions">
+          <ReferentialConstraint Property="MaterialUUID" ReferencedProperty="MaterialUUID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Stock" Type="ITOperations.Stock" Nullable="false" Partner="StockTransactions">
+          <ReferentialConstraint Property="StockUUID" ReferencedProperty="StockUUID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Ticket" Type="ITOperations.Ticket" Nullable="true" Partner="StockTransactions">
+          <ReferentialConstraint Property="TicketUUID" ReferencedProperty="TicketUUID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Asset" Type="ITOperations.Asset" Nullable="true" Partner="StockTransactions">
+          <ReferentialConstraint Property="AssetUUID" ReferencedProperty="AssetUUID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Repair" Type="ITOperations.AssetRepair" Nullable="true" Partner="StockTransactions">
+          <ReferentialConstraint Property="AssetRepairUUID" ReferencedProperty="AssetRepairUUID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Reservation" Type="ITOperations.Reservation" Nullable="true" Partner="Transactions">
+          <ReferentialConstraint Property="ReservationUUID" ReferencedProperty="ReservationUUID"/>
         </NavigationProperty>
       </EntityType>
       <EntityContainer Name="Container">
@@ -506,6 +727,8 @@
               <PropertyValue Property="Searchable" Bool="true"/>
             </Record>
           </Annotation>
+          <NavigationPropertyBinding Path="Reservations" Target="Reservations"/>
+          <NavigationPropertyBinding Path="StockTransactions" Target="StockTransactions"/>
         </EntitySet>
         <EntitySet Name="Assets" EntityType="ITOperations.Asset">
           <NavigationPropertyBinding Path="CurrentEmployee" Target="Employees"/>
@@ -533,6 +756,8 @@
           <NavigationPropertyBinding Path="Assignments" Target="AssetAssignments"/>
           <NavigationPropertyBinding Path="Repairs" Target="AssetRepairs"/>
           <NavigationPropertyBinding Path="History" Target="AssetHistory"/>
+          <NavigationPropertyBinding Path="Reservations" Target="Reservations"/>
+          <NavigationPropertyBinding Path="StockTransactions" Target="StockTransactions"/>
         </EntitySet>
         <EntitySet Name="TicketComments" EntityType="ITOperations.TicketComment">
           <NavigationPropertyBinding Path="Ticket" Target="Tickets"/>
@@ -630,6 +855,8 @@
               <PropertyValue Property="Searchable" Bool="false"/>
             </Record>
           </Annotation>
+          <NavigationPropertyBinding Path="Reservations" Target="Reservations"/>
+          <NavigationPropertyBinding Path="StockTransactions" Target="StockTransactions"/>
         </EntitySet>
         <EntitySet Name="AssetHistory" EntityType="ITOperations.AssetHistory">
           <NavigationPropertyBinding Path="Asset" Target="Assets"/>
@@ -656,6 +883,112 @@
               <PropertyValue Property="Searchable" Bool="false"/>
             </Record>
           </Annotation>
+        </EntitySet>
+        <EntitySet Name="Materials" EntityType="ITOperations.Material">
+          <Annotation Term="Capabilities.InsertRestrictions">
+            <Record>
+              <PropertyValue Property="Insertable" Bool="false"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Capabilities.UpdateRestrictions">
+            <Record>
+              <PropertyValue Property="Updatable" Bool="false"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Capabilities.DeleteRestrictions">
+            <Record>
+              <PropertyValue Property="Deletable" Bool="false"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Capabilities.SearchRestrictions">
+            <Record>
+              <PropertyValue Property="Searchable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <NavigationPropertyBinding Path="Stocks" Target="Stocks"/>
+          <NavigationPropertyBinding Path="Reservations" Target="Reservations"/>
+          <NavigationPropertyBinding Path="StockTransactions" Target="StockTransactions"/>
+        </EntitySet>
+        <EntitySet Name="Stocks" EntityType="ITOperations.Stock">
+          <Annotation Term="Capabilities.InsertRestrictions">
+            <Record>
+              <PropertyValue Property="Insertable" Bool="false"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Capabilities.UpdateRestrictions">
+            <Record>
+              <PropertyValue Property="Updatable" Bool="false"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Capabilities.DeleteRestrictions">
+            <Record>
+              <PropertyValue Property="Deletable" Bool="false"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Capabilities.SearchRestrictions">
+            <Record>
+              <PropertyValue Property="Searchable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <NavigationPropertyBinding Path="Material" Target="Materials"/>
+          <NavigationPropertyBinding Path="Reservations" Target="Reservations"/>
+          <NavigationPropertyBinding Path="StockTransactions" Target="StockTransactions"/>
+        </EntitySet>
+        <EntitySet Name="Reservations" EntityType="ITOperations.Reservation">
+          <Annotation Term="Capabilities.InsertRestrictions">
+            <Record>
+              <PropertyValue Property="Insertable" Bool="false"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Capabilities.UpdateRestrictions">
+            <Record>
+              <PropertyValue Property="Updatable" Bool="false"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Capabilities.DeleteRestrictions">
+            <Record>
+              <PropertyValue Property="Deletable" Bool="false"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Capabilities.SearchRestrictions">
+            <Record>
+              <PropertyValue Property="Searchable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <NavigationPropertyBinding Path="Material" Target="Materials"/>
+          <NavigationPropertyBinding Path="Stock" Target="Stocks"/>
+          <NavigationPropertyBinding Path="Ticket" Target="Tickets"/>
+          <NavigationPropertyBinding Path="Asset" Target="Assets"/>
+          <NavigationPropertyBinding Path="Repair" Target="AssetRepairs"/>
+          <NavigationPropertyBinding Path="Transactions" Target="StockTransactions"/>
+        </EntitySet>
+        <EntitySet Name="StockTransactions" EntityType="ITOperations.StockTransaction">
+          <Annotation Term="Capabilities.InsertRestrictions">
+            <Record>
+              <PropertyValue Property="Insertable" Bool="false"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Capabilities.UpdateRestrictions">
+            <Record>
+              <PropertyValue Property="Updatable" Bool="false"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Capabilities.DeleteRestrictions">
+            <Record>
+              <PropertyValue Property="Deletable" Bool="false"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Capabilities.SearchRestrictions">
+            <Record>
+              <PropertyValue Property="Searchable" Bool="true"/>
+            </Record>
+          </Annotation>
+          <NavigationPropertyBinding Path="Material" Target="Materials"/>
+          <NavigationPropertyBinding Path="Stock" Target="Stocks"/>
+          <NavigationPropertyBinding Path="Ticket" Target="Tickets"/>
+          <NavigationPropertyBinding Path="Asset" Target="Assets"/>
+          <NavigationPropertyBinding Path="Repair" Target="AssetRepairs"/>
+          <NavigationPropertyBinding Path="Reservation" Target="Reservations"/>
         </EntitySet>
       </EntityContainer>
       <Action Name="Submit" IsBound="true" EntitySetPath="ticket">
@@ -1056,6 +1389,340 @@
           </Record>
         </Annotation>
       </Action>
+      <Action Name="ReceiveStock" IsBound="true" EntitySetPath="item">
+        <Parameter Name="item" Type="ITOperations.Stock" Nullable="false"/>
+        <Parameter Name="Quantity" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3">
+          <Annotation Term="Common.Label" String="Quantity"/>
+        </Parameter>
+        <Parameter Name="Reason" Type="Edm.String" Nullable="false" MaxLength="500">
+          <Annotation Term="Common.Label" String="Reason"/>
+          <Annotation Term="UI.MultiLineText" Bool="true"/>
+        </Parameter>
+        <ReturnType Type="ITOperations.Stock" Nullable="false"/>
+        <Annotation Term="Common.SideEffects">
+          <Record Type="Common.SideEffectsType">
+            <PropertyValue Property="TargetEntities">
+              <Collection>
+                <NavigationPropertyPath>item</NavigationPropertyPath>
+                <NavigationPropertyPath>item/Reservations</NavigationPropertyPath>
+                <NavigationPropertyPath>item/StockTransactions</NavigationPropertyPath>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Action>
+      <Action Name="ReserveStock" IsBound="true" EntitySetPath="item">
+        <Parameter Name="item" Type="ITOperations.Stock" Nullable="false"/>
+        <Parameter Name="Quantity" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3">
+          <Annotation Term="Common.Label" String="Quantity"/>
+        </Parameter>
+        <Parameter Name="Reason" Type="Edm.String" Nullable="false" MaxLength="500">
+          <Annotation Term="Common.Label" String="Reason"/>
+          <Annotation Term="UI.MultiLineText" Bool="true"/>
+        </Parameter>
+        <Parameter Name="TicketUUID" Type="Edm.Guid" Nullable="true">
+          <Annotation Term="Common.Label" String="Ticket"/>
+        </Parameter>
+        <Parameter Name="AssetUUID" Type="Edm.Guid" Nullable="true">
+          <Annotation Term="Common.Label" String="Asset"/>
+        </Parameter>
+        <Parameter Name="AssetRepairUUID" Type="Edm.Guid" Nullable="true">
+          <Annotation Term="Common.Label" String="Repair"/>
+        </Parameter>
+        <ReturnType Type="ITOperations.Stock" Nullable="false"/>
+        <Annotation Term="Common.SideEffects">
+          <Record Type="Common.SideEffectsType">
+            <PropertyValue Property="TargetEntities">
+              <Collection>
+                <NavigationPropertyPath>item</NavigationPropertyPath>
+                <NavigationPropertyPath>item/Reservations</NavigationPropertyPath>
+                <NavigationPropertyPath>item/StockTransactions</NavigationPropertyPath>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Action>
+      <Action Name="TransferStock" IsBound="true" EntitySetPath="item">
+        <Parameter Name="item" Type="ITOperations.Stock" Nullable="false"/>
+        <Parameter Name="TargetStockUUID" Type="Edm.Guid" Nullable="false">
+          <Annotation Term="Common.Label" String="Destination stock"/>
+        </Parameter>
+        <Parameter Name="Quantity" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3">
+          <Annotation Term="Common.Label" String="Quantity"/>
+        </Parameter>
+        <Parameter Name="Reason" Type="Edm.String" Nullable="false" MaxLength="500">
+          <Annotation Term="Common.Label" String="Reason"/>
+          <Annotation Term="UI.MultiLineText" Bool="true"/>
+        </Parameter>
+        <ReturnType Type="ITOperations.Stock" Nullable="false"/>
+        <Annotation Term="Common.SideEffects">
+          <Record Type="Common.SideEffectsType">
+            <PropertyValue Property="TargetEntities">
+              <Collection>
+                <NavigationPropertyPath>item</NavigationPropertyPath>
+                <NavigationPropertyPath>item/Reservations</NavigationPropertyPath>
+                <NavigationPropertyPath>item/StockTransactions</NavigationPropertyPath>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Action>
+      <Action Name="ReturnStock" IsBound="true" EntitySetPath="item">
+        <Parameter Name="item" Type="ITOperations.Stock" Nullable="false"/>
+        <Parameter Name="IssueTransactionUUID" Type="Edm.Guid" Nullable="false">
+          <Annotation Term="Common.Label" String="Original issue"/>
+        </Parameter>
+        <Parameter Name="Quantity" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3">
+          <Annotation Term="Common.Label" String="Quantity"/>
+        </Parameter>
+        <Parameter Name="Reason" Type="Edm.String" Nullable="false" MaxLength="500">
+          <Annotation Term="Common.Label" String="Reason"/>
+          <Annotation Term="UI.MultiLineText" Bool="true"/>
+        </Parameter>
+        <ReturnType Type="ITOperations.Stock" Nullable="false"/>
+        <Annotation Term="Common.SideEffects">
+          <Record Type="Common.SideEffectsType">
+            <PropertyValue Property="TargetEntities">
+              <Collection>
+                <NavigationPropertyPath>item</NavigationPropertyPath>
+                <NavigationPropertyPath>item/Reservations</NavigationPropertyPath>
+                <NavigationPropertyPath>item/StockTransactions</NavigationPropertyPath>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Action>
+      <Action Name="AdjustStock" IsBound="true" EntitySetPath="item">
+        <Parameter Name="item" Type="ITOperations.Stock" Nullable="false"/>
+        <Parameter Name="Quantity" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3">
+          <Annotation Term="Common.Label" String="Quantity"/>
+        </Parameter>
+        <Parameter Name="Reason" Type="Edm.String" Nullable="false" MaxLength="500">
+          <Annotation Term="Common.Label" String="Reason"/>
+          <Annotation Term="UI.MultiLineText" Bool="true"/>
+        </Parameter>
+        <ReturnType Type="ITOperations.Stock" Nullable="false"/>
+        <Annotation Term="Common.SideEffects">
+          <Record Type="Common.SideEffectsType">
+            <PropertyValue Property="TargetEntities">
+              <Collection>
+                <NavigationPropertyPath>item</NavigationPropertyPath>
+                <NavigationPropertyPath>item/Reservations</NavigationPropertyPath>
+                <NavigationPropertyPath>item/StockTransactions</NavigationPropertyPath>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Action>
+      <Action Name="IssueReservation" IsBound="true" EntitySetPath="item">
+        <Parameter Name="item" Type="ITOperations.Reservation" Nullable="false"/>
+        <Parameter Name="Quantity" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3">
+          <Annotation Term="Common.Label" String="Quantity"/>
+        </Parameter>
+        <Parameter Name="Reason" Type="Edm.String" Nullable="false" MaxLength="500">
+          <Annotation Term="Common.Label" String="Reason"/>
+          <Annotation Term="UI.MultiLineText" Bool="true"/>
+        </Parameter>
+        <ReturnType Type="ITOperations.Reservation" Nullable="false"/>
+        <Annotation Term="Core.OperationAvailable" Path="item/CanIssueReservation"/>
+        <Annotation Term="Common.SideEffects">
+          <Record Type="Common.SideEffectsType">
+            <PropertyValue Property="TargetEntities">
+              <Collection>
+                <NavigationPropertyPath>item</NavigationPropertyPath>
+                <NavigationPropertyPath>item/Stock</NavigationPropertyPath>
+                <NavigationPropertyPath>item/Transactions</NavigationPropertyPath>
+                <NavigationPropertyPath>item/Ticket</NavigationPropertyPath>
+                <NavigationPropertyPath>item/Asset</NavigationPropertyPath>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Action>
+      <Action Name="CancelReservation" IsBound="true" EntitySetPath="item">
+        <Parameter Name="item" Type="ITOperations.Reservation" Nullable="false"/>
+        <Parameter Name="Reason" Type="Edm.String" Nullable="false" MaxLength="500">
+          <Annotation Term="Common.Label" String="Reason"/>
+          <Annotation Term="UI.MultiLineText" Bool="true"/>
+        </Parameter>
+        <ReturnType Type="ITOperations.Reservation" Nullable="false"/>
+        <Annotation Term="Core.OperationAvailable" Path="item/CanCancelReservation"/>
+        <Annotation Term="Common.SideEffects">
+          <Record Type="Common.SideEffectsType">
+            <PropertyValue Property="TargetEntities">
+              <Collection>
+                <NavigationPropertyPath>item</NavigationPropertyPath>
+                <NavigationPropertyPath>item/Stock</NavigationPropertyPath>
+                <NavigationPropertyPath>item/Transactions</NavigationPropertyPath>
+                <NavigationPropertyPath>item/Ticket</NavigationPropertyPath>
+                <NavigationPropertyPath>item/Asset</NavigationPropertyPath>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Action>
+      <Action Name="RequestPart" IsBound="true" EntitySetPath="item">
+        <Parameter Name="item" Type="ITOperations.Ticket" Nullable="false"/>
+        <Parameter Name="StockUUID" Type="Edm.Guid" Nullable="false">
+          <Annotation Term="Common.Label" String="Stock location"/>
+        </Parameter>
+        <Parameter Name="Quantity" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3">
+          <Annotation Term="Common.Label" String="Quantity"/>
+        </Parameter>
+        <Parameter Name="Reason" Type="Edm.String" Nullable="false" MaxLength="500">
+          <Annotation Term="Common.Label" String="Reason"/>
+          <Annotation Term="UI.MultiLineText" Bool="true"/>
+        </Parameter>
+        <ReturnType Type="ITOperations.Ticket" Nullable="false"/>
+        <Annotation Term="Common.SideEffects">
+          <Record Type="Common.SideEffectsType">
+            <PropertyValue Property="TargetEntities">
+              <Collection>
+                <NavigationPropertyPath>item</NavigationPropertyPath>
+                <NavigationPropertyPath>item/Reservations</NavigationPropertyPath>
+                <NavigationPropertyPath>item/StockTransactions</NavigationPropertyPath>
+                <NavigationPropertyPath>item/History</NavigationPropertyPath>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Action>
+      <Annotations Target="ITOperations.RequestPart(ITOperations.Ticket)/StockUUID">
+        <Annotation Term="Common.ValueList">
+          <Record Type="Common.ValueListType">
+            <PropertyValue Property="CollectionPath" String="Stocks"/>
+            <PropertyValue Property="Parameters">
+              <Collection>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="StockUUID"/>
+                  <PropertyValue Property="ValueListProperty" String="StockUUID"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="StockLabel"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="AvailableQuantity"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="UnitOfMeasure"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="ITOperations.TransferStock(ITOperations.Stock)/TargetStockUUID">
+        <Annotation Term="Common.ValueList">
+          <Record Type="Common.ValueListType">
+            <PropertyValue Property="CollectionPath" String="Stocks"/>
+            <PropertyValue Property="Parameters">
+              <Collection>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="TargetStockUUID"/>
+                  <PropertyValue Property="ValueListProperty" String="StockUUID"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="StockLabel"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="AvailableQuantity"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="ITOperations.ReturnStock(ITOperations.Stock)/IssueTransactionUUID">
+        <Annotation Term="Common.ValueList">
+          <Record Type="Common.ValueListType">
+            <PropertyValue Property="CollectionPath" String="StockTransactions"/>
+            <PropertyValue Property="Parameters">
+              <Collection>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="IssueTransactionUUID"/>
+                  <PropertyValue Property="ValueListProperty" String="StockTransactionUUID"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="MovementType"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="Quantity"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="CreatedAt"/>
+                </Record>
+                <Record Type="Common.ValueListParameterConstant">
+                  <PropertyValue Property="Constant" String="ISSUE"/>
+                  <PropertyValue Property="ValueListProperty" String="MovementType"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="ITOperations.ReserveStock(ITOperations.Stock)/TicketUUID">
+        <Annotation Term="Common.ValueList">
+          <Record Type="Common.ValueListType">
+            <PropertyValue Property="CollectionPath" String="Tickets"/>
+            <PropertyValue Property="Parameters">
+              <Collection>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="TicketUUID"/>
+                  <PropertyValue Property="ValueListProperty" String="TicketUUID"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="TicketNumber"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="Subject"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="ITOperations.ReserveStock(ITOperations.Stock)/AssetUUID">
+        <Annotation Term="Common.ValueList">
+          <Record Type="Common.ValueListType">
+            <PropertyValue Property="CollectionPath" String="Assets"/>
+            <PropertyValue Property="Parameters">
+              <Collection>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="AssetUUID"/>
+                  <PropertyValue Property="ValueListProperty" String="AssetUUID"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="AssetTag"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="Model"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="ITOperations.ReserveStock(ITOperations.Stock)/AssetRepairUUID">
+        <Annotation Term="Common.ValueList">
+          <Record Type="Common.ValueListType">
+            <PropertyValue Property="CollectionPath" String="AssetRepairs"/>
+            <PropertyValue Property="Parameters">
+              <Collection>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="AssetRepairUUID"/>
+                  <PropertyValue Property="ValueListProperty" String="AssetRepairUUID"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="Diagnosis"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="Status"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
     </Schema>
   </edmx:DataServices>
 </edmx:Edmx>

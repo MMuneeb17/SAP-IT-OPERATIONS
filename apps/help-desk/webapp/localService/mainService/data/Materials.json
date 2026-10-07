@@ -1,0 +1,23 @@
+[
+  {
+    "MaterialUUID": "00000009-0000-4000-8000-000000000001",
+    "MaterialNumber": "SSD-512",
+    "Description": "512 GB replacement SSD",
+    "Category": "Storage",
+    "UnitOfMeasure": "EA"
+  },
+  {
+    "MaterialUUID": "00000009-0000-4000-8000-000000000002",
+    "MaterialNumber": "DOCK-CABLE",
+    "Description": "USB-C docking cable",
+    "Category": "Cables",
+    "UnitOfMeasure": "EA"
+  },
+  {
+    "MaterialUUID": "00000009-0000-4000-8000-000000000003",
+    "MaterialNumber": "CAT6",
+    "Description": "Cat6 network cable",
+    "Category": "Cables",
+    "UnitOfMeasure": "M"
+  }
+]

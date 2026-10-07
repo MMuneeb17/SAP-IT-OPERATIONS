@@ -39,6 +39,7 @@ module.exports = {
   onBeforeUpdateEntry() { this.throwError('Ticket fields and status cannot be patched directly. Use a workflow action.', 405); },
   removeEntry() { this.throwError('Tickets with audit history cannot be deleted.', 405); },
   executeAction(definition, parameters, keys, request) {
+    if (definition.name.split('.').at(-1) === 'RequestPart') return require('./_inventory').execute(this, 'Tickets', 'RequestPart', parameters, keys, request);
     return serialize(async () => {
       const action = definition.name.split('.').at(-1);
       const transition = transitions[action];
@@ -64,6 +65,12 @@ module.exports = {
         if (!actorUUID) fail(this, 'Assign a technician before starting work.', 409);
       }
       if (action === 'Resolve') {
+        const repairs = await this.base.getEntityInterface('AssetRepairs');
+        const reservations = await this.base.getEntityInterface('Reservations');
+        if ((await repairs.fetchEntries({ TicketUUID: current.TicketUUID }, request)).some(row => row.Status === 'OPEN') ||
+            (await reservations.fetchEntries({ TicketUUID: current.TicketUUID }, request)).some(row => ['OPEN', 'PARTIAL'].includes(row.Status))) {
+          fail(this, 'Complete linked repairs and issue or cancel outstanding part requests before resolving the ticket.', 409);
+        }
         reason = text(this, input.Resolution, 'Resolution', 4000);
         next.Resolution = reason;
       }

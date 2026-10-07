@@ -158,6 +158,16 @@
               <PropertyValue Property="Label" String="History"/>
               <PropertyValue Property="Target" AnnotationPath="History/@UI.LineItem"/>
             </Record>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="Parts"/>
+              <PropertyValue Property="Label" String="Part requests"/>
+              <PropertyValue Property="Target" AnnotationPath="Reservations/@UI.LineItem"/>
+            </Record>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="Movements"/>
+              <PropertyValue Property="Label" String="Part movements"/>
+              <PropertyValue Property="Target" AnnotationPath="StockTransactions/@UI.LineItem"/>
+            </Record>
           </Collection>
         </Annotation>
         <Annotation Term="UI.Identification">
@@ -465,6 +475,16 @@
               <PropertyValue Property="Label" String="Lifecycle history"/>
               <PropertyValue Property="Target" AnnotationPath="History/@UI.LineItem"/>
             </Record>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="Parts"/>
+              <PropertyValue Property="Label" String="Part requests"/>
+              <PropertyValue Property="Target" AnnotationPath="Reservations/@UI.LineItem"/>
+            </Record>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="Movements"/>
+              <PropertyValue Property="Label" String="Part movements"/>
+              <PropertyValue Property="Target" AnnotationPath="StockTransactions/@UI.LineItem"/>
+            </Record>
           </Collection>
         </Annotation>
         <Annotation Term="UI.Identification">
@@ -626,6 +646,511 @@
               <PropertyValue Property="Value" Path="Reason"/>
             </Record>
           </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="ITOperations.Material">
+        <Annotation Term="UI.HeaderInfo">
+          <Record Type="UI.HeaderInfoType">
+            <PropertyValue Property="TypeName" String="Material"/>
+            <PropertyValue Property="TypeNamePlural" String="Materials"/>
+            <PropertyValue Property="Title">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="MaterialNumber"/>
+              </Record>
+            </PropertyValue>
+            <PropertyValue Property="Description">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="Description"/>
+              </Record>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="MaterialNumber"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Description"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Category"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="UnitOfMeasure"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.SelectionFields">
+          <Collection>
+            <PropertyPath>MaterialNumber</PropertyPath>
+            <PropertyPath>Category</PropertyPath>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="Details">
+          <Record>
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="MaterialNumber"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Description"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Category"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="UnitOfMeasure"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.Facets">
+          <Collection>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="Details"/>
+              <PropertyValue Property="Label" String="Material details"/>
+              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#Details"/>
+            </Record>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="Stocks"/>
+              <PropertyValue Property="Label" String="Stock by location"/>
+              <PropertyValue Property="Target" AnnotationPath="Stocks/@UI.LineItem"/>
+            </Record>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="Reservations"/>
+              <PropertyValue Property="Label" String="Reservations"/>
+              <PropertyValue Property="Target" AnnotationPath="Reservations/@UI.LineItem"/>
+            </Record>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="Movements"/>
+              <PropertyValue Property="Label" String="Movement history"/>
+              <PropertyValue Property="Target" AnnotationPath="StockTransactions/@UI.LineItem"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.Identification">
+          <Collection/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="ITOperations.Stock">
+        <Annotation Term="UI.HeaderInfo">
+          <Record Type="UI.HeaderInfoType">
+            <PropertyValue Property="TypeName" String="Stock"/>
+            <PropertyValue Property="TypeNamePlural" String="Stock overview"/>
+            <PropertyValue Property="Title">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="StockLabel"/>
+              </Record>
+            </PropertyValue>
+            <PropertyValue Property="Description">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="StorageLocation"/>
+              </Record>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Material/MaterialNumber"/>
+              <PropertyValue Property="Label" String="Material"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="StorageLocation"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="PhysicalQuantity"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="ReservedQuantity"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="AvailableQuantity"/>
+              <PropertyValue Property="Criticality" Path="StockCriticality"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="UnitOfMeasure"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="ReorderLevel"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="LowStock"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.SelectionFields">
+          <Collection>
+            <PropertyPath>StorageLocation</PropertyPath>
+            <PropertyPath>LowStock</PropertyPath>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="Details">
+          <Record>
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Material/MaterialNumber"/>
+                  <PropertyValue Property="Label" String="Material"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="StorageLocation"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="PhysicalQuantity"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="ReservedQuantity"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="AvailableQuantity"/>
+                  <PropertyValue Property="Criticality" Path="StockCriticality"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="UnitOfMeasure"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="ReorderLevel"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="LowStock"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="LastChangedAt"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.Facets">
+          <Collection>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="Details"/>
+              <PropertyValue Property="Label" String="Stock details"/>
+              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#Details"/>
+            </Record>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="Reservations"/>
+              <PropertyValue Property="Label" String="Reservations"/>
+              <PropertyValue Property="Target" AnnotationPath="Reservations/@UI.LineItem"/>
+            </Record>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="Movements"/>
+              <PropertyValue Property="Label" String="Movement history"/>
+              <PropertyValue Property="Target" AnnotationPath="StockTransactions/@UI.LineItem"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.Identification">
+          <Collection>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Receive stock"/>
+              <PropertyValue Property="Action" String="ITOperations.ReceiveStock"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Reserve stock"/>
+              <PropertyValue Property="Action" String="ITOperations.ReserveStock"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Return stock"/>
+              <PropertyValue Property="Action" String="ITOperations.ReturnStock"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Transfer stock"/>
+              <PropertyValue Property="Action" String="ITOperations.TransferStock"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Adjust stock"/>
+              <PropertyValue Property="Action" String="ITOperations.AdjustStock"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="ITOperations.Reservation">
+        <Annotation Term="UI.HeaderInfo">
+          <Record Type="UI.HeaderInfoType">
+            <PropertyValue Property="TypeName" String="Reservation"/>
+            <PropertyValue Property="TypeNamePlural" String="Reservations"/>
+            <PropertyValue Property="Title">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="Material/MaterialNumber"/>
+              </Record>
+            </PropertyValue>
+            <PropertyValue Property="Description">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="Reason"/>
+              </Record>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Material/MaterialNumber"/>
+              <PropertyValue Property="Label" String="Material"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Stock/StorageLocation"/>
+              <PropertyValue Property="Label" String="Location"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Status"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Quantity"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="IssuedQuantity"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="OutstandingQuantity"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Ticket/TicketNumber"/>
+              <PropertyValue Property="Label" String="Ticket"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Asset/AssetTag"/>
+              <PropertyValue Property="Label" String="Asset"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.SelectionFields">
+          <Collection>
+            <PropertyPath>Status</PropertyPath>
+            <PropertyPath>MaterialUUID</PropertyPath>
+            <PropertyPath>TicketUUID</PropertyPath>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="Details">
+          <Record>
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Material/MaterialNumber"/>
+                  <PropertyValue Property="Label" String="Material"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Stock/StorageLocation"/>
+                  <PropertyValue Property="Label" String="Location"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Status"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Quantity"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="IssuedQuantity"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="OutstandingQuantity"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Ticket/TicketNumber"/>
+                  <PropertyValue Property="Label" String="Ticket"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Asset/AssetTag"/>
+                  <PropertyValue Property="Label" String="Asset"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Reason"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="CancelReason"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Repair/Diagnosis"/>
+                  <PropertyValue Property="Label" String="Repair diagnosis"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="CreatedAt"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="CreatedBy"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.Facets">
+          <Collection>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="Details"/>
+              <PropertyValue Property="Label" String="Reservation details"/>
+              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#Details"/>
+            </Record>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="Movements"/>
+              <PropertyValue Property="Label" String="Movement history"/>
+              <PropertyValue Property="Target" AnnotationPath="Transactions/@UI.LineItem"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.Identification">
+          <Collection>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Issue reservation"/>
+              <PropertyValue Property="Action" String="ITOperations.IssueReservation"/>
+              <Annotation Term="UI.Hidden">
+                <Not>
+                  <Path>CanIssueReservation</Path>
+                </Not>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Cancel reservation"/>
+              <PropertyValue Property="Action" String="ITOperations.CancelReservation"/>
+              <Annotation Term="UI.Hidden">
+                <Not>
+                  <Path>CanCancelReservation</Path>
+                </Not>
+              </Annotation>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="ITOperations.StockTransaction">
+        <Annotation Term="UI.HeaderInfo">
+          <Record Type="UI.HeaderInfoType">
+            <PropertyValue Property="TypeName" String="Movement"/>
+            <PropertyValue Property="TypeNamePlural" String="Stock movements"/>
+            <PropertyValue Property="Title">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="MovementType"/>
+              </Record>
+            </PropertyValue>
+            <PropertyValue Property="Description">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="Material/MaterialNumber"/>
+              </Record>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="CreatedAt"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="MovementType"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Material/MaterialNumber"/>
+              <PropertyValue Property="Label" String="Material"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Stock/StorageLocation"/>
+              <PropertyValue Property="Label" String="Location"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Quantity"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="UnitOfMeasure"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="PhysicalDelta"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="ReservedDelta"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Ticket/TicketNumber"/>
+              <PropertyValue Property="Label" String="Ticket"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Reason"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.SelectionFields">
+          <Collection>
+            <PropertyPath>MovementType</PropertyPath>
+            <PropertyPath>MaterialUUID</PropertyPath>
+            <PropertyPath>StockUUID</PropertyPath>
+            <PropertyPath>TicketUUID</PropertyPath>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="Details">
+          <Record>
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="CreatedAt"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="MovementType"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Material/MaterialNumber"/>
+                  <PropertyValue Property="Label" String="Material"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Stock/StorageLocation"/>
+                  <PropertyValue Property="Label" String="Location"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Quantity"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="UnitOfMeasure"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="PhysicalDelta"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="ReservedDelta"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Ticket/TicketNumber"/>
+                  <PropertyValue Property="Label" String="Ticket"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Reason"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Asset/AssetTag"/>
+                  <PropertyValue Property="Label" String="Asset"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Repair/Diagnosis"/>
+                  <PropertyValue Property="Label" String="Repair diagnosis"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="ReservationUUID"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="AssetRepairUUID"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="TransferUUID"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="OriginalTransactionUUID"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="CreatedBy"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.Facets">
+          <Collection>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="Details"/>
+              <PropertyValue Property="Label" String="Movement details"/>
+              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#Details"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.Identification">
+          <Collection/>
         </Annotation>
       </Annotations>
     </Schema>

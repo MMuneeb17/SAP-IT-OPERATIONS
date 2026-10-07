@@ -1,4 +1,4 @@
-# IT Operations OData service contract — phases 2–4
+# IT Operations OData service contract — phases 2–6
 
 The contract supports Fiori reads of Employees, Tickets, Assets, TicketComments
 and TicketHistory. Phase 3 adds validated ticket creation and workflow actions;
@@ -7,6 +7,12 @@ persistence and production authorization remain later work. Phase 4 adds
 AssetAssignments, AssetRepairs, AssetHistory and eight bound asset actions;
 their full field dictionary, navigation and rules are in the
 [asset lifecycle contract](asset-lifecycle.md).
+
+Phases 5–6 add Materials, Stocks, Reservations and StockTransactions, seven
+inventory actions and RequestPart on Tickets. The service has 12 entity sets,
+50 navigation properties and 99 seed records. The
+[inventory contract](inventory-workflow.md) defines the added fields, quantity rules,
+cross-module references and completion guards.
 
 ## Identity and source of truth
 

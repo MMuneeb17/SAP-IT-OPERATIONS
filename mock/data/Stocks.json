@@ -1,0 +1,58 @@
+[
+  {
+    "StockUUID": "00000010-0000-4000-8000-000000000001",
+    "MaterialUUID": "00000009-0000-4000-8000-000000000001",
+    "StockLabel": "SSD-512 — Karachi IT Store",
+    "StorageLocation": "Karachi IT Store",
+    "UnitOfMeasure": "EA",
+    "PhysicalQuantity": "10.000",
+    "ReservedQuantity": "0.000",
+    "ReorderLevel": "2.000",
+    "LastChangedAt": "2026-09-22T08:00:00Z",
+    "AvailableQuantity": "10.000",
+    "LowStock": false,
+    "StockCriticality": 3
+  },
+  {
+    "StockUUID": "00000010-0000-4000-8000-000000000002",
+    "MaterialUUID": "00000009-0000-4000-8000-000000000001",
+    "StockLabel": "SSD-512 — Lahore IT Store",
+    "StorageLocation": "Lahore IT Store",
+    "UnitOfMeasure": "EA",
+    "PhysicalQuantity": "3.000",
+    "ReservedQuantity": "0.000",
+    "ReorderLevel": "2.000",
+    "LastChangedAt": "2026-09-22T08:00:00Z",
+    "AvailableQuantity": "3.000",
+    "LowStock": false,
+    "StockCriticality": 3
+  },
+  {
+    "StockUUID": "00000010-0000-4000-8000-000000000003",
+    "MaterialUUID": "00000009-0000-4000-8000-000000000002",
+    "StockLabel": "DOCK-CABLE — Karachi IT Store",
+    "StorageLocation": "Karachi IT Store",
+    "UnitOfMeasure": "EA",
+    "PhysicalQuantity": "5.000",
+    "ReservedQuantity": "0.000",
+    "ReorderLevel": "2.000",
+    "LastChangedAt": "2026-09-22T08:00:00Z",
+    "AvailableQuantity": "5.000",
+    "LowStock": false,
+    "StockCriticality": 3
+  },
+  {
+    "StockUUID": "00000010-0000-4000-8000-000000000004",
+    "MaterialUUID": "00000009-0000-4000-8000-000000000003",
+    "StockLabel": "CAT6 — Karachi IT Store",
+    "StorageLocation": "Karachi IT Store",
+    "UnitOfMeasure": "M",
+    "PhysicalQuantity": "20.000",
+    "ReservedQuantity": "2.500",
+    "ReorderLevel": "5.000",
+    "LastChangedAt": "2026-09-22T08:00:00Z",
+    "AvailableQuantity": "17.500",
+    "LowStock": false,
+    "StockCriticality": 3
+  }
+]

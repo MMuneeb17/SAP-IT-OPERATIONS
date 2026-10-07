@@ -1,0 +1,47 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" controllerName="itoms.helpdesk.ext.inventory.RepairWorkspace">
+  <Page title="{i18n>repairWorkspace}" busy="{repair>/busy}" busyIndicatorDelay="0">
+    <headerContent><Button text="{i18n>viewTicket}" press=".onTicket"/><Button text="{i18n>inventory}" press=".onInventory"/></headerContent>
+    <content><VBox class="sapUiResponsiveContentPadding" width="100%">
+      <MessageStrip text="{i18n>repairPreviewNote}" type="Information" showIcon="true" class="sapUiSmallMarginBottom"/>
+      <MessageStrip text="{repair>/error}" visible="{= !!${repair>/error} }" type="Error" showIcon="true" class="sapUiSmallMarginBottom"/>
+      <ObjectHeader title="{repair>/ticket/TicketNumber}" intro="{repair>/ticket/Subject}" responsive="true">
+        <statuses><ObjectStatus text="{repair>/ticket/Status}"/></statuses>
+        <attributes><ObjectAttribute title="{i18n>assetTag}" text="{repair>/ticket/Asset/AssetTag}"/><ObjectAttribute title="{i18n>repairTechnician}" text="{repair>/ticket/Technician/DisplayName}"/></attributes>
+      </ObjectHeader>
+      <OverflowToolbar><Title text="{i18n>diagnosisAndRepair}" level="H2"/><ToolbarSpacer/><Button text="{i18n>refresh}" icon="sap-icon://refresh" press=".onRefresh"/></OverflowToolbar>
+      <Text text="{i18n>repairStartHelp}" class="sapUiSmallMarginTop sapUiSmallMarginBottom"/>
+      <ObjectStatus title="{i18n>openRepair}" text="{repair>/repair/Diagnosis}" visible="{= !!${repair>/repair} }" state="Information"/>
+      <f:SimpleForm editable="true" layout="ResponsiveGridLayout" columnsL="1" columnsM="1" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false">
+        <f:content><Label text="{i18n>diagnosis}" labelFor="diagnosis"/><TextArea id="diagnosis" value="{repair>/diagnosis}" rows="2" width="100%" maxLength="4000" enabled="{repair>/canStart}"/>
+          <Label/><Button text="{i18n>startRepair}" press=".onStartRepair" enabled="{repair>/canStart}"/>
+        </f:content>
+      </f:SimpleForm>
+      <Title text="{i18n>requestPart}" level="H2" class="sapUiSmallMarginTop"/>
+      <Text text="{i18n>requestPartHelp}" class="sapUiSmallMarginBottom"/>
+      <f:SimpleForm editable="true" layout="ResponsiveGridLayout" columnsL="1" columnsM="1" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false">
+        <f:content>
+          <Label text="{i18n>stockLocation}" labelFor="partStock"/><Select id="partStock" width="100%" selectedKey="{repair>/stock}" items="{repair>/stocks}" enabled="{repair>/canRequest}"><core:Item key="{repair>StockUUID}" text="{parts:[{path:'repair>StockLabel'},{path:'repair>AvailableQuantity'},{path:'repair>UnitOfMeasure'}],formatter:'.stockText'}"/></Select>
+          <Label text="{i18n>quantity}" labelFor="partQuantity"/><Input id="partQuantity" value="{repair>/quantity}" enabled="{repair>/canRequest}"/>
+          <Label text="{i18n>requestReason}" labelFor="partReason"/><TextArea id="partReason" value="{repair>/reason}" width="100%" rows="2" maxLength="500" enabled="{repair>/canRequest}"/>
+          <Label/><Button text="{i18n>requestPart}" type="Emphasized" enabled="{repair>/canRequest}" press=".onRequestPart"/>
+        </f:content>
+      </f:SimpleForm>
+      <Table items="{repair>/requests}" noDataText="{i18n>noPartRequests}" growing="true">
+        <headerToolbar><OverflowToolbar><Title text="{i18n>partRequests}" level="H2"/></OverflowToolbar></headerToolbar>
+        <columns><Column><Text text="{i18n>material}"/></Column><Column minScreenWidth="Tablet" demandPopin="true"><Text text="{i18n>stockLocation}"/></Column><Column><Text text="{i18n>status}"/></Column><Column minScreenWidth="Tablet" demandPopin="true"><Text text="{i18n>quantity}"/></Column><Column minScreenWidth="Tablet" demandPopin="true"><Text text="{i18n>issuedQuantity}"/></Column><Column minScreenWidth="Tablet" demandPopin="true"><Text text="{i18n>storeAction}"/></Column></columns>
+        <items><ColumnListItem><cells><Link text="{repair>Material/MaterialNumber}" press=".onOpenReservation"/><Text text="{repair>Stock/StorageLocation}"/><ObjectStatus text="{repair>Status}"/><Text text="{repair>Quantity}"/><Text text="{repair>IssuedQuantity}"/><Button text="{i18n>issueRemaining}" press=".onIssue" enabled="{repair>CanIssueReservation}"/></cells></ColumnListItem></items>
+      </Table>
+      <Title text="{i18n>completeRepair}" level="H2" class="sapUiMediumMarginTop"/>
+      <Text text="{i18n>completeRepairHelp}"/>
+      <f:SimpleForm editable="true" layout="ResponsiveGridLayout" columnsL="1" columnsM="1" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false"><f:content>
+        <Label text="{i18n>repairWork}" labelFor="repairWork"/><TextArea id="repairWork" value="{repair>/work}" rows="3" width="100%" maxLength="4000" enabled="{repair>/canComplete}"/>
+        <Label/><Button text="{i18n>completeRepair}" press=".onCompleteRepair" enabled="{repair>/canComplete}"/>
+      </f:content></f:SimpleForm>
+      <Table items="{repair>/movements}" noDataText="{i18n>noPartMovements}" growing="true">
+        <headerToolbar><OverflowToolbar><Title text="{i18n>partMovements}" level="H2"/></OverflowToolbar></headerToolbar>
+        <columns><Column><Text text="{i18n>material}"/></Column><Column><Text text="{i18n>movement}"/></Column><Column minScreenWidth="Tablet" demandPopin="true"><Text text="{i18n>quantity}"/></Column><Column minScreenWidth="Tablet" demandPopin="true"><Text text="{i18n>movementReason}"/></Column></columns>
+        <items><ColumnListItem><cells><Text text="{repair>Material/MaterialNumber}"/><Text text="{repair>MovementType}"/><Text text="{repair>Quantity}"/><Text text="{repair>Reason}"/></cells></ColumnListItem></items>
+      </Table>
+    </VBox></content>
+  </Page>
+</mvc:View>
