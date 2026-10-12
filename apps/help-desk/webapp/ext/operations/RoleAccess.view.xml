@@ -1,0 +1,20 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" controllerName="itoms.helpdesk.ext.operations.RoleAccess">
+  <Page title="{i18n>roleAccessTitle}" busy="{access>/busy}" busyIndicatorDelay="0"><headerContent><Button text="{i18n>helpDesk}" press=".onHelpDesk"/></headerContent>
+    <content><VBox class="sapUiResponsiveContentPadding">
+      <MessageStrip text="{i18n>slaRoleNote}" type="Information" showIcon="true" class="sapUiSmallMarginBottom"/>
+      <MessageStrip text="{access>/error}" type="Error" visible="{= !!${access>/error} }"/>
+      <Label text="{i18n>slaRole}" labelFor="previewRole"/><Select id="previewRole" width="100%" selectedKey="{access>/role}" items="{access>/roles}" change=".onRoleChange"><core:Item key="{access>code}" text="{access>name}"/></Select>
+      <Text text="{access>/description}" class="sapUiSmallMarginTop sapUiSmallMarginBottom"/>
+      <Title text="{i18n>slaAllowedPages}" level="H2"/>
+      <List items="{access>/pages}"><items><StandardListItem title="{access>name}" type="Navigation" press=".onOpen"/></items></List>
+      <Table items="{access>/actions}" growing="true" growingThreshold="50"><headerToolbar><OverflowToolbar><Title text="{i18n>slaAllowedActions}" level="H2"/></OverflowToolbar></headerToolbar>
+        <columns><Column><Text text="{i18n>slaOperation}"/></Column><Column minScreenWidth="Tablet" demandPopin="true"><Text text="{i18n>slaEntity}"/></Column><Column><Text text="{i18n>slaPermission}"/></Column></columns>
+        <items><ColumnListItem><cells><Text text="{access>name}"/><Text text="{access>entity}"/><ObjectStatus text="{path:'access>allowed',formatter:'.decision'}" state="{= ${access>allowed} ? 'Success' : 'None' }"/></cells></ColumnListItem></items>
+      </Table>
+      <Table items="{access>/entities}" growing="true"><headerToolbar><OverflowToolbar><Title text="{i18n>slaEntityScope}" level="H2"/></OverflowToolbar></headerToolbar>
+        <columns><Column><Text text="{i18n>slaEntity}"/></Column><Column><Text text="{i18n>slaScope}"/></Column></columns>
+        <items><ColumnListItem><cells><Text text="{access>name}"/><Text text="{access>scope}"/></cells></ColumnListItem></items>
+      </Table>
+    </VBox></content>
+  </Page>
+</mvc:View>

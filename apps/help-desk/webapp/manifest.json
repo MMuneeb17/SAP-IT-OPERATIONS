@@ -186,6 +186,21 @@
           "pattern": "Repair:?query:",
           "name": "RepairWorkspace",
           "target": "RepairWorkspace"
+        },
+        {
+          "pattern": "Operations:?query:",
+          "name": "Operations",
+          "target": "Operations"
+        },
+        {
+          "pattern": "RoleAccess:?query:",
+          "name": "RoleAccess",
+          "target": "RoleAccess"
+        },
+        {
+          "pattern": "InventoryItem:?query:",
+          "name": "InventoryItem",
+          "target": "InventoryItem"
         }
       ],
       "targets": {
@@ -223,6 +238,16 @@
                     "Inventory": {
                       "text": "{i18n>inventory}",
                       "press": "itoms.helpdesk.ext.Navigation.inventory",
+                      "requiresSelection": false
+                    },
+                    "Operations": {
+                      "text": "{i18n>operationsTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.operations",
+                      "requiresSelection": false
+                    },
+                    "RoleAccess": {
+                      "text": "{i18n>roleAccessTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.roleAccess",
                       "requiresSelection": false
                     }
                   }
@@ -296,6 +321,16 @@
                       "text": "{i18n>repairWorkspace}",
                       "press": "itoms.helpdesk.ext.Navigation.repair",
                       "requiresSelection": false
+                    },
+                    "Operations": {
+                      "text": "{i18n>operationsTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.operations",
+                      "requiresSelection": false
+                    },
+                    "RoleAccess": {
+                      "text": "{i18n>roleAccessTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.roleAccess",
+                      "requiresSelection": false
                     }
                   }
                 }
@@ -327,6 +362,22 @@
                     "route": "AssetsObjectPage"
                   }
                 }
+              },
+              "content": {
+                "header": {
+                  "actions": {
+                    "Operations": {
+                      "text": "{i18n>operationsTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.operations",
+                      "requiresSelection": false
+                    },
+                    "RoleAccess": {
+                      "text": "{i18n>roleAccessTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.roleAccess",
+                      "requiresSelection": false
+                    }
+                  }
+                }
               }
             }
           }
@@ -354,11 +405,20 @@
                   "detail": {
                     "route": "StockTransactionsObjectPage"
                   }
+                },
+                "Material": {
+                  "detail": {
+                    "route": "MaterialsObjectPage"
+                  }
                 }
               },
               "content": {
                 "header": {
                   "actions": {
+                    "InventoryItem": {
+                      "text": "{i18n>viewInventoryItem}",
+                      "press": "itoms.helpdesk.ext.Navigation.inventoryItem"
+                    },
                     "AssetsList": {
                       "text": "{i18n>assetManagement}",
                       "press": "itoms.helpdesk.ext.Navigation.assets",
@@ -377,6 +437,16 @@
                     "Inventory": {
                       "text": "{i18n>inventory}",
                       "press": "itoms.helpdesk.ext.Navigation.inventory",
+                      "requiresSelection": false
+                    },
+                    "Operations": {
+                      "text": "{i18n>operationsTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.operations",
+                      "requiresSelection": false
+                    },
+                    "RoleAccess": {
+                      "text": "{i18n>roleAccessTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.roleAccess",
                       "requiresSelection": false
                     }
                   }
@@ -415,6 +485,16 @@
                       "text": "{i18n>myAssets}",
                       "press": "itoms.helpdesk.ext.Navigation.myAssets",
                       "requiresSelection": false
+                    },
+                    "Operations": {
+                      "text": "{i18n>operationsTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.operations",
+                      "requiresSelection": false
+                    },
+                    "RoleAccess": {
+                      "text": "{i18n>roleAccessTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.roleAccess",
+                      "requiresSelection": false
                     }
                   }
                 }
@@ -445,11 +525,20 @@
                   "detail": {
                     "route": "StockTransactionsObjectPage"
                   }
+                },
+                "Material": {
+                  "detail": {
+                    "route": "MaterialsObjectPage"
+                  }
                 }
               },
               "content": {
                 "header": {
                   "actions": {
+                    "InventoryItem": {
+                      "text": "{i18n>viewInventoryItem}",
+                      "press": "itoms.helpdesk.ext.Navigation.inventoryItem"
+                    },
                     "AssetsList": {
                       "text": "{i18n>assetManagement}",
                       "press": "itoms.helpdesk.ext.Navigation.assets",
@@ -468,6 +557,16 @@
                     "Inventory": {
                       "text": "{i18n>inventory}",
                       "press": "itoms.helpdesk.ext.Navigation.inventory",
+                      "requiresSelection": false
+                    },
+                    "Operations": {
+                      "text": "{i18n>operationsTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.operations",
+                      "requiresSelection": false
+                    },
+                    "RoleAccess": {
+                      "text": "{i18n>roleAccessTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.roleAccess",
                       "requiresSelection": false
                     }
                   }
@@ -507,6 +606,11 @@
                     "type": "ResponsiveTable"
                   },
                   "actions": {
+                    "NewInventoryItem": {
+                      "text": "{i18n>newInventoryItem}",
+                      "press": "itoms.helpdesk.ext.Navigation.newInventoryItem",
+                      "requiresSelection": false
+                    },
                     "Materials": {
                       "text": "{i18n>inventory}",
                       "press": "itoms.helpdesk.ext.Navigation.inventory",
@@ -530,6 +634,16 @@
                     "HelpDesk": {
                       "text": "{i18n>helpDesk}",
                       "press": "itoms.helpdesk.ext.Navigation.helpDesk",
+                      "requiresSelection": false
+                    },
+                    "Operations": {
+                      "text": "{i18n>operationsTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.operations",
+                      "requiresSelection": false
+                    },
+                    "RoleAccess": {
+                      "text": "{i18n>roleAccessTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.roleAccess",
                       "requiresSelection": false
                     }
                   }
@@ -581,11 +695,21 @@
                   "detail": {
                     "route": "AssetsObjectPage"
                   }
+                },
+                "Assets": {
+                  "detail": {
+                    "route": "AssetsObjectPage"
+                  }
                 }
               },
               "content": {
                 "header": {
                   "actions": {
+                    "ReceiveEquipment": {
+                      "text": "{i18n>receiveEquipment}",
+                      "press": "itoms.helpdesk.ext.Navigation.receiveEquipment",
+                      "visible": "{= ${TrackingMode} === 'EQUIPMENT' }"
+                    },
                     "Materials": {
                       "text": "{i18n>inventory}",
                       "press": "itoms.helpdesk.ext.Navigation.inventory",
@@ -609,6 +733,16 @@
                     "HelpDesk": {
                       "text": "{i18n>helpDesk}",
                       "press": "itoms.helpdesk.ext.Navigation.helpDesk",
+                      "requiresSelection": false
+                    },
+                    "Operations": {
+                      "text": "{i18n>operationsTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.operations",
+                      "requiresSelection": false
+                    },
+                    "RoleAccess": {
+                      "text": "{i18n>roleAccessTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.roleAccess",
                       "requiresSelection": false
                     }
                   }
@@ -638,6 +772,11 @@
                     "type": "ResponsiveTable"
                   },
                   "actions": {
+                    "NewInventoryItem": {
+                      "text": "{i18n>newInventoryItem}",
+                      "press": "itoms.helpdesk.ext.Navigation.newInventoryItem",
+                      "requiresSelection": false
+                    },
                     "Materials": {
                       "text": "{i18n>inventory}",
                       "press": "itoms.helpdesk.ext.Navigation.inventory",
@@ -661,6 +800,16 @@
                     "HelpDesk": {
                       "text": "{i18n>helpDesk}",
                       "press": "itoms.helpdesk.ext.Navigation.helpDesk",
+                      "requiresSelection": false
+                    },
+                    "Operations": {
+                      "text": "{i18n>operationsTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.operations",
+                      "requiresSelection": false
+                    },
+                    "RoleAccess": {
+                      "text": "{i18n>roleAccessTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.roleAccess",
                       "requiresSelection": false
                     }
                   }
@@ -741,6 +890,16 @@
                       "text": "{i18n>helpDesk}",
                       "press": "itoms.helpdesk.ext.Navigation.helpDesk",
                       "requiresSelection": false
+                    },
+                    "Operations": {
+                      "text": "{i18n>operationsTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.operations",
+                      "requiresSelection": false
+                    },
+                    "RoleAccess": {
+                      "text": "{i18n>roleAccessTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.roleAccess",
+                      "requiresSelection": false
                     }
                   }
                 }
@@ -792,6 +951,16 @@
                     "HelpDesk": {
                       "text": "{i18n>helpDesk}",
                       "press": "itoms.helpdesk.ext.Navigation.helpDesk",
+                      "requiresSelection": false
+                    },
+                    "Operations": {
+                      "text": "{i18n>operationsTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.operations",
+                      "requiresSelection": false
+                    },
+                    "RoleAccess": {
+                      "text": "{i18n>roleAccessTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.roleAccess",
                       "requiresSelection": false
                     }
                   }
@@ -872,6 +1041,16 @@
                       "text": "{i18n>helpDesk}",
                       "press": "itoms.helpdesk.ext.Navigation.helpDesk",
                       "requiresSelection": false
+                    },
+                    "Operations": {
+                      "text": "{i18n>operationsTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.operations",
+                      "requiresSelection": false
+                    },
+                    "RoleAccess": {
+                      "text": "{i18n>roleAccessTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.roleAccess",
+                      "requiresSelection": false
                     }
                   }
                 }
@@ -923,6 +1102,16 @@
                     "HelpDesk": {
                       "text": "{i18n>helpDesk}",
                       "press": "itoms.helpdesk.ext.Navigation.helpDesk",
+                      "requiresSelection": false
+                    },
+                    "Operations": {
+                      "text": "{i18n>operationsTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.operations",
+                      "requiresSelection": false
+                    },
+                    "RoleAccess": {
+                      "text": "{i18n>roleAccessTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.roleAccess",
                       "requiresSelection": false
                     }
                   }
@@ -1003,6 +1192,16 @@
                       "text": "{i18n>helpDesk}",
                       "press": "itoms.helpdesk.ext.Navigation.helpDesk",
                       "requiresSelection": false
+                    },
+                    "Operations": {
+                      "text": "{i18n>operationsTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.operations",
+                      "requiresSelection": false
+                    },
+                    "RoleAccess": {
+                      "text": "{i18n>roleAccessTitle}",
+                      "press": "itoms.helpdesk.ext.Navigation.roleAccess",
+                      "requiresSelection": false
                     }
                   }
                 }
@@ -1017,6 +1216,36 @@
           "options": {
             "settings": {
               "viewName": "itoms.helpdesk.ext.inventory.RepairWorkspace"
+            }
+          }
+        },
+        "Operations": {
+          "type": "Component",
+          "id": "Operations",
+          "name": "sap.fe.core.fpm",
+          "options": {
+            "settings": {
+              "viewName": "itoms.helpdesk.ext.operations.Operations"
+            }
+          }
+        },
+        "RoleAccess": {
+          "type": "Component",
+          "id": "RoleAccess",
+          "name": "sap.fe.core.fpm",
+          "options": {
+            "settings": {
+              "viewName": "itoms.helpdesk.ext.operations.RoleAccess"
+            }
+          }
+        },
+        "InventoryItem": {
+          "type": "Component",
+          "id": "InventoryItem",
+          "name": "sap.fe.core.fpm",
+          "options": {
+            "settings": {
+              "viewName": "itoms.helpdesk.ext.inventory.InventoryItem"
             }
           }
         }

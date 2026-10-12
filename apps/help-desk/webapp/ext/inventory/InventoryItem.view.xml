@@ -1,0 +1,43 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" controllerName="itoms.helpdesk.ext.inventory.InventoryItem">
+  <Page title="{= ${item>/existing} ? ${i18n>receiveEquipment} : ${i18n>newInventoryItem} }" busy="{item>/busy}" busyIndicatorDelay="0" showNavButton="true" navButtonPress=".onInventory">
+    <content><VBox class="sapUiResponsiveContentPadding" width="100%">
+      <MessageStrip text="{item>/error}" type="Error" showIcon="true" visible="{= !!${item>/error} }" class="sapUiSmallMarginBottom"/>
+      <VBox visible="{= !${item>/saved} }">
+        <Text text="{i18n>inventoryCreationHelp}" class="sapUiSmallMarginBottom"/>
+        <f:SimpleForm editable="true" layout="ResponsiveGridLayout" columnsL="2" columnsM="1" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false">
+          <f:content>
+            <core:Title text="{i18n>itemDetails}"/>
+            <Label text="{i18n>itemTracking}" labelFor="TrackingMode"/><Select id="TrackingMode" selectedKey="{item>/form/TrackingMode}" change=".onTrackingChange" enabled="{= !${item>/existing} }"><core:Item key="EQUIPMENT" text="{i18n>equipmentTracking}"/><core:Item key="QUANTITY" text="{i18n>quantityTracking}"/></Select>
+            <Label text="{i18n>itemNumber}" labelFor="MaterialNumber" required="true"/><Input id="MaterialNumber" value="{item>/form/MaterialNumber}" maxLength="40" enabled="{= !${item>/existing} }"/>
+            <Label text="{i18n>itemDescription}" labelFor="Description" required="true"/><Input id="Description" value="{item>/form/Description}" maxLength="200" enabled="{= !${item>/existing} }"/>
+            <Label text="{i18n>itemCategory}" labelFor="Category" required="true"/><Input id="Category" value="{item>/form/Category}" maxLength="100" enabled="{= !${item>/existing} }"/>
+            <Label text="{i18n>itemUnit}" labelFor="UnitOfMeasure"/><Select id="UnitOfMeasure" selectedKey="{item>/form/UnitOfMeasure}" enabled="{= ${item>/form/TrackingMode} === 'QUANTITY' }"><core:Item key="EA" text="{i18n>unitEach}"/><core:Item key="M" text="{i18n>unitMetres}"/></Select>
+            <Label text="{i18n>equipmentClass}" labelFor="AssetType" visible="{= ${item>/form/TrackingMode} === 'EQUIPMENT' }"/><Select id="AssetType" selectedKey="{item>/form/AssetType}" enabled="{= !${item>/existing} }" visible="{= ${item>/form/TrackingMode} === 'EQUIPMENT' }"><core:Item key="LAPTOP" text="Laptop"/><core:Item key="DESKTOP" text="Desktop"/><core:Item key="MONITOR" text="Monitor"/><core:Item key="PRINTER" text="Printer"/><core:Item key="NETWORK" text="Network equipment"/><core:Item key="OTHER" text="Other equipment"/></Select>
+            <Label text="{i18n>itemManufacturer}" labelFor="Manufacturer" required="true" visible="{= ${item>/form/TrackingMode} === 'EQUIPMENT' }"/><Input id="Manufacturer" value="{item>/form/Manufacturer}" maxLength="100" enabled="{= !${item>/existing} }" visible="{= ${item>/form/TrackingMode} === 'EQUIPMENT' }"/>
+            <Label text="{i18n>itemModel}" labelFor="Model" required="true" visible="{= ${item>/form/TrackingMode} === 'EQUIPMENT' }"/><Input id="Model" value="{item>/form/Model}" maxLength="100" enabled="{= !${item>/existing} }" visible="{= ${item>/form/TrackingMode} === 'EQUIPMENT' }"/>
+            <core:Title text="{i18n>receiptDetails}"/>
+            <Label text="{i18n>quantity}" labelFor="Quantity" required="true"/><Input id="Quantity" value="{item>/form/Quantity}"/>
+            <Label text="{i18n>stockLocation}" labelFor="StorageLocation" required="true"/><Input id="StorageLocation" value="{item>/form/StorageLocation}" maxLength="100"/>
+            <Label text="{i18n>itemSerialNumbers}" labelFor="SerialNumbers" required="true" visible="{= ${item>/form/TrackingMode} === 'EQUIPMENT' }"/><TextArea id="SerialNumbers" value="{item>/form/SerialNumbers}" rows="3" width="100%" maxLength="10000" visible="{= ${item>/form/TrackingMode} === 'EQUIPMENT' }"/>
+            <Text text="{i18n>itemSerialHelp}" visible="{= ${item>/form/TrackingMode} === 'EQUIPMENT' }"/>
+            <Label text="{i18n>itemPurchaseDate}" labelFor="PurchaseDate" required="true" visible="{= ${item>/form/TrackingMode} === 'EQUIPMENT' }"/><DatePicker id="PurchaseDate" value="{item>/form/PurchaseDate}" valueFormat="yyyy-MM-dd" displayFormat="yyyy-MM-dd" visible="{= ${item>/form/TrackingMode} === 'EQUIPMENT' }"/>
+            <Label text="{i18n>itemWarrantyEnd}" labelFor="WarrantyEnd" visible="{= ${item>/form/TrackingMode} === 'EQUIPMENT' }"/><DatePicker id="WarrantyEnd" value="{item>/form/WarrantyEnd}" valueFormat="yyyy-MM-dd" displayFormat="yyyy-MM-dd" visible="{= ${item>/form/TrackingMode} === 'EQUIPMENT' }"/>
+            <Label text="{i18n>itemReorderLevel}" labelFor="ReorderLevel" visible="{= ${item>/form/TrackingMode} === 'QUANTITY' }"/><Input id="ReorderLevel" value="{item>/form/ReorderLevel}" visible="{= ${item>/form/TrackingMode} === 'QUANTITY' }"/>
+            <Label text="{i18n>movementReason}" labelFor="Reason" required="true"/><TextArea id="Reason" value="{item>/form/Reason}" rows="2" width="100%" maxLength="500"/>
+          </f:content>
+        </f:SimpleForm>
+        <MessageStrip text="{i18n>automaticTagHelp}" type="Information" showIcon="true" visible="{= ${item>/form/TrackingMode} === 'EQUIPMENT' }" class="sapUiSmallMarginTop sapUiSmallMarginBottom"/>
+        <HBox wrap="Wrap"><Button text="{= ${item>/existing} ? ${i18n>receiveEquipment} : ${i18n>createInventoryItem} }" type="Emphasized" press=".onSave" class="sapUiTinyMarginEnd"/><Button text="{i18n>cancel}" press=".onInventory"/></HBox>
+      </VBox>
+      <VBox visible="{item>/saved}">
+        <MessageStrip text="{i18n>inventoryItemSaved}" type="Success" showIcon="true" class="sapUiSmallMarginBottom"/>
+        <ObjectHeader title="{item>/result/MaterialNumber}" intro="{item>/result/Description}"/>
+        <Table items="{item>/assets}" visible="{= ${item>/assets}.length > 0 }"><headerToolbar><OverflowToolbar><Title text="{i18n>receivedAssets}" level="H2"/></OverflowToolbar></headerToolbar>
+          <columns><Column><Text text="{i18n>assetTag}"/></Column><Column minScreenWidth="Tablet" demandPopin="true"><Text text="{i18n>itemSerialNumber}"/></Column><Column><Text text="{i18n>status}"/></Column><Column minScreenWidth="Tablet" demandPopin="true"><Text text="{i18n>stockLocation}"/></Column></columns>
+          <items><ColumnListItem><cells><Link text="{item>AssetTag}" press=".onOpenAsset"/><Text text="{item>SerialNumber}"/><ObjectStatus text="{item>Status}" state="Success"/><Text text="{item>Location}"/></cells></ColumnListItem></items>
+        </Table>
+        <HBox wrap="Wrap" class="sapUiSmallMarginTop"><Button text="{i18n>viewInventoryItem}" type="Emphasized" press=".onOpenMaterial" class="sapUiTinyMarginEnd"/><Button text="{i18n>newInventoryItem}" press=".onAnother"/></HBox>
+      </VBox>
+    </VBox></content>
+  </Page>
+</mvc:View>

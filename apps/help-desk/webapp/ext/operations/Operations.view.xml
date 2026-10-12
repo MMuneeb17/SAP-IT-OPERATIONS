@@ -1,0 +1,44 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" controllerName="itoms.helpdesk.ext.operations.Operations">
+  <Page title="{i18n>operationsTitle}" busy="{ops>/busy}" busyIndicatorDelay="0">
+    <headerContent><Button text="{i18n>roleAccessTitle}" press=".onRoles"/><Button text="{i18n>helpDesk}" press=".onHelpDesk"/></headerContent>
+    <content><VBox class="sapUiResponsiveContentPadding">
+      <MessageStrip text="{i18n>slaNotice}" type="Information" showIcon="true" class="sapUiSmallMarginBottom"/>
+      <MessageStrip text="{ops>/error}" type="Error" showIcon="true" visible="{= !!${ops>/error} }"/>
+      <OverflowToolbar><Title text="{i18n>slaTickets}" level="H2"/><ToolbarSpacer/><Button text="{i18n>slaRefresh}" icon="sap-icon://refresh" press=".onRefresh"/></OverflowToolbar>
+      <Label text="{i18n>slaTicket}" labelFor="slaTicket" class="sapUiSmallMarginTop"/>
+      <Select id="slaTicket" width="100%" selectedKey="{ops>/ticket}" items="{ops>/tickets}" change=".onTicketChange"><core:Item key="{ops>TicketUUID}" text="{ops>TicketNumber} — {ops>Subject}"/></Select>
+      <HBox wrap="Wrap" class="sapUiSmallMarginTop sapUiSmallMarginBottom">
+        <ObjectStatus title="{i18n>slaOverall}" text="{ops>/selected/SLAStatus}" state="{path:'ops>/selected/SLAStatus',formatter:'.state'}" class="sapUiSmallMarginEnd"/>
+        <ObjectStatus title="{i18n>slaResponse}" text="{ops>/selected/ResponseSLAStatus}" state="{path:'ops>/selected/ResponseSLAStatus',formatter:'.state'}" class="sapUiSmallMarginEnd"/>
+        <ObjectStatus title="{i18n>slaResolution}" text="{ops>/selected/ResolutionSLAStatus}" state="{path:'ops>/selected/ResolutionSLAStatus',formatter:'.state'}"/>
+      </HBox>
+      <Text text="Response due: {ops>/selected/ResponseDueAt}"/><Text text="Resolution due: {ops>/selected/ResolutionDueAt}"/>
+      <Text text="Escalation: {ops>/selected/EscalationLevel} · {ops>/selected/EscalationTarget}"/>
+      <Label text="{i18n>slaAsOf}" labelFor="slaAsOf" class="sapUiSmallMarginTop"/><Input id="slaAsOf" value="{ops>/asOf}" placeholder="2026-10-08T12:00:00Z"/>
+      <HBox wrap="Wrap" class="sapUiSmallMarginTop"><Button text="{i18n>slaPreview}" press=".onPreview" class="sapUiTinyMarginEnd"/><Button text="{i18n>slaCheck}" press=".onCheck" class="sapUiTinyMarginEnd"/><Button text="{i18n>viewTicket}" press=".onOpenTicket"/></HBox>
+      <VBox visible="{= !!${ops>/preview} }" class="sapUiSmallMarginTop"><Title text="{i18n>slaPreviewResult}" level="H3"/><ObjectStatus text="{ops>/preview/SLAStatus}" state="{path:'ops>/preview/SLAStatus',formatter:'.state'}"/><Text text="Evaluated at: {ops>/preview/SLAEvaluatedAt}"/><Text text="Response: {ops>/preview/ResponseSLAStatus} · Resolution: {ops>/preview/ResolutionSLAStatus}"/></VBox>
+      <Label text="{i18n>slaPriority}" labelFor="slaPriority" class="sapUiSmallMarginTop"/><Select id="slaPriority" selectedKey="{ops>/priority}"><core:Item key="LOW" text="LOW"/><core:Item key="MEDIUM" text="MEDIUM"/><core:Item key="HIGH" text="HIGH"/><core:Item key="CRITICAL" text="CRITICAL"/></Select>
+      <Label text="{i18n>slaReason}" labelFor="priorityReason"/><Input id="priorityReason" value="{ops>/reason}" maxLength="500"/><Button text="{i18n>slaPriority}" press=".onPriority" class="sapUiSmallMarginTop sapUiSmallMarginBottom"/>
+      <Table items="{ops>/tickets}" growing="true" noDataText="{i18n>slaNoRows}">
+        <columns><Column><Text text="{i18n>slaTicket}"/></Column><Column><Text text="{i18n>slaOverall}"/></Column><Column minScreenWidth="Tablet" demandPopin="true"><Text text="{i18n>slaResponse}"/></Column><Column minScreenWidth="Tablet" demandPopin="true"><Text text="{i18n>slaResolution}"/></Column></columns>
+        <items><ColumnListItem><cells><Text text="{ops>TicketNumber}"/><ObjectStatus text="{ops>SLAStatus}" state="{path:'ops>SLAStatus',formatter:'.state'}"/><Text text="{ops>ResponseDueAt}"/><Text text="{ops>ResolutionDueAt}"/></cells></ColumnListItem></items>
+      </Table>
+      <Title text="{i18n>slaConfiguration}" level="H2" class="sapUiMediumMarginTop"/><Text text="{i18n>slaConfigNote}" class="sapUiSmallMarginBottom"/>
+      <Label text="{i18n>slaConfiguration}" labelFor="configSet"/><Select id="configSet" width="100%" selectedKey="{ops>/set}" items="{ops>/sets}" change=".onSetChange"><core:Item key="{ops>name}" text="{ops>name}"/></Select>
+      <Label text="{i18n>slaRecord}" labelFor="configRecord"/><Select id="configRecord" width="100%" selectedKey="{ops>/record}" items="{ops>/records}" change=".onRecordChange"><core:Item key="{ops>key}" text="{ops>label}"/></Select>
+      <ObjectStatus title="{i18n>slaRevision}" text="{ops>/revision}" class="sapUiSmallMarginTop"/>
+      <VBox items="{ops>/fields}"><items><VBox class="sapUiSmallMarginTop">
+        <Label id="configFieldLabel" text="{ops>label}" labelFor="configText" visible="{= !${ops>isBoolean} }"/>
+        <Input id="configText" value="{ops>value}" visible="{ops>isText}" ariaLabelledBy="configFieldLabel"/>
+        <Select selectedKey="{ops>value}" items="{ops>options}" visible="{ops>isSelect}" ariaLabelledBy="configFieldLabel" width="100%"><core:Item key="{ops>key}" text="{ops>text}"/></Select>
+        <CheckBox text="{ops>label}" selected="{ops>booleanValue}" visible="{ops>isBoolean}"/>
+      </VBox></items></VBox>
+      <Label text="{i18n>slaReason}" labelFor="configReason" class="sapUiSmallMarginTop"/><Input id="configReason" value="{ops>/configReason}" maxLength="500"/>
+      <Button text="{i18n>slaSave}" type="Emphasized" press=".onSave" class="sapUiSmallMarginTop sapUiSmallMarginBottom"/>
+      <Table items="{ops>/history}" growing="true"><headerToolbar><OverflowToolbar><Title text="{i18n>slaAudit}" level="H2"/></OverflowToolbar></headerToolbar>
+        <columns><Column><Text text="{i18n>slaConfiguration}"/></Column><Column><Text text="{i18n>slaReason}"/></Column><Column minScreenWidth="Tablet" demandPopin="true"><Text text="{i18n>slaRevision}"/></Column></columns>
+        <items><ColumnListItem><cells><Text text="{ops>EntitySet}"/><Text text="{ops>Reason}"/><Text text="{ops>Revision}"/></cells></ColumnListItem></items>
+      </Table>
+    </VBox></content>
+  </Page>
+</mvc:View>

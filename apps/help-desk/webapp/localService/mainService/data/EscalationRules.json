@@ -1,0 +1,20 @@
+[
+  {
+    "TriggerStatus": "AT_RISK",
+    "Level": 1,
+    "TargetRole": "SUPERVISOR",
+    "Active": true,
+    "EscalationRuleUUID": "00000019-0000-4000-8000-000000000001",
+    "Revision": 1,
+    "LastChangedAt": "2026-09-01T00:00:00Z"
+  },
+  {
+    "TriggerStatus": "BREACHED",
+    "Level": 2,
+    "TargetRole": "IT_MANAGER",
+    "Active": true,
+    "EscalationRuleUUID": "00000019-0000-4000-8000-000000000002",
+    "Revision": 1,
+    "LastChangedAt": "2026-09-01T00:00:00Z"
+  }
+]

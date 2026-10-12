@@ -5,6 +5,11 @@ modules of the existing `itoms.helpdesk` component. They use the same OData V4
 model, service root and serialized write queue as Help Desk and Asset Management.
 This is an in-memory mock implementation; the RAP mappings remain a blueprint.
 
+**9 October extension:** [New inventory item creation](inventory-item-creation.md)
+adds a shared equipment catalogue, automatic asset tags and part opening receipts.
+Equipment uses the same individual Assets records in both modules; the stock
+quantity operations below apply to quantity-tracked parts.
+
 ## Architecture
 
 ```mermaid

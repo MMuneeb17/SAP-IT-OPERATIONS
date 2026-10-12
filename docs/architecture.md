@@ -36,6 +36,19 @@ Materials, Stocks, Reservations and StockTransactions extend the service to
 use a compensating operation journal, and retain ticket/asset/repair references.
 See the [inventory contract](inventory-workflow.md) for quantities and transaction rules.
 
+Phases 7–8 add policy snapshots, elapsed-time SLA calculation, configured waiting
+pauses, explicit escalation checks and audited configuration maintenance. The
+service now has 20 sets, 57 navigation properties and 130 seed rows. Access design
+previews seven roles and all page/action/entity decisions without claiming mock
+authorization enforcement. See the [SLA contract](sla-configuration-workflow.md)
+and [role matrix](../sap-design/authorization/README.md).
+
+The inventory creation extension links every asset to its catalogue material,
+adds receipt actions and internal demo numbering, and separates serialized
+equipment from quantity-tracked parts. The current contract has 20 sets,
+59 navigation properties and 136 seed rows. See
+[item creation and shared equipment](inventory-item-creation.md).
+
 The stable frontend service root is `/odata/v4/it-operations/`; an eventual
 landscape destination/proxy maps it to the RAP binding. Components use the manifest
 OData V4 model, never SAP table names or an alternative REST API. Local annotations

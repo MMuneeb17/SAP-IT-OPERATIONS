@@ -11,7 +11,7 @@ export const domains = {
   Tickets: { Status: ['NEW', 'SUBMITTED', 'ASSIGNED', 'IN_PROGRESS', 'WAITING', 'RESOLVED', 'CLOSED'], Priority: ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL'] },
   Assets: { Status: ['RECEIVED', 'TAGGED', 'AVAILABLE', 'ASSIGNED', 'IN_REPAIR', 'RETIRED', 'DISPOSED'] },
   AssetRepairs: { Status: ['OPEN', 'COMPLETED'] },
-  Materials: { UnitOfMeasure: ['EA', 'M'] },
+  Materials: { UnitOfMeasure: ['EA', 'M'], TrackingMode: ['EQUIPMENT', 'QUANTITY'] },
   Reservations: { Status: ['OPEN', 'PARTIAL', 'FULFILLED', 'CANCELLED'] },
   StockTransactions: { MovementType: ['RECEIVE', 'RESERVE', 'ISSUE', 'CANCEL', 'RETURN', 'TRANSFER_OUT', 'TRANSFER_IN', 'ADJUST'] }
 };
@@ -51,7 +51,7 @@ export function relatedRows(contract, set, row, nav) {
 
 export function validateContract(contract = loadContract()) {
   const { sets, metadata } = contract;
-  assert.deepEqual(Object.keys(sets).sort(), ['AssetAssignments', 'AssetHistory', 'AssetRepairs', 'Assets', 'Employees', 'Materials', 'Reservations', 'StockTransactions', 'Stocks', 'TicketComments', 'TicketHistory', 'Tickets']);
+  assert.deepEqual(Object.keys(sets).sort(), ['AssetAssignments', 'AssetHistory', 'AssetRepairs', 'Assets', 'Categories', 'ConfigurationHistory', 'Employees', 'EscalationRules', 'Locations', 'Materials', 'Reservations', 'SLAPolicies', 'StockTransactions', 'Stocks', 'Subcategories', 'Teams', 'TicketComments', 'TicketHistory', 'Tickets', 'WaitingReasons']);
   const businessKeys = { Employees: 'EmployeeNumber', Tickets: 'TicketNumber', Assets: 'AssetTag', Materials: 'MaterialNumber' };
   for (const set of Object.values(sets)) {
     assert.ok(set.type, `${set.name}: missing entity type`);
@@ -125,6 +125,7 @@ export function validateContract(contract = loadContract()) {
   }
   validateAssetLifecycle(contract);
   validateInventory(contract);
+  validateOperations(contract);
   assert.equal(fs.readFileSync(path.join(root, 'apps/help-desk/webapp/localService/mainService/metadata.xml'), 'utf8'), metadata, 'App metadata differs from canonical contract');
   return Object.values(sets).map(set => `${set.name}: ${set.rows.length} records`).join(', ');
 }
@@ -153,10 +154,35 @@ export function validateAssetLifecycle({ sets }) {
   }
 }
 
+export function validateOperations({sets}) {
+  assert.deepEqual(sets.SLAPolicies.rows.map(r=>r.Priority).sort(),['CRITICAL','HIGH','LOW','MEDIUM']);
+  for(const p of sets.SLAPolicies.rows)assert.ok(p.ResponseMinutes>0 && p.ResolutionMinutes>=p.ResponseMinutes && p.WarningPercent>0 && p.WarningPercent<100,'Invalid SLA policy');
+  assert.equal(new Set(sets.Categories.rows.map(r=>r.Name)).size,sets.Categories.rows.length,'Duplicate category');
+  assert.equal(new Set(sets.WaitingReasons.rows.map(r=>r.Code)).size,sets.WaitingReasons.rows.length,'Duplicate waiting reason');
+  assert.ok(sets.WaitingReasons.rows.some(r=>r.Code==='OTHER'&&r.Active),'Active fallback waiting reason required');
+  for(const ticket of sets.Tickets.rows){
+    assert.ok(ticket.ResponseMinutes>0&&ticket.ResolutionMinutes>=ticket.ResponseMinutes&&ticket.WarningPercent>0&&ticket.WarningPercent<100,'Invalid ticket SLA snapshot');
+    assert.ok(ticket.SLAPausedSeconds>=0,'Invalid SLA paused duration');
+    assert.ok(!ticket.SLAPauseStartedAt||ticket.Status==='WAITING','Only waiting tickets may pause SLA');
+    if(ticket.SubcategoryUUID){const sub=sets.Subcategories.rows.find(s=>s.SubcategoryUUID===ticket.SubcategoryUUID);assert.equal(sets.Categories.rows.find(c=>c.CategoryUUID===sub.CategoryUUID).Name,ticket.Category,'Subcategory must match ticket category');}
+  }
+}
+
 export function validateInventory({ sets }) {
   const n = value => Math.round(Number(value) * 1000);
   const movements = sets.StockTransactions.rows;
   const seen = new Set();
+  for (const material of sets.Materials.rows) {
+    const assets = sets.Assets.rows.filter(a => a.MaterialUUID === material.MaterialUUID);
+    assert.equal(material.TotalAssets, assets.length, 'Catalogue equipment count mismatch');
+    assert.equal(material.AvailableAssets, assets.filter(a => a.Status === 'AVAILABLE').length, 'Catalogue available equipment count mismatch');
+    if (material.TrackingMode === 'EQUIPMENT') {
+      assert.equal(material.UnitOfMeasure, 'EA', 'Equipment requires EA');
+      assert.ok(material.AssetType && material.Manufacturer && material.Model, 'Equipment needs model details');
+      assert.ok(!sets.Stocks.rows.some(s => s.MaterialUUID === material.MaterialUUID), 'Equipment cannot also have a quantity stock balance');
+      for (const asset of assets) for (const field of ['AssetType', 'Manufacturer', 'Model']) assert.equal(asset[field], material[field], 'Asset must match its catalogue model');
+    } else assert.equal(assets.length, 0, 'Quantity-tracked parts must not create assets');
+  }
   for (const stock of sets.Stocks.rows) {
     const unique = stock.MaterialUUID + stock.StorageLocation;
     assert.ok(!seen.has(unique), 'Duplicate material and storage location'); seen.add(unique);

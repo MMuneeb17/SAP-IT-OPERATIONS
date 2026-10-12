@@ -1,6 +1,11 @@
 sap.ui.define([], function () {
   "use strict";
   return {
+    newInventoryItem: function () { this.getRouting().navigateToRoute("InventoryItem"); },
+    receiveEquipment: function (context) { this.getRouting().navigateToRoute("InventoryItem", { "?query": { material: context.getProperty("MaterialUUID") } }); },
+    inventoryItem: async function (context) { this.getRouting().navigateToRoute("MaterialsObjectPage", { key: await context.requestProperty("MaterialUUID") }); },
+    operations: function () { this.getRouting().navigateToRoute("Operations"); },
+    roleAccess: function () { this.getRouting().navigateToRoute("RoleAccess"); },
     inventory: function () { this.getRouting().navigateToRoute("MaterialsList"); },
     stocks: function () { this.getRouting().navigateToRoute("StocksList"); },
     reservations: function () { this.getRouting().navigateToRoute("ReservationsList"); },

@@ -1,0 +1,728 @@
+{
+  "notice": "Design preview only. This does not authenticate users or restrict other routes or service endpoints. RAP must enforce record scopes and action permissions.",
+  "roles": [
+    {
+      "code": "EMPLOYEE",
+      "name": "Employee",
+      "description": "Own tickets and assigned assets"
+    },
+    {
+      "code": "TECHNICIAN",
+      "name": "Technician",
+      "description": "Assigned tickets and related repair records"
+    },
+    {
+      "code": "SUPERVISOR",
+      "name": "Help Desk Supervisor",
+      "description": "Tickets and workload within managed teams"
+    },
+    {
+      "code": "ASSET_ADMIN",
+      "name": "Asset Administrator",
+      "description": "Asset custody and lifecycle"
+    },
+    {
+      "code": "STORE_OFFICER",
+      "name": "MIS / Store Officer",
+      "description": "Stock and reservation fulfilment"
+    },
+    {
+      "code": "IT_MANAGER",
+      "name": "IT Manager",
+      "description": "Organization-wide operational read access"
+    },
+    {
+      "code": "SYSTEM_ADMIN",
+      "name": "System Administrator",
+      "description": "Operational configuration maintenance"
+    }
+  ],
+  "entities": {
+    "Employees": {
+      "EMPLOYEE": "Own profile",
+      "TECHNICIAN": "Assigned requester and IT support directory",
+      "SUPERVISOR": "Team directory",
+      "ASSET_ADMIN": "Custodian directory",
+      "STORE_OFFICER": "Linked requesters",
+      "IT_MANAGER": "Operational directory",
+      "SYSTEM_ADMIN": "Team lead reference directory"
+    },
+    "Tickets": {
+      "EMPLOYEE": "Own tickets and children",
+      "TECHNICIAN": "Assigned tickets and children",
+      "SUPERVISOR": "Managed-team tickets and children",
+      "ASSET_ADMIN": "Tickets linked to managed assets",
+      "STORE_OFFICER": "Tickets linked to store reservations",
+      "IT_MANAGER": "All operational tickets"
+    },
+    "Assets": {
+      "EMPLOYEE": "Assigned assets and permitted own history",
+      "TECHNICIAN": "Assets linked to assigned work",
+      "SUPERVISOR": "Assets linked to team work",
+      "ASSET_ADMIN": "All assets and children",
+      "STORE_OFFICER": "Equipment in permitted receiving locations and assets linked to store reservations",
+      "IT_MANAGER": "All assets and children"
+    },
+    "TicketComments": {
+      "EMPLOYEE": "Own tickets and children",
+      "TECHNICIAN": "Assigned tickets and children",
+      "SUPERVISOR": "Managed-team tickets and children",
+      "ASSET_ADMIN": "Tickets linked to managed assets",
+      "STORE_OFFICER": "Tickets linked to store reservations",
+      "IT_MANAGER": "All operational tickets"
+    },
+    "TicketHistory": {
+      "EMPLOYEE": "Own tickets and children",
+      "TECHNICIAN": "Assigned tickets and children",
+      "SUPERVISOR": "Managed-team tickets and children",
+      "ASSET_ADMIN": "Tickets linked to managed assets",
+      "STORE_OFFICER": "Tickets linked to store reservations",
+      "IT_MANAGER": "All operational tickets"
+    },
+    "AssetAssignments": {
+      "EMPLOYEE": "Assigned assets and permitted own history",
+      "TECHNICIAN": "Assets linked to assigned work",
+      "SUPERVISOR": "Assets linked to team work",
+      "ASSET_ADMIN": "All assets and children",
+      "STORE_OFFICER": "Assets linked to store reservations",
+      "IT_MANAGER": "All assets and children"
+    },
+    "AssetRepairs": {
+      "EMPLOYEE": "Assigned assets and permitted own history",
+      "TECHNICIAN": "Assets linked to assigned work",
+      "SUPERVISOR": "Assets linked to team work",
+      "ASSET_ADMIN": "All assets and children",
+      "STORE_OFFICER": "Assets linked to store reservations",
+      "IT_MANAGER": "All assets and children"
+    },
+    "AssetHistory": {
+      "EMPLOYEE": "Assigned assets and permitted own history",
+      "TECHNICIAN": "Assets linked to assigned work",
+      "SUPERVISOR": "Assets linked to team work",
+      "ASSET_ADMIN": "All assets and children",
+      "STORE_OFFICER": "Assets linked to store reservations",
+      "IT_MANAGER": "All assets and children"
+    },
+    "Materials": {
+      "TECHNICIAN": "Stock availability and own part requests",
+      "SUPERVISOR": "Team-related inventory",
+      "ASSET_ADMIN": "Parts linked to managed assets",
+      "STORE_OFFICER": "All inventory",
+      "IT_MANAGER": "All inventory"
+    },
+    "Stocks": {
+      "TECHNICIAN": "Stock availability and own part requests",
+      "SUPERVISOR": "Team-related inventory",
+      "ASSET_ADMIN": "Parts linked to managed assets",
+      "STORE_OFFICER": "All inventory",
+      "IT_MANAGER": "All inventory"
+    },
+    "Reservations": {
+      "TECHNICIAN": "Stock availability and own part requests",
+      "SUPERVISOR": "Team-related inventory",
+      "ASSET_ADMIN": "Parts linked to managed assets",
+      "STORE_OFFICER": "All inventory",
+      "IT_MANAGER": "All inventory"
+    },
+    "StockTransactions": {
+      "TECHNICIAN": "Stock availability and own part requests",
+      "SUPERVISOR": "Team-related inventory",
+      "ASSET_ADMIN": "Parts linked to managed assets",
+      "STORE_OFFICER": "All inventory",
+      "IT_MANAGER": "All inventory"
+    },
+    "SLAPolicies": {
+      "SYSTEM_ADMIN": "All configuration",
+      "IT_MANAGER": "Read configuration",
+      "SUPERVISOR": "Read operational rules",
+      "TECHNICIAN": "Read active operational references",
+      "EMPLOYEE": "Read active ticket-entry references"
+    },
+    "Categories": {
+      "SYSTEM_ADMIN": "All configuration",
+      "IT_MANAGER": "Read configuration",
+      "SUPERVISOR": "Read operational rules",
+      "TECHNICIAN": "Read active operational references",
+      "EMPLOYEE": "Read active ticket-entry references"
+    },
+    "Subcategories": {
+      "SYSTEM_ADMIN": "All configuration",
+      "IT_MANAGER": "Read configuration",
+      "SUPERVISOR": "Read operational rules",
+      "TECHNICIAN": "Read active operational references",
+      "EMPLOYEE": "Read active ticket-entry references"
+    },
+    "Teams": {
+      "SYSTEM_ADMIN": "All configuration",
+      "IT_MANAGER": "Read configuration",
+      "SUPERVISOR": "Read operational rules",
+      "TECHNICIAN": "Read active operational references",
+      "EMPLOYEE": "Read active ticket-entry references"
+    },
+    "Locations": {
+      "SYSTEM_ADMIN": "All configuration",
+      "IT_MANAGER": "Read configuration",
+      "SUPERVISOR": "Read operational rules",
+      "TECHNICIAN": "Read active operational references",
+      "EMPLOYEE": "Read active ticket-entry references"
+    },
+    "WaitingReasons": {
+      "SYSTEM_ADMIN": "All configuration",
+      "IT_MANAGER": "Read configuration",
+      "SUPERVISOR": "Read operational rules",
+      "TECHNICIAN": "Read active operational references",
+      "EMPLOYEE": "Read active ticket-entry references"
+    },
+    "EscalationRules": {
+      "SYSTEM_ADMIN": "All configuration",
+      "IT_MANAGER": "Read configuration",
+      "SUPERVISOR": "Read operational rules",
+      "TECHNICIAN": "Read active operational references",
+      "EMPLOYEE": "Read active ticket-entry references"
+    },
+    "ConfigurationHistory": {
+      "SYSTEM_ADMIN": "All configuration changes",
+      "IT_MANAGER": "Read audit history"
+    }
+  },
+  "operations": {
+    "Submit": {
+      "entity": "Ticket",
+      "roles": [
+        "EMPLOYEE"
+      ],
+      "condition": "Authenticated requester owns this NEW ticket."
+    },
+    "AssignTechnician": {
+      "entity": "Ticket",
+      "roles": [
+        "SUPERVISOR"
+      ],
+      "condition": "Supervisor manages the ticket team; chosen technician must be eligible for that team."
+    },
+    "StartWork": {
+      "entity": "Ticket",
+      "roles": [
+        "TECHNICIAN"
+      ],
+      "condition": "Authenticated technician is assigned to this ticket; enforce workflow and linked repair/parts constraints."
+    },
+    "PutOnHold": {
+      "entity": "Ticket",
+      "roles": [
+        "TECHNICIAN"
+      ],
+      "condition": "Authenticated technician is assigned to this ticket; enforce workflow and linked repair/parts constraints."
+    },
+    "Resume": {
+      "entity": "Ticket",
+      "roles": [
+        "TECHNICIAN"
+      ],
+      "condition": "Authenticated technician is assigned to this ticket; enforce workflow and linked repair/parts constraints."
+    },
+    "Resolve": {
+      "entity": "Ticket",
+      "roles": [
+        "TECHNICIAN"
+      ],
+      "condition": "Authenticated technician is assigned to this ticket; enforce workflow and linked repair/parts constraints."
+    },
+    "Close": {
+      "entity": "Ticket",
+      "roles": [
+        "EMPLOYEE"
+      ],
+      "condition": "Authenticated requester owns this RESOLVED ticket; CLOSED tickets cannot reopen in this MVP."
+    },
+    "Reopen": {
+      "entity": "Ticket",
+      "roles": [
+        "EMPLOYEE"
+      ],
+      "condition": "Authenticated requester owns this RESOLVED ticket; CLOSED tickets cannot reopen in this MVP."
+    },
+    "MakeAvailable": {
+      "entity": "Asset",
+      "roles": [
+        "ASSET_ADMIN"
+      ],
+      "condition": "Validate role, record scope and current business state; reject direct field writes."
+    },
+    "AssignAsset": {
+      "entity": "Asset",
+      "roles": [
+        "ASSET_ADMIN"
+      ],
+      "condition": "Validate role, record scope and current business state; reject direct field writes."
+    },
+    "TransferAsset": {
+      "entity": "Asset",
+      "roles": [
+        "ASSET_ADMIN"
+      ],
+      "condition": "Validate role, record scope and current business state; reject direct field writes."
+    },
+    "ReturnAsset": {
+      "entity": "Asset",
+      "roles": [
+        "ASSET_ADMIN"
+      ],
+      "condition": "Validate role, record scope and current business state; reject direct field writes."
+    },
+    "SendForRepair": {
+      "entity": "Asset",
+      "roles": [
+        "TECHNICIAN",
+        "ASSET_ADMIN"
+      ],
+      "condition": "Technician has assigned linked work, or asset administrator controls the asset; preserve repair and parts invariants."
+    },
+    "CompleteRepair": {
+      "entity": "Asset",
+      "roles": [
+        "TECHNICIAN",
+        "ASSET_ADMIN"
+      ],
+      "condition": "Technician has assigned linked work, or asset administrator controls the asset; preserve repair and parts invariants."
+    },
+    "RetireAsset": {
+      "entity": "Asset",
+      "roles": [
+        "ASSET_ADMIN"
+      ],
+      "condition": "Validate role, record scope and current business state; reject direct field writes."
+    },
+    "DisposeAsset": {
+      "entity": "Asset",
+      "roles": [
+        "ASSET_ADMIN"
+      ],
+      "condition": "Validate role, record scope and current business state; reject direct field writes."
+    },
+    "ReceiveStock": {
+      "entity": "Stock",
+      "roles": [
+        "STORE_OFFICER"
+      ],
+      "condition": "Store officer controls source and destination locations; validate quantities, references and mandatory reasons."
+    },
+    "ReserveStock": {
+      "entity": "Stock",
+      "roles": [
+        "TECHNICIAN",
+        "STORE_OFFICER"
+      ],
+      "condition": "Store officer controls location, or technician has assigned linked work; prevent oversubscription."
+    },
+    "TransferStock": {
+      "entity": "Stock",
+      "roles": [
+        "STORE_OFFICER"
+      ],
+      "condition": "Store officer controls source and destination locations; validate quantities, references and mandatory reasons."
+    },
+    "ReturnStock": {
+      "entity": "Stock",
+      "roles": [
+        "STORE_OFFICER"
+      ],
+      "condition": "Store officer controls source and destination locations; validate quantities, references and mandatory reasons."
+    },
+    "AdjustStock": {
+      "entity": "Stock",
+      "roles": [
+        "STORE_OFFICER"
+      ],
+      "condition": "Store officer controls source and destination locations; validate quantities, references and mandatory reasons."
+    },
+    "IssueReservation": {
+      "entity": "Reservation",
+      "roles": [
+        "STORE_OFFICER"
+      ],
+      "condition": "Store officer controls source and destination locations; validate quantities, references and mandatory reasons."
+    },
+    "CancelReservation": {
+      "entity": "Reservation",
+      "roles": [
+        "TECHNICIAN",
+        "STORE_OFFICER"
+      ],
+      "condition": "Store officer controls stock location, or technician owns the linked part request; cancel only outstanding quantity."
+    },
+    "RequestPart": {
+      "entity": "Ticket",
+      "roles": [
+        "TECHNICIAN"
+      ],
+      "condition": "Authenticated technician is assigned to this ticket; enforce workflow and linked repair/parts constraints."
+    },
+    "SaveSLAPolicies": {
+      "entity": "SLAPolicy",
+      "roles": [
+        "SYSTEM_ADMIN"
+      ],
+      "condition": "Validate role, record scope and current business state; reject direct field writes."
+    },
+    "SaveCategories": {
+      "entity": "Category",
+      "roles": [
+        "SYSTEM_ADMIN"
+      ],
+      "condition": "Validate role, record scope and current business state; reject direct field writes."
+    },
+    "SaveSubcategories": {
+      "entity": "Subcategory",
+      "roles": [
+        "SYSTEM_ADMIN"
+      ],
+      "condition": "Validate role, record scope and current business state; reject direct field writes."
+    },
+    "SaveTeams": {
+      "entity": "Team",
+      "roles": [
+        "SYSTEM_ADMIN"
+      ],
+      "condition": "Validate role, record scope and current business state; reject direct field writes."
+    },
+    "SaveLocations": {
+      "entity": "Location",
+      "roles": [
+        "SYSTEM_ADMIN"
+      ],
+      "condition": "Validate role, record scope and current business state; reject direct field writes."
+    },
+    "SaveWaitingReasons": {
+      "entity": "WaitingReason",
+      "roles": [
+        "SYSTEM_ADMIN"
+      ],
+      "condition": "Validate role, record scope and current business state; reject direct field writes."
+    },
+    "SaveEscalationRules": {
+      "entity": "EscalationRule",
+      "roles": [
+        "SYSTEM_ADMIN"
+      ],
+      "condition": "Validate role, record scope and current business state; reject direct field writes."
+    },
+    "CheckSLA": {
+      "entity": "Ticket",
+      "roles": [
+        "SUPERVISOR",
+        "IT_MANAGER"
+      ],
+      "condition": "Technician reads assigned tickets, supervisor manages team tickets, manager reads all; only CheckSLA can write escalation history."
+    },
+    "PreviewSLA": {
+      "entity": "Ticket",
+      "roles": [
+        "TECHNICIAN",
+        "SUPERVISOR",
+        "IT_MANAGER"
+      ],
+      "condition": "Technician reads assigned tickets, supervisor manages team tickets, manager reads all; only CheckSLA can write escalation history."
+    },
+    "ChangePriority": {
+      "entity": "Ticket",
+      "roles": [
+        "SUPERVISOR"
+      ],
+      "condition": "Supervisor manages the ticket team; chosen technician must be eligible for that team."
+    },
+    "CreateTicket": {
+      "entity": "Ticket",
+      "roles": [
+        "EMPLOYEE"
+      ],
+      "condition": "Requester must equal authenticated employee; use active configuration and assigned asset."
+    },
+    "CreateInventoryItem": {
+      "entity": "Materials",
+      "roles": [
+        "STORE_OFFICER"
+      ],
+      "condition": "Create catalogue items and receive into permitted locations; equipment creates shared assets."
+    },
+    "ReceiveEquipment": {
+      "entity": "Materials",
+      "roles": [
+        "STORE_OFFICER"
+      ],
+      "condition": "Receive serialized equipment into permitted locations; backend allocates tags."
+    }
+  },
+  "pages": [
+    {
+      "route": "MySupport",
+      "name": "My IT Support",
+      "roles": [
+        "EMPLOYEE"
+      ]
+    },
+    {
+      "route": "MyAssets",
+      "name": "My IT Assets",
+      "roles": [
+        "EMPLOYEE"
+      ]
+    },
+    {
+      "route": "TicketsList",
+      "name": "Help Desk",
+      "roles": [
+        "TECHNICIAN",
+        "SUPERVISOR",
+        "IT_MANAGER"
+      ]
+    },
+    {
+      "route": "AssetsList",
+      "name": "Asset Management",
+      "roles": [
+        "TECHNICIAN",
+        "ASSET_ADMIN",
+        "IT_MANAGER"
+      ]
+    },
+    {
+      "route": "MaterialsList",
+      "name": "MIS Inventory",
+      "roles": [
+        "TECHNICIAN",
+        "STORE_OFFICER",
+        "IT_MANAGER"
+      ]
+    },
+    {
+      "route": "Operations",
+      "name": "SLA and configuration",
+      "roles": [
+        "TECHNICIAN",
+        "SUPERVISOR",
+        "IT_MANAGER",
+        "SYSTEM_ADMIN"
+      ]
+    },
+    {
+      "route": "RoleAccess",
+      "name": "Access design",
+      "roles": [
+        "EMPLOYEE",
+        "TECHNICIAN",
+        "SUPERVISOR",
+        "ASSET_ADMIN",
+        "STORE_OFFICER",
+        "IT_MANAGER",
+        "SYSTEM_ADMIN"
+      ]
+    }
+  ],
+  "configurationSets": [
+    "SLAPolicies",
+    "Categories",
+    "Subcategories",
+    "Teams",
+    "Locations",
+    "WaitingReasons",
+    "EscalationRules"
+  ],
+  "targets": {
+    "TicketsList": {
+      "roles": [
+        "EMPLOYEE",
+        "TECHNICIAN",
+        "SUPERVISOR",
+        "ASSET_ADMIN",
+        "STORE_OFFICER",
+        "IT_MANAGER"
+      ],
+      "scope": "Inherit Tickets row scope; nested pages also require access to their originating ticket."
+    },
+    "TicketsObjectPage": {
+      "roles": [
+        "EMPLOYEE",
+        "TECHNICIAN",
+        "SUPERVISOR",
+        "ASSET_ADMIN",
+        "STORE_OFFICER",
+        "IT_MANAGER"
+      ],
+      "scope": "Inherit Tickets row scope; nested pages also require access to their originating ticket."
+    },
+    "MySupport": {
+      "roles": [
+        "EMPLOYEE"
+      ],
+      "scope": "Apply each contained action permission independently; page access does not grant write access."
+    },
+    "RequesterObjectPage": {
+      "roles": [
+        "EMPLOYEE",
+        "TECHNICIAN",
+        "SUPERVISOR",
+        "ASSET_ADMIN",
+        "STORE_OFFICER",
+        "IT_MANAGER"
+      ],
+      "scope": "Inherit Tickets row scope; nested pages also require access to their originating ticket."
+    },
+    "AssetObjectPage": {
+      "roles": [
+        "EMPLOYEE",
+        "TECHNICIAN",
+        "SUPERVISOR",
+        "ASSET_ADMIN",
+        "STORE_OFFICER",
+        "IT_MANAGER"
+      ],
+      "scope": "Inherit Tickets row scope; nested pages also require access to their originating ticket."
+    },
+    "AssetsList": {
+      "roles": [
+        "EMPLOYEE",
+        "TECHNICIAN",
+        "SUPERVISOR",
+        "ASSET_ADMIN",
+        "STORE_OFFICER",
+        "IT_MANAGER"
+      ],
+      "scope": "Inherit Assets row scope; nested pages also require access to their originating ticket."
+    },
+    "AssetsObjectPage": {
+      "roles": [
+        "EMPLOYEE",
+        "TECHNICIAN",
+        "SUPERVISOR",
+        "ASSET_ADMIN",
+        "STORE_OFFICER",
+        "IT_MANAGER"
+      ],
+      "scope": "Inherit Assets row scope; nested pages also require access to their originating ticket."
+    },
+    "MyAssets": {
+      "roles": [
+        "EMPLOYEE"
+      ],
+      "scope": "Apply each contained action permission independently; page access does not grant write access."
+    },
+    "MaterialsList": {
+      "roles": [
+        "TECHNICIAN",
+        "SUPERVISOR",
+        "ASSET_ADMIN",
+        "STORE_OFFICER",
+        "IT_MANAGER"
+      ],
+      "scope": "Inherit Materials row scope; nested pages also require access to their originating ticket."
+    },
+    "MaterialsObjectPage": {
+      "roles": [
+        "TECHNICIAN",
+        "SUPERVISOR",
+        "ASSET_ADMIN",
+        "STORE_OFFICER",
+        "IT_MANAGER"
+      ],
+      "scope": "Inherit Materials row scope; nested pages also require access to their originating ticket."
+    },
+    "StocksList": {
+      "roles": [
+        "TECHNICIAN",
+        "SUPERVISOR",
+        "ASSET_ADMIN",
+        "STORE_OFFICER",
+        "IT_MANAGER"
+      ],
+      "scope": "Inherit Stocks row scope; nested pages also require access to their originating ticket."
+    },
+    "StocksObjectPage": {
+      "roles": [
+        "TECHNICIAN",
+        "SUPERVISOR",
+        "ASSET_ADMIN",
+        "STORE_OFFICER",
+        "IT_MANAGER"
+      ],
+      "scope": "Inherit Stocks row scope; nested pages also require access to their originating ticket."
+    },
+    "ReservationsList": {
+      "roles": [
+        "TECHNICIAN",
+        "SUPERVISOR",
+        "ASSET_ADMIN",
+        "STORE_OFFICER",
+        "IT_MANAGER"
+      ],
+      "scope": "Inherit Reservations row scope; nested pages also require access to their originating ticket."
+    },
+    "ReservationsObjectPage": {
+      "roles": [
+        "TECHNICIAN",
+        "SUPERVISOR",
+        "ASSET_ADMIN",
+        "STORE_OFFICER",
+        "IT_MANAGER"
+      ],
+      "scope": "Inherit Reservations row scope; nested pages also require access to their originating ticket."
+    },
+    "StockTransactionsList": {
+      "roles": [
+        "TECHNICIAN",
+        "SUPERVISOR",
+        "ASSET_ADMIN",
+        "STORE_OFFICER",
+        "IT_MANAGER"
+      ],
+      "scope": "Inherit StockTransactions row scope; nested pages also require access to their originating ticket."
+    },
+    "StockTransactionsObjectPage": {
+      "roles": [
+        "TECHNICIAN",
+        "SUPERVISOR",
+        "ASSET_ADMIN",
+        "STORE_OFFICER",
+        "IT_MANAGER"
+      ],
+      "scope": "Inherit StockTransactions row scope; nested pages also require access to their originating ticket."
+    },
+    "RepairWorkspace": {
+      "roles": [
+        "TECHNICIAN",
+        "STORE_OFFICER",
+        "ASSET_ADMIN",
+        "SUPERVISOR",
+        "IT_MANAGER"
+      ],
+      "scope": "Apply each contained action permission independently; page access does not grant write access."
+    },
+    "Operations": {
+      "roles": [
+        "TECHNICIAN",
+        "SUPERVISOR",
+        "IT_MANAGER",
+        "SYSTEM_ADMIN"
+      ],
+      "scope": "Apply each contained action permission independently; page access does not grant write access."
+    },
+    "RoleAccess": {
+      "roles": [
+        "EMPLOYEE",
+        "TECHNICIAN",
+        "SUPERVISOR",
+        "ASSET_ADMIN",
+        "STORE_OFFICER",
+        "IT_MANAGER",
+        "SYSTEM_ADMIN"
+      ],
+      "scope": "Apply each contained action permission independently; page access does not grant write access."
+    },
+    "InventoryItem": {
+      "roles": [
+        "STORE_OFFICER"
+      ],
+      "scope": "Create items or receive equipment within permitted locations"
+    }
+  }
+}

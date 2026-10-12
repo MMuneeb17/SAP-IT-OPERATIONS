@@ -65,4 +65,28 @@ permission to delete audit data.
 Material, stock, reservation and movement references must agree. An optional asset
 on a ticket-linked reservation must agree with the ticket's affected asset. Repeated
 issues can fulfill one reservation in parts; transactions retain the originating
-repair where applicable. Configuration entities are designed in phase 7.
+repair where applicable.
+
+Phase 7 adds the following canonical configuration entities. UUID keys remain
+stable; configuration edits increment Revision and append ConfigurationHistory.
+
+The inventory creation extension also links every Asset to one Material through
+`MaterialUUID`. Equipment materials expose their individual Assets; quantity
+materials expose Stocks. Equipment has no parallel quantity balance. New assets
+retain company code, asset class, internal main number and subnumber; legacy tags
+remain unchanged. See [shared equipment](../../docs/inventory-item-creation.md).
+
+| Entity set | Purpose |
+| --- | --- |
+| SLAPolicies | Response/resolution targets and warning percentage by priority |
+| Categories | Default priority and routing team |
+| Subcategories | Classification within a category |
+| Teams | Team lead and location |
+| Locations | Operational locations |
+| WaitingReasons | Whether a waiting reason pauses resolution |
+| EscalationRules | Target role and escalation level by SLA state |
+| ConfigurationHistory | Append-only before/after values, actor and reason |
+
+Tickets reference team, location and optional subcategory, and retain a snapshot
+of SLA targets so policy edits do not rewrite existing commitments. See the
+[SLA workflow](../../docs/sla-configuration-workflow.md) for clock semantics.

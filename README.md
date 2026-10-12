@@ -1,8 +1,8 @@
 # SAP Fiori IT Operations Management System
 
-ITOMS connects Help Desk, IT Asset Lifecycle and MIS Inventory. Phases 0–6 provide
+ITOMS connects Help Desk, IT Asset Lifecycle and MIS Inventory. Phases 0–8 provide
 the architecture, OData V4 contract, local Help Desk and Asset Management modules,
-with validated ticket, asset and inventory actions plus a guided repair workflow,
+with validated business actions, guided repair, configurable SLAs and a role-design preview,
 without an SAP backend.
 
 ## Run locally
@@ -32,7 +32,7 @@ installation and SAPUI5 CDN resources; no SAP account or backend is needed.
 
 ```sh
 npm run doctor   # Node/Git and service configuration checks
-npm run validate:contract # Validate all 99 synthetic records against metadata
+npm run validate:contract # Validate all 136 synthetic records against metadata
 npm run build    # Build the Fiori application into apps/help-desk/dist
 npm test         # OData + actual browser smoke tests (Google Chrome required)
 ```
@@ -72,16 +72,29 @@ VS Code Insiders application on this machine already has SAP Fiori tools.
 - [Phases 5–6 inventory and integrated repair contract](docs/inventory-workflow.md)
 - [Phases 5–6 manual beginner guide](docs/beginner-guide-phases-5-6.md)
 - [Phases 5–6 implementation report](docs/phase-5-6-report.md)
+- [Phases 7–8 SLA and configuration contract](docs/sla-configuration-workflow.md)
+- [Phases 7–8 manual beginner guide](docs/beginner-guide-phases-7-8.md)
+- [Phases 7–8 completion report](docs/phase-7-8-report.md)
+- [Role matrix and SAP authorization requirements](sap-design/authorization/README.md)
+- [Create inventory items, shared assets and automatic numbering](docs/inventory-item-creation.md)
+- [Inventory creation implementation and verification report](docs/inventory-item-creation-report.md)
 
 Choose **Asset Management** in Help Desk to open the asset list. **My IT Assets**
 shows equipment for a selected preview employee. Asset details include assignments,
 repairs, warranty, related tickets and lifecycle history.
 
 The app starts with 6 employees, 8 assets, 9 tickets, 14 comments, 31 ticket history
-events, 4 assignments, 2 repairs, 8 asset events, 3 materials, 4 stock locations,
-2 reservations and 8 stock movements. All data is synthetic.
+events, 4 assignments, 2 repairs, 8 asset events, 9 materials, 4 stock locations,
+2 reservations and 8 stock movements, plus 30 configuration records and one
+configuration audit baseline (136 records total). All data is synthetic.
+**New inventory item** creates parts with opening stock or equipment with automatic
+asset tags. Equipment entries in inventory and Asset Management share the same
+records. Existing equipment is linked into the catalogue with its tags preserved.
 Choose **MIS Inventory** to manage stock and reservations. Open **Repair workflow**
 on a ticket to diagnose the asset, request and issue parts, then complete repair.
+**SLA and configuration** previews deadlines, records escalation checks and edits
+operational settings. **Access design** previews seven roles and their intended
+permissions; it does not authenticate users or restrict the mock API.
 New tickets and workflow history persist in server
 memory until restart/fixture reload. Preview employee selection is not authentication;
 production backend persistence and authorization remain later phases.

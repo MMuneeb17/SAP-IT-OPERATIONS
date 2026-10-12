@@ -163,7 +163,33 @@
         </Property>
         <NavigationProperty Name="Reservations" Type="Collection(ITOperations.Reservation)" Partner="Ticket"/>
         <NavigationProperty Name="StockTransactions" Type="Collection(ITOperations.StockTransaction)" Partner="Ticket"/>
-      </EntityType>
+              <Property Name="TeamUUID" Type="Edm.Guid" Nullable="false"><Annotation Term="Common.Label" String="Team ID"/></Property>
+        <Property Name="LocationUUID" Type="Edm.Guid" Nullable="false"><Annotation Term="Common.Label" String="Location ID"/></Property>
+        <Property Name="SubcategoryUUID" Type="Edm.Guid" Nullable="true"><Annotation Term="Common.Label" String="Subcategory ID"/></Property>
+        <Property Name="ResponseMinutes" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Response Minutes"/></Property>
+        <Property Name="ResolutionMinutes" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Resolution Minutes"/></Property>
+        <Property Name="WarningPercent" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Warning Percent"/></Property>
+        <Property Name="SLAPolicyRevision" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="SLAPolicy Revision"/></Property>
+        <Property Name="FirstResponseAt" Type="Edm.DateTimeOffset" Nullable="true"><Annotation Term="Common.Label" String="First Response At"/></Property>
+        <Property Name="ResolutionStartedAt" Type="Edm.DateTimeOffset" Nullable="false"><Annotation Term="Common.Label" String="Resolution Started At"/></Property>
+        <Property Name="SLAPausedSeconds" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="SLAPaused Seconds"/></Property>
+        <Property Name="SLAPauseStartedAt" Type="Edm.DateTimeOffset" Nullable="true"><Annotation Term="Common.Label" String="SLAPause Started At"/></Property>
+        <Property Name="WaitingReasonCode" Type="Edm.String" Nullable="true" MaxLength="500"><Annotation Term="Common.Label" String="Waiting Reason Code"/></Property>
+        <Property Name="EscalationLevel" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Escalation Level"/></Property>
+        <Property Name="EscalationTarget" Type="Edm.String" Nullable="true" MaxLength="500"><Annotation Term="Common.Label" String="Escalation Target"/></Property>
+        <Property Name="LastEscalatedAt" Type="Edm.DateTimeOffset" Nullable="true"><Annotation Term="Common.Label" String="Last Escalated At"/></Property>
+        <Property Name="SLALastCheckedAt" Type="Edm.DateTimeOffset" Nullable="true"><Annotation Term="Common.Label" String="SLALast Checked At"/></Property>
+        <Property Name="ResponseDueAt" Type="Edm.DateTimeOffset" Nullable="false"><Annotation Term="Common.Label" String="Response Due At"/></Property>
+        <Property Name="ResolutionDueAt" Type="Edm.DateTimeOffset" Nullable="false"><Annotation Term="Common.Label" String="Resolution Due At"/></Property>
+        <Property Name="ResponseSLAStatus" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Response SLAStatus"/></Property>
+        <Property Name="ResolutionSLAStatus" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Resolution SLAStatus"/></Property>
+        <Property Name="SLAStatus" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="SLAStatus"/></Property>
+        <Property Name="SLACriticality" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="SLACriticality"/></Property>
+        <Property Name="SLAEvaluatedAt" Type="Edm.DateTimeOffset" Nullable="false"><Annotation Term="Common.Label" String="SLAEvaluated At"/></Property>
+        <NavigationProperty Name="Team" Type="ITOperations.Team" Nullable="false"><ReferentialConstraint Property="TeamUUID" ReferencedProperty="TeamUUID"/></NavigationProperty>
+        <NavigationProperty Name="Location" Type="ITOperations.Location" Nullable="false"><ReferentialConstraint Property="LocationUUID" ReferencedProperty="LocationUUID"/></NavigationProperty>
+        <NavigationProperty Name="Subcategory" Type="ITOperations.Subcategory" Nullable="true"><ReferentialConstraint Property="SubcategoryUUID" ReferencedProperty="SubcategoryUUID"/></NavigationProperty>
+</EntityType>
       <EntityType Name="Asset">
         <Key>
           <PropertyRef Name="AssetUUID"/>
@@ -258,6 +284,12 @@
         <NavigationProperty Name="History" Type="Collection(ITOperations.AssetHistory)" Partner="Asset"/>
         <NavigationProperty Name="Reservations" Type="Collection(ITOperations.Reservation)" Partner="Asset"/>
         <NavigationProperty Name="StockTransactions" Type="Collection(ITOperations.StockTransaction)" Partner="Asset"/>
+        <Property Name="MaterialUUID" Type="Edm.Guid" Nullable="false"><Annotation Term="Common.Label" String="Inventory item"/></Property>
+        <Property Name="CompanyCode" Type="Edm.String" Nullable="true" MaxLength="4"><Annotation Term="Common.Label" String="Company code"/></Property>
+        <Property Name="AssetClass" Type="Edm.String" Nullable="true" MaxLength="20"><Annotation Term="Common.Label" String="Asset class"/></Property>
+        <Property Name="AssetNumber" Type="Edm.String" Nullable="true" MaxLength="12"><Annotation Term="Common.Label" String="Asset number"/></Property>
+        <Property Name="AssetSubnumber" Type="Edm.String" Nullable="true" MaxLength="4"><Annotation Term="Common.Label" String="Subnumber"/></Property>
+        <NavigationProperty Name="Material" Type="ITOperations.Material" Nullable="false" Partner="Assets"><ReferentialConstraint Property="MaterialUUID" ReferencedProperty="MaterialUUID"/></NavigationProperty>
       </EntityType>
       <EntityType Name="TicketComment">
         <Key>
@@ -482,6 +514,13 @@
         <NavigationProperty Name="Stocks" Type="Collection(ITOperations.Stock)" Partner="Material"/>
         <NavigationProperty Name="Reservations" Type="Collection(ITOperations.Reservation)" Partner="Material"/>
         <NavigationProperty Name="StockTransactions" Type="Collection(ITOperations.StockTransaction)" Partner="Material"/>
+        <Property Name="TrackingMode" Type="Edm.String" Nullable="false" MaxLength="20"><Annotation Term="Common.Label" String="Tracking"/></Property>
+        <Property Name="AssetType" Type="Edm.String" Nullable="true" MaxLength="30"><Annotation Term="Common.Label" String="Equipment class"/></Property>
+        <Property Name="Manufacturer" Type="Edm.String" Nullable="true" MaxLength="100"><Annotation Term="Common.Label" String="Manufacturer"/></Property>
+        <Property Name="Model" Type="Edm.String" Nullable="true" MaxLength="100"><Annotation Term="Common.Label" String="Model"/></Property>
+        <Property Name="TotalAssets" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Registered equipment"/></Property>
+        <Property Name="AvailableAssets" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Available equipment"/></Property>
+        <NavigationProperty Name="Assets" Type="Collection(ITOperations.Asset)" Partner="Material"/>
       </EntityType>
       <EntityType Name="Stock">
         <Key>
@@ -675,6 +714,118 @@
           <ReferentialConstraint Property="ReservationUUID" ReferencedProperty="ReservationUUID"/>
         </NavigationProperty>
       </EntityType>
+      <EntityType Name="SLAPolicy">
+        <Key><PropertyRef Name="SLAPolicyUUID"/></Key>
+        <Property Name="SLAPolicyUUID" Type="Edm.Guid" Nullable="false"><Annotation Term="Common.Label" String="SLAPolicy ID"/></Property>
+        <Property Name="Priority" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Priority"/></Property>
+        <Property Name="ResponseMinutes" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Response Minutes"/></Property>
+        <Property Name="ResolutionMinutes" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Resolution Minutes"/></Property>
+        <Property Name="WarningPercent" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Warning Percent"/></Property>
+        <Property Name="Revision" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Revision"/></Property>
+        <Property Name="LastChangedAt" Type="Edm.DateTimeOffset" Nullable="false"><Annotation Term="Common.Label" String="Last Changed At"/></Property>
+      </EntityType>
+      <EntityType Name="Category">
+        <Key><PropertyRef Name="CategoryUUID"/></Key>
+        <Property Name="CategoryUUID" Type="Edm.Guid" Nullable="false"><Annotation Term="Common.Label" String="Category ID"/></Property>
+        <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Name"/></Property>
+        <Property Name="DefaultPriority" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Default Priority"/></Property>
+        <Property Name="TeamUUID" Type="Edm.Guid" Nullable="false"><Annotation Term="Common.Label" String="Team ID"/></Property>
+        <Property Name="Active" Type="Edm.Boolean" Nullable="false"><Annotation Term="Common.Label" String="Active"/></Property>
+        <Property Name="Revision" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Revision"/></Property>
+        <Property Name="LastChangedAt" Type="Edm.DateTimeOffset" Nullable="false"><Annotation Term="Common.Label" String="Last Changed At"/></Property>
+        <NavigationProperty Name="Team" Type="ITOperations.Team" Nullable="false"><ReferentialConstraint Property="TeamUUID" ReferencedProperty="TeamUUID"/></NavigationProperty>
+      </EntityType>
+      <EntityType Name="Subcategory">
+        <Key><PropertyRef Name="SubcategoryUUID"/></Key>
+        <Property Name="SubcategoryUUID" Type="Edm.Guid" Nullable="false"><Annotation Term="Common.Label" String="Subcategory ID"/></Property>
+        <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Name"/></Property>
+        <Property Name="CategoryUUID" Type="Edm.Guid" Nullable="false"><Annotation Term="Common.Label" String="Category ID"/></Property>
+        <Property Name="Active" Type="Edm.Boolean" Nullable="false"><Annotation Term="Common.Label" String="Active"/></Property>
+        <Property Name="Revision" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Revision"/></Property>
+        <Property Name="LastChangedAt" Type="Edm.DateTimeOffset" Nullable="false"><Annotation Term="Common.Label" String="Last Changed At"/></Property>
+        <NavigationProperty Name="Category" Type="ITOperations.Category" Nullable="false"><ReferentialConstraint Property="CategoryUUID" ReferencedProperty="CategoryUUID"/></NavigationProperty>
+      </EntityType>
+      <EntityType Name="Team">
+        <Key><PropertyRef Name="TeamUUID"/></Key>
+        <Property Name="TeamUUID" Type="Edm.Guid" Nullable="false"><Annotation Term="Common.Label" String="Team ID"/></Property>
+        <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Name"/></Property>
+        <Property Name="LocationUUID" Type="Edm.Guid" Nullable="false"><Annotation Term="Common.Label" String="Location ID"/></Property>
+        <Property Name="LeadUUID" Type="Edm.Guid" Nullable="false"><Annotation Term="Common.Label" String="Lead ID"/></Property>
+        <Property Name="Active" Type="Edm.Boolean" Nullable="false"><Annotation Term="Common.Label" String="Active"/></Property>
+        <Property Name="Revision" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Revision"/></Property>
+        <Property Name="LastChangedAt" Type="Edm.DateTimeOffset" Nullable="false"><Annotation Term="Common.Label" String="Last Changed At"/></Property>
+        <NavigationProperty Name="Location" Type="ITOperations.Location" Nullable="false"><ReferentialConstraint Property="LocationUUID" ReferencedProperty="LocationUUID"/></NavigationProperty>
+        <NavigationProperty Name="Lead" Type="ITOperations.Employee" Nullable="false"><ReferentialConstraint Property="LeadUUID" ReferencedProperty="EmployeeUUID"/></NavigationProperty>
+      </EntityType>
+      <EntityType Name="Location">
+        <Key><PropertyRef Name="LocationUUID"/></Key>
+        <Property Name="LocationUUID" Type="Edm.Guid" Nullable="false"><Annotation Term="Common.Label" String="Location ID"/></Property>
+        <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Name"/></Property>
+        <Property Name="Active" Type="Edm.Boolean" Nullable="false"><Annotation Term="Common.Label" String="Active"/></Property>
+        <Property Name="Revision" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Revision"/></Property>
+        <Property Name="LastChangedAt" Type="Edm.DateTimeOffset" Nullable="false"><Annotation Term="Common.Label" String="Last Changed At"/></Property>
+      </EntityType>
+      <EntityType Name="WaitingReason">
+        <Key><PropertyRef Name="WaitingReasonUUID"/></Key>
+        <Property Name="WaitingReasonUUID" Type="Edm.Guid" Nullable="false"><Annotation Term="Common.Label" String="Waiting Reason ID"/></Property>
+        <Property Name="Code" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Code"/></Property>
+        <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Name"/></Property>
+        <Property Name="PauseResolution" Type="Edm.Boolean" Nullable="false"><Annotation Term="Common.Label" String="Pause Resolution"/></Property>
+        <Property Name="Active" Type="Edm.Boolean" Nullable="false"><Annotation Term="Common.Label" String="Active"/></Property>
+        <Property Name="Revision" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Revision"/></Property>
+        <Property Name="LastChangedAt" Type="Edm.DateTimeOffset" Nullable="false"><Annotation Term="Common.Label" String="Last Changed At"/></Property>
+      </EntityType>
+      <EntityType Name="EscalationRule">
+        <Key><PropertyRef Name="EscalationRuleUUID"/></Key>
+        <Property Name="EscalationRuleUUID" Type="Edm.Guid" Nullable="false"><Annotation Term="Common.Label" String="Escalation Rule ID"/></Property>
+        <Property Name="TriggerStatus" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Trigger Status"/></Property>
+        <Property Name="Level" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Level"/></Property>
+        <Property Name="TargetRole" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Target Role"/></Property>
+        <Property Name="Active" Type="Edm.Boolean" Nullable="false"><Annotation Term="Common.Label" String="Active"/></Property>
+        <Property Name="Revision" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Revision"/></Property>
+        <Property Name="LastChangedAt" Type="Edm.DateTimeOffset" Nullable="false"><Annotation Term="Common.Label" String="Last Changed At"/></Property>
+      </EntityType>
+      <EntityType Name="ConfigurationHistory">
+        <Key><PropertyRef Name="ConfigurationHistoryUUID"/></Key>
+        <Property Name="ConfigurationHistoryUUID" Type="Edm.Guid" Nullable="false"><Annotation Term="Common.Label" String="Configuration History ID"/></Property>
+        <Property Name="EntitySet" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Entity Set"/></Property>
+        <Property Name="RecordUUID" Type="Edm.Guid" Nullable="false"><Annotation Term="Common.Label" String="Record ID"/></Property>
+        <Property Name="Revision" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Revision"/></Property>
+        <Property Name="Reason" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Reason"/></Property>
+        <Property Name="Before" Type="Edm.String" Nullable="false" MaxLength="8000"><Annotation Term="Common.Label" String="Before"/></Property>
+        <Property Name="After" Type="Edm.String" Nullable="false" MaxLength="8000"><Annotation Term="Common.Label" String="After"/></Property>
+        <Property Name="CreatedAt" Type="Edm.DateTimeOffset" Nullable="false"><Annotation Term="Common.Label" String="Created At"/></Property>
+        <Property Name="CreatedBy" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Created By"/></Property>
+      </EntityType>
+      <Action Name="CreateInventoryItem" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Collection(ITOperations.Material)"/>
+        <Parameter Name="MaterialNumber" Type="Edm.String" Nullable="false"/>
+        <Parameter Name="Description" Type="Edm.String" Nullable="false"/>
+        <Parameter Name="Category" Type="Edm.String" Nullable="false"/>
+        <Parameter Name="TrackingMode" Type="Edm.String" Nullable="false"/>
+        <Parameter Name="UnitOfMeasure" Type="Edm.String" Nullable="false"/>
+        <Parameter Name="AssetType" Type="Edm.String" Nullable="true"/>
+        <Parameter Name="Manufacturer" Type="Edm.String" Nullable="true"/>
+        <Parameter Name="Model" Type="Edm.String" Nullable="true"/>
+        <Parameter Name="ReorderLevel" Type="Edm.Decimal" Nullable="true" Precision="15" Scale="3"/>
+        <Parameter Name="Quantity" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3"/>
+        <Parameter Name="StorageLocation" Type="Edm.String" Nullable="false"/>
+        <Parameter Name="SerialNumbers" Type="Edm.String" Nullable="true"/>
+        <Parameter Name="PurchaseDate" Type="Edm.Date" Nullable="true"/>
+        <Parameter Name="WarrantyEnd" Type="Edm.Date" Nullable="true"/>
+        <Parameter Name="Reason" Type="Edm.String" Nullable="false"/>
+        <ReturnType Type="ITOperations.Material" Nullable="false"/>
+      </Action>
+      <Action Name="ReceiveEquipment" IsBound="true">
+        <Parameter Name="bindingParameter" Type="ITOperations.Material"/>
+        <Parameter Name="Quantity" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3"/>
+        <Parameter Name="StorageLocation" Type="Edm.String" Nullable="false"/>
+        <Parameter Name="SerialNumbers" Type="Edm.String" Nullable="true"/>
+        <Parameter Name="PurchaseDate" Type="Edm.Date" Nullable="true"/>
+        <Parameter Name="WarrantyEnd" Type="Edm.Date" Nullable="true"/>
+        <Parameter Name="Reason" Type="Edm.String" Nullable="false"/>
+        <ReturnType Type="ITOperations.Material" Nullable="false"/>
+      </Action>
       <EntityContainer Name="Container">
         <EntitySet Name="Employees" EntityType="ITOperations.Employee">
           <NavigationPropertyBinding Path="RequestedTickets" Target="Tickets"/>
@@ -729,7 +880,10 @@
           </Annotation>
           <NavigationPropertyBinding Path="Reservations" Target="Reservations"/>
           <NavigationPropertyBinding Path="StockTransactions" Target="StockTransactions"/>
-        </EntitySet>
+                  <NavigationPropertyBinding Path="Team" Target="Teams"/>
+          <NavigationPropertyBinding Path="Location" Target="Locations"/>
+          <NavigationPropertyBinding Path="Subcategory" Target="Subcategories"/>
+</EntitySet>
         <EntitySet Name="Assets" EntityType="ITOperations.Asset">
           <NavigationPropertyBinding Path="CurrentEmployee" Target="Employees"/>
           <NavigationPropertyBinding Path="Tickets" Target="Tickets"/>
@@ -758,6 +912,7 @@
           <NavigationPropertyBinding Path="History" Target="AssetHistory"/>
           <NavigationPropertyBinding Path="Reservations" Target="Reservations"/>
           <NavigationPropertyBinding Path="StockTransactions" Target="StockTransactions"/>
+          <NavigationPropertyBinding Path="Material" Target="Materials"/>
         </EntitySet>
         <EntitySet Name="TicketComments" EntityType="ITOperations.TicketComment">
           <NavigationPropertyBinding Path="Ticket" Target="Tickets"/>
@@ -908,6 +1063,7 @@
           <NavigationPropertyBinding Path="Stocks" Target="Stocks"/>
           <NavigationPropertyBinding Path="Reservations" Target="Reservations"/>
           <NavigationPropertyBinding Path="StockTransactions" Target="StockTransactions"/>
+          <NavigationPropertyBinding Path="Assets" Target="Assets"/>
         </EntitySet>
         <EntitySet Name="Stocks" EntityType="ITOperations.Stock">
           <Annotation Term="Capabilities.InsertRestrictions">
@@ -990,6 +1146,50 @@
           <NavigationPropertyBinding Path="Repair" Target="AssetRepairs"/>
           <NavigationPropertyBinding Path="Reservation" Target="Reservations"/>
         </EntitySet>
+        <EntitySet Name="SLAPolicies" EntityType="ITOperations.SLAPolicy">
+          <Annotation Term="Capabilities.InsertRestrictions"><Record><PropertyValue Property="Insertable" Bool="false"/></Record></Annotation>
+          <Annotation Term="Capabilities.UpdateRestrictions"><Record><PropertyValue Property="Updatable" Bool="false"/></Record></Annotation>
+          <Annotation Term="Capabilities.DeleteRestrictions"><Record><PropertyValue Property="Deletable" Bool="false"/></Record></Annotation>
+        </EntitySet>
+        <EntitySet Name="Categories" EntityType="ITOperations.Category">
+          <Annotation Term="Capabilities.InsertRestrictions"><Record><PropertyValue Property="Insertable" Bool="false"/></Record></Annotation>
+          <Annotation Term="Capabilities.UpdateRestrictions"><Record><PropertyValue Property="Updatable" Bool="false"/></Record></Annotation>
+          <Annotation Term="Capabilities.DeleteRestrictions"><Record><PropertyValue Property="Deletable" Bool="false"/></Record></Annotation>
+          <NavigationPropertyBinding Path="Team" Target="Teams"/>
+        </EntitySet>
+        <EntitySet Name="Subcategories" EntityType="ITOperations.Subcategory">
+          <Annotation Term="Capabilities.InsertRestrictions"><Record><PropertyValue Property="Insertable" Bool="false"/></Record></Annotation>
+          <Annotation Term="Capabilities.UpdateRestrictions"><Record><PropertyValue Property="Updatable" Bool="false"/></Record></Annotation>
+          <Annotation Term="Capabilities.DeleteRestrictions"><Record><PropertyValue Property="Deletable" Bool="false"/></Record></Annotation>
+          <NavigationPropertyBinding Path="Category" Target="Categories"/>
+        </EntitySet>
+        <EntitySet Name="Teams" EntityType="ITOperations.Team">
+          <Annotation Term="Capabilities.InsertRestrictions"><Record><PropertyValue Property="Insertable" Bool="false"/></Record></Annotation>
+          <Annotation Term="Capabilities.UpdateRestrictions"><Record><PropertyValue Property="Updatable" Bool="false"/></Record></Annotation>
+          <Annotation Term="Capabilities.DeleteRestrictions"><Record><PropertyValue Property="Deletable" Bool="false"/></Record></Annotation>
+          <NavigationPropertyBinding Path="Location" Target="Locations"/>
+          <NavigationPropertyBinding Path="Lead" Target="Employees"/>
+        </EntitySet>
+        <EntitySet Name="Locations" EntityType="ITOperations.Location">
+          <Annotation Term="Capabilities.InsertRestrictions"><Record><PropertyValue Property="Insertable" Bool="false"/></Record></Annotation>
+          <Annotation Term="Capabilities.UpdateRestrictions"><Record><PropertyValue Property="Updatable" Bool="false"/></Record></Annotation>
+          <Annotation Term="Capabilities.DeleteRestrictions"><Record><PropertyValue Property="Deletable" Bool="false"/></Record></Annotation>
+        </EntitySet>
+        <EntitySet Name="WaitingReasons" EntityType="ITOperations.WaitingReason">
+          <Annotation Term="Capabilities.InsertRestrictions"><Record><PropertyValue Property="Insertable" Bool="false"/></Record></Annotation>
+          <Annotation Term="Capabilities.UpdateRestrictions"><Record><PropertyValue Property="Updatable" Bool="false"/></Record></Annotation>
+          <Annotation Term="Capabilities.DeleteRestrictions"><Record><PropertyValue Property="Deletable" Bool="false"/></Record></Annotation>
+        </EntitySet>
+        <EntitySet Name="EscalationRules" EntityType="ITOperations.EscalationRule">
+          <Annotation Term="Capabilities.InsertRestrictions"><Record><PropertyValue Property="Insertable" Bool="false"/></Record></Annotation>
+          <Annotation Term="Capabilities.UpdateRestrictions"><Record><PropertyValue Property="Updatable" Bool="false"/></Record></Annotation>
+          <Annotation Term="Capabilities.DeleteRestrictions"><Record><PropertyValue Property="Deletable" Bool="false"/></Record></Annotation>
+        </EntitySet>
+        <EntitySet Name="ConfigurationHistory" EntityType="ITOperations.ConfigurationHistory">
+          <Annotation Term="Capabilities.InsertRestrictions"><Record><PropertyValue Property="Insertable" Bool="false"/></Record></Annotation>
+          <Annotation Term="Capabilities.UpdateRestrictions"><Record><PropertyValue Property="Updatable" Bool="false"/></Record></Annotation>
+          <Annotation Term="Capabilities.DeleteRestrictions"><Record><PropertyValue Property="Deletable" Bool="false"/></Record></Annotation>
+        </EntitySet>
       </EntityContainer>
       <Action Name="Submit" IsBound="true" EntitySetPath="ticket">
         <Parameter Name="ticket" Type="ITOperations.Ticket" Nullable="false"/>
@@ -1065,7 +1265,8 @@
           <Annotation Term="Common.Label" String="Reason"/>
           <Annotation Term="UI.MultiLineText" Bool="true"/>
         </Parameter>
-        <ReturnType Type="ITOperations.Ticket" Nullable="false"/>
+                <Parameter Name="WaitingReasonCode" Type="Edm.String" Nullable="true" MaxLength="500"><Annotation Term="Common.Label" String="Waiting Reason Code"/></Parameter>
+<ReturnType Type="ITOperations.Ticket" Nullable="false"/>
         <Annotation Term="Core.OperationAvailable" Path="ticket/CanPutOnHold"/>
         <Annotation Term="Common.SideEffects">
           <Record Type="Common.SideEffectsType">
@@ -1722,6 +1923,99 @@
             </PropertyValue>
           </Record>
         </Annotation>
+      </Annotations>
+      <Action Name="SaveSLAPolicies" IsBound="true" EntitySetPath="item">
+        <Parameter Name="item" Type="ITOperations.SLAPolicy" Nullable="false"><Annotation Term="Common.Label" String="item"/></Parameter>
+        <Parameter Name="ResponseMinutes" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Response Minutes"/></Parameter>
+        <Parameter Name="ResolutionMinutes" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Resolution Minutes"/></Parameter>
+        <Parameter Name="WarningPercent" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Warning Percent"/></Parameter>
+        <Parameter Name="Revision" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Revision"/></Parameter>
+        <Parameter Name="Reason" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Reason"/></Parameter>
+        <ReturnType Type="ITOperations.SLAPolicy" Nullable="false"/>
+        <Annotation Term="Common.SideEffects"><Record Type="Common.SideEffectsType"><PropertyValue Property="TargetEntities"><Collection><NavigationPropertyPath>item</NavigationPropertyPath></Collection></PropertyValue></Record></Annotation>
+      </Action>
+      <Action Name="SaveCategories" IsBound="true" EntitySetPath="item">
+        <Parameter Name="item" Type="ITOperations.Category" Nullable="false"><Annotation Term="Common.Label" String="item"/></Parameter>
+        <Parameter Name="DefaultPriority" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Default Priority"/></Parameter>
+        <Parameter Name="TeamUUID" Type="Edm.Guid" Nullable="false"><Annotation Term="Common.Label" String="Team ID"/></Parameter>
+        <Parameter Name="Active" Type="Edm.Boolean" Nullable="false"><Annotation Term="Common.Label" String="Active"/></Parameter>
+        <Parameter Name="Revision" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Revision"/></Parameter>
+        <Parameter Name="Reason" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Reason"/></Parameter>
+        <ReturnType Type="ITOperations.Category" Nullable="false"/>
+        <Annotation Term="Common.SideEffects"><Record Type="Common.SideEffectsType"><PropertyValue Property="TargetEntities"><Collection><NavigationPropertyPath>item</NavigationPropertyPath></Collection></PropertyValue></Record></Annotation>
+      </Action>
+      <Action Name="SaveSubcategories" IsBound="true" EntitySetPath="item">
+        <Parameter Name="item" Type="ITOperations.Subcategory" Nullable="false"><Annotation Term="Common.Label" String="item"/></Parameter>
+        <Parameter Name="Name" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Name"/></Parameter>
+        <Parameter Name="Active" Type="Edm.Boolean" Nullable="false"><Annotation Term="Common.Label" String="Active"/></Parameter>
+        <Parameter Name="Revision" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Revision"/></Parameter>
+        <Parameter Name="Reason" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Reason"/></Parameter>
+        <ReturnType Type="ITOperations.Subcategory" Nullable="false"/>
+        <Annotation Term="Common.SideEffects"><Record Type="Common.SideEffectsType"><PropertyValue Property="TargetEntities"><Collection><NavigationPropertyPath>item</NavigationPropertyPath></Collection></PropertyValue></Record></Annotation>
+      </Action>
+      <Action Name="SaveTeams" IsBound="true" EntitySetPath="item">
+        <Parameter Name="item" Type="ITOperations.Team" Nullable="false"><Annotation Term="Common.Label" String="item"/></Parameter>
+        <Parameter Name="Name" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Name"/></Parameter>
+        <Parameter Name="LocationUUID" Type="Edm.Guid" Nullable="false"><Annotation Term="Common.Label" String="Location ID"/></Parameter>
+        <Parameter Name="LeadUUID" Type="Edm.Guid" Nullable="false"><Annotation Term="Common.Label" String="Lead ID"/></Parameter>
+        <Parameter Name="Active" Type="Edm.Boolean" Nullable="false"><Annotation Term="Common.Label" String="Active"/></Parameter>
+        <Parameter Name="Revision" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Revision"/></Parameter>
+        <Parameter Name="Reason" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Reason"/></Parameter>
+        <ReturnType Type="ITOperations.Team" Nullable="false"/>
+        <Annotation Term="Common.SideEffects"><Record Type="Common.SideEffectsType"><PropertyValue Property="TargetEntities"><Collection><NavigationPropertyPath>item</NavigationPropertyPath></Collection></PropertyValue></Record></Annotation>
+      </Action>
+      <Action Name="SaveLocations" IsBound="true" EntitySetPath="item">
+        <Parameter Name="item" Type="ITOperations.Location" Nullable="false"><Annotation Term="Common.Label" String="item"/></Parameter>
+        <Parameter Name="Name" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Name"/></Parameter>
+        <Parameter Name="Active" Type="Edm.Boolean" Nullable="false"><Annotation Term="Common.Label" String="Active"/></Parameter>
+        <Parameter Name="Revision" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Revision"/></Parameter>
+        <Parameter Name="Reason" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Reason"/></Parameter>
+        <ReturnType Type="ITOperations.Location" Nullable="false"/>
+        <Annotation Term="Common.SideEffects"><Record Type="Common.SideEffectsType"><PropertyValue Property="TargetEntities"><Collection><NavigationPropertyPath>item</NavigationPropertyPath></Collection></PropertyValue></Record></Annotation>
+      </Action>
+      <Action Name="SaveWaitingReasons" IsBound="true" EntitySetPath="item">
+        <Parameter Name="item" Type="ITOperations.WaitingReason" Nullable="false"><Annotation Term="Common.Label" String="item"/></Parameter>
+        <Parameter Name="Name" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Name"/></Parameter>
+        <Parameter Name="PauseResolution" Type="Edm.Boolean" Nullable="false"><Annotation Term="Common.Label" String="Pause Resolution"/></Parameter>
+        <Parameter Name="Active" Type="Edm.Boolean" Nullable="false"><Annotation Term="Common.Label" String="Active"/></Parameter>
+        <Parameter Name="Revision" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Revision"/></Parameter>
+        <Parameter Name="Reason" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Reason"/></Parameter>
+        <ReturnType Type="ITOperations.WaitingReason" Nullable="false"/>
+        <Annotation Term="Common.SideEffects"><Record Type="Common.SideEffectsType"><PropertyValue Property="TargetEntities"><Collection><NavigationPropertyPath>item</NavigationPropertyPath></Collection></PropertyValue></Record></Annotation>
+      </Action>
+      <Action Name="SaveEscalationRules" IsBound="true" EntitySetPath="item">
+        <Parameter Name="item" Type="ITOperations.EscalationRule" Nullable="false"><Annotation Term="Common.Label" String="item"/></Parameter>
+        <Parameter Name="TargetRole" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Target Role"/></Parameter>
+        <Parameter Name="Active" Type="Edm.Boolean" Nullable="false"><Annotation Term="Common.Label" String="Active"/></Parameter>
+        <Parameter Name="Revision" Type="Edm.Int32" Nullable="false"><Annotation Term="Common.Label" String="Revision"/></Parameter>
+        <Parameter Name="Reason" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Reason"/></Parameter>
+        <ReturnType Type="ITOperations.EscalationRule" Nullable="false"/>
+        <Annotation Term="Common.SideEffects"><Record Type="Common.SideEffectsType"><PropertyValue Property="TargetEntities"><Collection><NavigationPropertyPath>item</NavigationPropertyPath></Collection></PropertyValue></Record></Annotation>
+      </Action>
+      <Action Name="CheckSLA" IsBound="true" EntitySetPath="item">
+        <Parameter Name="item" Type="ITOperations.Ticket" Nullable="false"><Annotation Term="Common.Label" String="item"/></Parameter>
+        <ReturnType Type="ITOperations.Ticket" Nullable="false"/>
+        <Annotation Term="Common.SideEffects"><Record Type="Common.SideEffectsType"><PropertyValue Property="TargetEntities"><Collection><NavigationPropertyPath>item</NavigationPropertyPath></Collection></PropertyValue></Record></Annotation>
+      </Action>
+      <Action Name="PreviewSLA" IsBound="true" EntitySetPath="item">
+        <Parameter Name="item" Type="ITOperations.Ticket" Nullable="false"><Annotation Term="Common.Label" String="item"/></Parameter>
+        <Parameter Name="AsOf" Type="Edm.DateTimeOffset" Nullable="false"><Annotation Term="Common.Label" String="As Of"/></Parameter>
+        <ReturnType Type="ITOperations.Ticket" Nullable="false"/>
+        <Annotation Term="Common.SideEffects"><Record Type="Common.SideEffectsType"><PropertyValue Property="TargetEntities"><Collection><NavigationPropertyPath>item</NavigationPropertyPath></Collection></PropertyValue></Record></Annotation>
+      </Action>
+      <Action Name="ChangePriority" IsBound="true" EntitySetPath="item">
+        <Parameter Name="item" Type="ITOperations.Ticket" Nullable="false"><Annotation Term="Common.Label" String="item"/></Parameter>
+        <Parameter Name="Priority" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Priority"/></Parameter>
+        <Parameter Name="Reason" Type="Edm.String" Nullable="false" MaxLength="500"><Annotation Term="Common.Label" String="Reason"/></Parameter>
+        <ReturnType Type="ITOperations.Ticket" Nullable="false"/>
+        <Annotation Term="Common.SideEffects"><Record Type="Common.SideEffectsType"><PropertyValue Property="TargetEntities"><Collection><NavigationPropertyPath>item</NavigationPropertyPath></Collection></PropertyValue></Record></Annotation>
+      </Action>
+      <Annotations Target="ITOperations.PutOnHold(ITOperations.Ticket)/WaitingReasonCode">
+        <Annotation Term="Common.ValueList"><Record Type="Common.ValueListType"><PropertyValue Property="CollectionPath" String="WaitingReasons"/><PropertyValue Property="Parameters"><Collection>
+          <Record Type="Common.ValueListParameterInOut"><PropertyValue Property="LocalDataProperty" PropertyPath="WaitingReasonCode"/><PropertyValue Property="ValueListProperty" String="Code"/></Record>
+          <Record Type="Common.ValueListParameterDisplayOnly"><PropertyValue Property="ValueListProperty" String="Name"/></Record>
+          <Record Type="Common.ValueListParameterDisplayOnly"><PropertyValue Property="ValueListProperty" String="PauseResolution"/></Record>
+        </Collection></PropertyValue></Record></Annotation>
       </Annotations>
     </Schema>
   </edmx:DataServices>

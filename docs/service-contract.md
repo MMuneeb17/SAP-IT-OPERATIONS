@@ -1,4 +1,10 @@
-# IT Operations OData service contract — phases 2–6
+# IT Operations OData service contract — phases 2–8
+
+The 9 October inventory extension adds shared Material/Asset navigation,
+collection-bound `CreateInventoryItem`, instance-bound `ReceiveEquipment`,
+equipment counts and backend-generated demo tags. The current baseline is 20
+sets, 59 navigation properties and 136 seed rows. See the
+[receipt contract and numbering guide](inventory-item-creation.md).
 
 The contract supports Fiori reads of Employees, Tickets, Assets, TicketComments
 and TicketHistory. Phase 3 adds validated ticket creation and workflow actions;
@@ -15,6 +21,12 @@ inventory actions and RequestPart on Tickets. The service has 12 entity sets,
 cross-module references and completion guards.
 
 ## Identity and source of truth
+
+Phases 7–8 add SLAPolicies, Categories, Subcategories, Teams, Locations,
+WaitingReasons, EscalationRules and ConfigurationHistory, with seven Save actions
+and three ticket SLA actions. The current totals are 20 sets, 57 navigation
+properties and 130 seed records. See the [SLA contract](sla-configuration-workflow.md)
+for live computed fields, snapshot policy, pause rules and configuration concurrency.
 
 | Item | Contract |
 | --- | --- |

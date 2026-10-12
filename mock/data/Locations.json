@@ -1,0 +1,16 @@
+[
+  {
+    "Name": "Karachi",
+    "Active": true,
+    "LocationUUID": "00000017-0000-4000-8000-000000000001",
+    "Revision": 1,
+    "LastChangedAt": "2026-09-01T00:00:00Z"
+  },
+  {
+    "Name": "Lahore",
+    "Active": true,
+    "LocationUUID": "00000017-0000-4000-8000-000000000002",
+    "Revision": 1,
+    "LastChangedAt": "2026-09-01T00:00:00Z"
+  }
+]

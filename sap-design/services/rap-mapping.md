@@ -111,3 +111,34 @@ the local preview has no authenticated user or production security boundary.
 See the [phase 0 RAP inventory](../rap/baseline.md) for later inventory and
 cross-module mappings and the [architecture](../../docs/architecture.md) for
 ownership and consistency rules.
+
+## Phase 7–8 continuation
+
+The inventory creation extension adds collection-bound `CreateInventoryItem`
+and instance-bound `ReceiveEquipment` actions on Material. Persist the
+Material-to-Asset association and create equipment, receipt history and catalogue
+data atomically. Quantity-tracked parts instead create stock and an opening
+movement. Preserve existing asset identifiers during migration. See the
+[numbering and receipt design](../../docs/inventory-item-creation.md) for the
+company/class number-range contract and production allocation requirements.
+
+Map the eight configuration entity sets in the canonical metadata to persistent
+configuration and append-only audit entities. Save actions validate references
+and an expected Revision, then update the configuration and audit atomically.
+Use backend locks/ETags appropriate to the target release; the local Revision
+check and process queue do not supply distributed concurrency control.
+
+On ticket creation, snapshot SLA targets and routing. On assignment, record the
+first response once; on waiting/resume, maintain accumulated paused seconds; on
+resolution/reopen, stop or restart the resolution cycle. ChangePriority must
+reapply the selected policy while preserving elapsed time and write history.
+PreviewSLA is a read-only projection; CheckSLA is an explicit audited escalation
+check. A production scheduler must reuse the same idempotent escalation rules.
+The mock uses elapsed calendar time, not a factory/business-hours calendar.
+
+Implement the [role design](../authorization/README.md) with authenticated actor
+resolution, CDS read restrictions and RAP global/instance authorization for every
+write. Enforce ownership, team and storage-location scopes server-side. Browser
+visibility and the local role explorer are not authorization controls. Verify
+denied reads/actions, stale writes and atomic audit rollback against the real
+SAP system before declaring this mapping implemented.

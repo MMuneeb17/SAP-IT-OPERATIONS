@@ -2,7 +2,7 @@
 
 **Project:** SAP IT Operations Management System (ITOMS)
 
-**Snapshot:** 8 October 2026, through completed Phases 5–6 (local MVP)
+**Snapshot:** 9 October 2026, through Phases 7–8 plus inventory item creation and shared equipment
 
 **Current runtime:** local SAPUI5/Fiori Elements application with a mock OData V4 service
 
@@ -50,9 +50,11 @@ asset history, spare parts and inventory movements.
 | Asset Management and My IT Assets | Phase 4 complete locally |
 | Asset assignments, transfers, repairs and lifecycle history | Implemented in mock service |
 | Materials, stock, reservations and stock movements | Phase 5 implemented locally |
+| New inventory items, shared equipment and automatic demo tags | Implemented locally; see [creation guide](docs/inventory-item-creation.md) |
 | Integrated parts-to-repair process | Phase 6 implemented locally |
-| SLA rules, escalation and configuration | Phase 7 planned |
-| Role matrix and management analytics | Phases 8–9 planned |
+| SLA rules, explicit escalation checks and configuration | Phase 7 implemented locally |
+| Role matrix, visibility preview and SAP authorization requirements | Phase 8 design implemented; enforcement remains future SAP work |
+| Management analytics | Phase 9 planned |
 | Complete RAP design package and real ABAP implementation | Phases 10–11 planned; initial mappings exist |
 | SAP authorization, notifications and production launchpad | Phases 12–13 planned |
 
@@ -130,7 +132,7 @@ connection to a deployed SAP business service.
 
 ```mermaid
 flowchart LR
-  Edit[Edit mock/metadata.xml or mock/data] --> Sync[Sync 31 files]
+  Edit[Edit mock/metadata.xml or mock/data] --> Sync[Sync 51 files]
   Sync --> Local[Application localService copy]
   Local --> Load[Server loads seed records]
   Load --> Runtime[(Runtime memory)]
@@ -155,6 +157,8 @@ flowchart LR
 | `_workflow.js` | Shared queue, ticket transitions, validation, timestamps and internal-write Symbol |
 | `_asset-workflow.js` | Asset state eligibility, action flags and criticality |
 | `_inventory.js` | Quantity/reference validation, stock actions and compensation journal |
+| `_sla.js` | Policy snapshots, clock/pause calculation, priority changes and escalation checks |
+| `_configuration.js` | Validated configuration saves, revision checks and audit journal |
 | `_readonly.js` | Reject unsupported external writes; permit trusted internal insertion |
 | `_asset-child.js` | Internal assignment/repair updates and rollback removal |
 | `_nullable-filter.js` | Local handling of nullable filter values |
@@ -208,6 +212,8 @@ the entity UUID substituted by routing.
 | `Reservations` / `Reservations({key})` | Part requests, issue and cancellation |
 | `StockTransactions` / `StockTransactions({key})` | Read-only movement history |
 | `Repair?ticket={key}` | Guided diagnosis, part request, issue and repair completion |
+| `Operations` | Live SLA workbench, future preview, escalation checks and configuration editor |
+| `RoleAccess` | Seven-role visibility and backend scope design preview |
 
 ```mermaid
 flowchart TD
@@ -254,11 +260,19 @@ empty. Clear filters and press Go before investigating missing records.
 | AssetAssignments | AssetAssignmentUUID | 4 | Asset-owned custody intervals |
 | AssetRepairs | AssetRepairUUID | 2 | Asset-owned repair records |
 | AssetHistory | AssetHistoryUUID | 8 | Asset-owned lifecycle events |
-| Materials | MaterialUUID | 3 | Read-only spare-part and consumable catalogue |
+| Materials | MaterialUUID | 9 | Shared equipment and quantity-tracked parts catalogue |
 | Stocks | StockUUID | 4 | Material/location balances; action-controlled |
 | Reservations | ReservationUUID | 2 | Outstanding and issued part quantities |
 | StockTransactions | StockTransactionUUID | 8 | Protected movement ledger |
-| **Total** | | **99** | **12 sets, 50 navigation properties** |
+| SLAPolicies | SLAPolicyUUID | 4 | Priority targets and warning thresholds |
+| Categories | CategoryUUID | 8 | Default priority and routing team |
+| Subcategories | SubcategoryUUID | 8 | Category-specific request classification |
+| Teams | TeamUUID | 2 | Team, lead and location configuration |
+| Locations | LocationUUID | 2 | Operational locations |
+| WaitingReasons | WaitingReasonUUID | 4 | Stable codes and resolution-pause rules |
+| EscalationRules | EscalationRuleUUID | 2 | Warning/breach levels and target roles |
+| ConfigurationHistory | ConfigurationHistoryUUID | 1 | Configuration before/after audit |
+| **Total** | | **136** | **20 sets, 59 navigation properties** |
 
 UUIDs are technical keys. TicketNumber, AssetTag and EmployeeNumber are readable
 business identifiers. Associations use UUIDs, not names or email addresses.
@@ -537,9 +551,39 @@ See [inventory architecture and invariants](docs/inventory-workflow.md), the
 [completion report](docs/phase-5-6-report.md), and the
 [beginner manual guide](docs/beginner-guide-phases-5-6.md).
 
-SLA determination, at-risk/breach monitoring, escalation, notifications and KPI
-drill-downs are later capabilities. Existing priority/status colors do not imply
-that an SLA engine has already been implemented.
+### SLA and access controls — Phases 7–8
+
+Creation snapshots the priority's policy; assignment records the first response;
+resolution stops its clock. Configured waiting reasons may pause resolution.
+Reopening starts a new resolution cycle while preserving the original response
+result. Deadlines and WITHIN_SLA/AT_RISK/BREACHED/PAUSED/MET statuses are derived
+on reads. Calculations use elapsed time, including nights and weekends.
+
+```mermaid
+flowchart LR
+  Policy[Configured priority policy] --> Create[Ticket snapshot at creation]
+  Create --> Live[Live deadline and status calculation]
+  Wait[Waiting and resumed intervals] --> Live
+  Live --> Preview[Future projection without saving]
+  Live --> Check[Explicit current-time SLA check]
+  Check --> Escalate[Raise escalation level and audit once]
+  Config[Configuration save with revision] --> Journal[Atomic local write journal]
+  Journal --> Policy
+  Journal --> Audit[Before and after configuration history]
+```
+
+Operations exposes PreviewSLA, CheckSLA and ChangePriority. Seven configuration
+sets provide validated Save actions with mandatory reasons and revision conflict
+checks. Category defaults drive new ticket priority/team/location. Policy edits
+affect future snapshots; priority changes explicitly apply a current policy.
+There is no background scheduler, email delivery or business-calendar engine.
+
+Access design previews seven roles, entity scopes and action decisions. It does
+not change the global application role or enforce mock endpoint permissions.
+The [full authorization matrix](sap-design/authorization/README.md) specifies
+production read filtering, ownership, team/location scopes and RAP/PFCG mapping.
+See the [SLA contract](docs/sla-configuration-workflow.md) and
+[manual guide](docs/beginner-guide-phases-7-8.md) for rules and exercises.
 
 ## 10. Local mock setup
 
@@ -569,7 +613,7 @@ npm run mock:sync
 npm run validate:contract
 ```
 
-Expected baseline: 31 synchronized files, twelve entity sets and 99 seed records.
+Expected baseline: 51 synchronized files, twenty entity sets and 136 seed records.
 The validator checks keys, types, nullability, relationships, custody intervals
 and repair consistency. `mock:check` detects drift without copying files.
 
@@ -877,7 +921,7 @@ directly into SAP test isolation; build a dedicated integration-test configurati
 | Area | What must be checked |
 | --- | --- |
 | Schema | Entity-set aliases, UUID keys, field names/types/lengths/nullability |
-| Navigation | All 50 current navigation properties and nested expansion |
+| Navigation | All 59 current navigation properties and nested expansion |
 | Actions | Namespaces, parameters, binding, return values and side effects |
 | Queries | Filter, search, sort, count, paging and continuation handling |
 | Errors | User-readable OData errors and correct field/action targeting |
@@ -933,19 +977,26 @@ process or notification service is claimed by the local MVP.
 
 ## 15. Testing and acceptance
 
-The Phase 5–6 acceptance run recorded **68 passing tests**:
+After inventory creation, **116 tests were verified passing across the full run
+and targeted reruns**: the full run passed 115, and one browser startup timeout
+passed on rerun. The extension adds seven service/unit tests and two browser tests.
+See the [inventory creation report](docs/inventory-item-creation-report.md) for
+results and screenshots. The earlier milestone breakdown below is retained.
+
+The Phase 7–8 acceptance run recorded **107 passing tests**:
 
 | Test area | Count | Coverage |
 | --- | ---: | --- |
-| Contract | 39 | Twelve sets, keys, fields, queries, nulls and 50 navigation properties |
+| Contract | 63 | Twenty sets, keys, fields, queries, nulls and 57 navigation properties |
 | Asset workflow | 7 | Lifecycle, repairs, invalid actions, protected writes, concurrency and rollback |
 | Ticket workflow | 6 | Creation, transitions, history, invalid input and concurrency |
 | Inventory workflow | 8 | Quantity/ledger rules, actions, concurrency, rollback and SSD repair-to-closure |
-| Preview/browser | 8 | OData model, ticket/asset flows, inventory dialogs, guided repair and mobile views |
+| SLA/configuration/access design | 13 | Clock boundaries, pauses, escalation, policy snapshots, revisions, rollback and role coverage |
+| Preview/browser | 10 | OData model, ticket/asset flows, inventory dialogs, guided repair, SLA/configuration, role preview and mobile views |
 
 Build, mock synchronization, contract validation and doctor checks also passed.
 These are local mock results; ABAP has not been tested. See the
-[Phases 5–6 report](docs/phase-5-6-report.md) for acceptance details and screenshots.
+[Phases 7–8 report](docs/phase-7-8-report.md) for acceptance details and screenshots.
 
 Before declaring the SAP migration complete, require equivalent business outcomes
 against RAP plus authorization, concurrency, rollback and deployment validation.
@@ -1015,6 +1066,10 @@ SAP IT OPERATIONS/
 - [Phases 5–6 completion report](docs/phase-5-6-report.md)
 - [Phases 5–6 manual beginner guide](docs/beginner-guide-phases-5-6.md)
 - [Inventory and repair contract](docs/inventory-workflow.md)
+- [SLA and configuration contract](docs/sla-configuration-workflow.md)
+- [Phases 7–8 completion report](docs/phase-7-8-report.md)
+- [Phases 7–8 manual guide](docs/beginner-guide-phases-7-8.md)
+- [Complete role and authorization matrix](sap-design/authorization/README.md)
 
 The diagrams summarize the checked-in implementation and planned domain design.
 They are not generated SAP system topology or proof of a deployed backend.

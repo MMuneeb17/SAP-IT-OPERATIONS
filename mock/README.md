@@ -1,9 +1,16 @@
 # Local OData contract and Help Desk workflow
 
+Current baseline after inventory item creation: **20 entity sets, 136 seed rows,
+59 navigation properties and 51 synchronized files**. The original phase counts
+below describe earlier milestones. `_catalogue.js` implements atomic receipts;
+`_asset-numbering.js` defines local demo ranges. Equipment shares Assets records
+through MaterialUUID, while parts retain quantity balances. See the
+[creation guide](../docs/inventory-item-creation.md).
+
 `metadata.xml` and `data/*.json` are the canonical service inputs.
 The `data/*.js` contributors implement validated ticket creation/actions, protect
 reference/audit records, adapt null comparisons and provide case-insensitive search.
-They retain the native JSON loader. The twelve public entity sets are Employees,
+They retain the native JSON loader. The original twelve public entity sets are Employees,
 Tickets, Assets, TicketComments, TicketHistory, AssetAssignments, AssetRepairs,
 AssetHistory, Materials, Stocks, Reservations and StockTransactions.
 All people, identifiers and incidents are synthetic; email uses `example.test`.
@@ -40,3 +47,10 @@ files in Phase 4; the fixture validator also checks custody intervals and repair
 Phases 5–6 add inventory and RequestPart actions, a compensating write journal,
 ledger reconciliation and repair/ticket completion guards. There are now **31
 synchronized files**. See the [inventory contract](../docs/inventory-workflow.md).
+
+Phases 7–8 add SLAPolicies, Categories, Subcategories, Teams, Locations,
+WaitingReasons, EscalationRules and ConfigurationHistory. Current totals are
+**20 sets, 130 seed records and 49 synchronized files**. Tickets derive live SLA
+fields on reads; configuration writes use revisions and an audit journal. See the
+[SLA contract](../docs/sla-configuration-workflow.md). Access design is a preview,
+not mock authentication or authorization enforcement.

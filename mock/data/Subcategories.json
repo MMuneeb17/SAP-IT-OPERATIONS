@@ -1,0 +1,66 @@
+[
+  {
+    "Name": "SSD / storage",
+    "CategoryUUID": "00000014-0000-4000-8000-000000000001",
+    "Active": true,
+    "SubcategoryUUID": "00000015-0000-4000-8000-000000000001",
+    "Revision": 1,
+    "LastChangedAt": "2026-09-01T00:00:00Z"
+  },
+  {
+    "Name": "Application failure",
+    "CategoryUUID": "00000014-0000-4000-8000-000000000002",
+    "Active": true,
+    "SubcategoryUUID": "00000015-0000-4000-8000-000000000002",
+    "Revision": 1,
+    "LastChangedAt": "2026-09-01T00:00:00Z"
+  },
+  {
+    "Name": "Connectivity",
+    "CategoryUUID": "00000014-0000-4000-8000-000000000003",
+    "Active": true,
+    "SubcategoryUUID": "00000015-0000-4000-8000-000000000003",
+    "Revision": 1,
+    "LastChangedAt": "2026-09-01T00:00:00Z"
+  },
+  {
+    "Name": "SAP access",
+    "CategoryUUID": "00000014-0000-4000-8000-000000000004",
+    "Active": true,
+    "SubcategoryUUID": "00000015-0000-4000-8000-000000000004",
+    "Revision": 1,
+    "LastChangedAt": "2026-09-01T00:00:00Z"
+  },
+  {
+    "Name": "Mail delivery",
+    "CategoryUUID": "00000014-0000-4000-8000-000000000005",
+    "Active": true,
+    "SubcategoryUUID": "00000015-0000-4000-8000-000000000005",
+    "Revision": 1,
+    "LastChangedAt": "2026-09-01T00:00:00Z"
+  },
+  {
+    "Name": "Printing",
+    "CategoryUUID": "00000014-0000-4000-8000-000000000006",
+    "Active": true,
+    "SubcategoryUUID": "00000015-0000-4000-8000-000000000006",
+    "Revision": 1,
+    "LastChangedAt": "2026-09-01T00:00:00Z"
+  },
+  {
+    "Name": "Account access",
+    "CategoryUUID": "00000014-0000-4000-8000-000000000007",
+    "Active": true,
+    "SubcategoryUUID": "00000015-0000-4000-8000-000000000007",
+    "Revision": 1,
+    "LastChangedAt": "2026-09-01T00:00:00Z"
+  },
+  {
+    "Name": "General request",
+    "CategoryUUID": "00000014-0000-4000-8000-000000000008",
+    "Active": true,
+    "SubcategoryUUID": "00000015-0000-4000-8000-000000000008",
+    "Revision": 1,
+    "LastChangedAt": "2026-09-01T00:00:00Z"
+  }
+]

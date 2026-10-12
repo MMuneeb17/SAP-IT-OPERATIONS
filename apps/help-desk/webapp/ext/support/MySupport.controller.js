@@ -3,13 +3,13 @@ sap.ui.define([
   "sap/ui/model/FilterOperator", "sap/ui/model/Sorter", "sap/ui/core/Messaging", "sap/m/MessageToast"
 ], function (PageController, JSONModel, Filter, FilterOperator, Sorter, Messaging, MessageToast) {
   "use strict";
-  const emptyForm = () => ({ Subject: "", Description: "", Category: "Hardware", Priority: "MEDIUM", AssetUUID: "" });
+  const emptyForm = () => ({ Subject: "", Description: "", Category: "Hardware", Priority: "", AssetUUID: "", SubcategoryUUID: "" });
   return PageController.extend("itoms.helpdesk.ext.support.MySupport", {
     onInit: function () {
       PageController.prototype.onInit.apply(this, arguments);
       this.getView().setModel(new JSONModel({ busy: true, error: "", employee: "", employees: [], assets: [], tickets: [],
         form: emptyForm(), states: { Subject: "None", Description: "None" }, showForm: true,
-        categories: ["Hardware", "Software", "Network", "SAP", "Email", "Printer", "Access", "Other"].map(key => ({ key })) }), "support");
+        categories: [], subcategories: [] }), "support");
     },
     onPageReady: async function () { await this.onRefresh(); },
     text: function (key) { return this.getView().getModel("i18n").getResourceBundle().getText(key); },
@@ -22,6 +22,10 @@ sap.ui.define([
       const vm = this.getView().getModel("support");
       vm.setProperty("/busy", true); vm.setProperty("/error", "");
       try {
+        const [categories,subcategories]=await Promise.all([this.read('/Categories',[new Filter('Active',FilterOperator.EQ,true)]),this.read('/Subcategories',[new Filter('Active',FilterOperator.EQ,true)])]);
+        vm.setProperty('/categories',categories.map(row=>({...row,key:row.Name})));this._subcategories=subcategories;
+        if(!categories.some(row=>row.Name===vm.getProperty('/form/Category')))vm.setProperty('/form/Category',categories[0]?.Name||'');
+        this.onCategoryChange();
         if (!vm.getProperty("/employees").length) {
           const employees = await this.read("/Employees", [], [new Sorter("DisplayName")]);
           vm.setProperty("/employees", employees);
@@ -41,6 +45,12 @@ sap.ui.define([
     onEmployeeChange: async function () {
       this.getView().getModel("support").setProperty("/form/AssetUUID", "");
       await this.onRefresh();
+    },
+    onCategoryChange: function () {
+      const vm=this.getView().getModel('support'),category=vm.getProperty('/categories').find(row=>row.Name===vm.getProperty('/form/Category'));
+      const rows=(this._subcategories||[]).filter(row=>row.CategoryUUID===category?.CategoryUUID);
+      vm.setProperty('/subcategories',[{SubcategoryUUID:'',Name:this.text('noSubcategory')},...rows]);
+      if(!rows.some(row=>row.SubcategoryUUID===vm.getProperty('/form/SubcategoryUUID')))vm.setProperty('/form/SubcategoryUUID','');
     },
     onCreate: async function () {
       const vm = this.getView().getModel("support");
@@ -65,7 +75,8 @@ sap.ui.define([
             reject(new Error(message?.getMessage() || this.text("createFailed")));
           }
         }));
-        context = list.create({ ...form, AssetUUID: form.AssetUUID || null, RequesterUUID: vm.getProperty("/employee") });
+        if(!form.Priority)delete form.Priority;
+        context = list.create({ ...form, SubcategoryUUID:form.SubcategoryUUID||null, AssetUUID: form.AssetUUID || null, RequesterUUID: vm.getProperty("/employee") });
         // Failed creates remain transient for retry; cancel them explicitly in the error path.
         context.created().catch(() => {});
         await completed;

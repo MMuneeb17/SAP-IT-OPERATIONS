@@ -1,0 +1,139 @@
+[
+  {
+    "name": "SLAPolicies",
+    "key": "SLAPolicyUUID",
+    "fields": [
+      {
+        "name": "ResponseMinutes",
+        "type": "Edm.Int32",
+        "label": "Response Minutes"
+      },
+      {
+        "name": "ResolutionMinutes",
+        "type": "Edm.Int32",
+        "label": "Resolution Minutes"
+      },
+      {
+        "name": "WarningPercent",
+        "type": "Edm.Int32",
+        "label": "Warning Percent"
+      }
+    ]
+  },
+  {
+    "name": "Categories",
+    "key": "CategoryUUID",
+    "fields": [
+      {
+        "name": "DefaultPriority",
+        "type": "Edm.String",
+        "label": "Default Priority"
+      },
+      {
+        "name": "TeamUUID",
+        "type": "Edm.Guid",
+        "label": "Team UUID"
+      },
+      {
+        "name": "Active",
+        "type": "Edm.Boolean",
+        "label": "Active"
+      }
+    ]
+  },
+  {
+    "name": "Subcategories",
+    "key": "SubcategoryUUID",
+    "fields": [
+      {
+        "name": "Name",
+        "type": "Edm.String",
+        "label": "Name"
+      },
+      {
+        "name": "Active",
+        "type": "Edm.Boolean",
+        "label": "Active"
+      }
+    ]
+  },
+  {
+    "name": "Teams",
+    "key": "TeamUUID",
+    "fields": [
+      {
+        "name": "Name",
+        "type": "Edm.String",
+        "label": "Name"
+      },
+      {
+        "name": "LocationUUID",
+        "type": "Edm.Guid",
+        "label": "Location UUID"
+      },
+      {
+        "name": "LeadUUID",
+        "type": "Edm.Guid",
+        "label": "Lead UUID"
+      },
+      {
+        "name": "Active",
+        "type": "Edm.Boolean",
+        "label": "Active"
+      }
+    ]
+  },
+  {
+    "name": "Locations",
+    "key": "LocationUUID",
+    "fields": [
+      {
+        "name": "Name",
+        "type": "Edm.String",
+        "label": "Name"
+      },
+      {
+        "name": "Active",
+        "type": "Edm.Boolean",
+        "label": "Active"
+      }
+    ]
+  },
+  {
+    "name": "WaitingReasons",
+    "key": "WaitingReasonUUID",
+    "fields": [
+      {
+        "name": "Name",
+        "type": "Edm.String",
+        "label": "Name"
+      },
+      {
+        "name": "PauseResolution",
+        "type": "Edm.Boolean",
+        "label": "Pause Resolution"
+      },
+      {
+        "name": "Active",
+        "type": "Edm.Boolean",
+        "label": "Active"
+      }
+    ]
+  },
+  {
+    "name": "EscalationRules",
+    "key": "EscalationRuleUUID",
+    "fields": [
+      {
+        "name": "TargetRole",
+        "type": "Edm.String",
+        "label": "Target Role"
+      },
+      {
+        "name": "Active",
+        "type": "Edm.Boolean",
+        "label": "Active"
+      }
+    ]
+  }
+]

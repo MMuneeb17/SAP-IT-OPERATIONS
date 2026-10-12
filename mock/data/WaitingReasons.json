@@ -1,0 +1,38 @@
+[
+  {
+    "Code": "WAIT_USER",
+    "Name": "Waiting for employee",
+    "PauseResolution": true,
+    "Active": true,
+    "WaitingReasonUUID": "00000018-0000-4000-8000-000000000001",
+    "Revision": 1,
+    "LastChangedAt": "2026-09-01T00:00:00Z"
+  },
+  {
+    "Code": "WAIT_PARTS",
+    "Name": "Waiting for parts",
+    "PauseResolution": false,
+    "Active": true,
+    "WaitingReasonUUID": "00000018-0000-4000-8000-000000000002",
+    "Revision": 1,
+    "LastChangedAt": "2026-09-01T00:00:00Z"
+  },
+  {
+    "Code": "WAIT_VENDOR",
+    "Name": "Waiting for vendor",
+    "PauseResolution": true,
+    "Active": true,
+    "WaitingReasonUUID": "00000018-0000-4000-8000-000000000003",
+    "Revision": 1,
+    "LastChangedAt": "2026-09-01T00:00:00Z"
+  },
+  {
+    "Code": "OTHER",
+    "Name": "Other / clock continues",
+    "PauseResolution": false,
+    "Active": true,
+    "WaitingReasonUUID": "00000018-0000-4000-8000-000000000004",
+    "Revision": 1,
+    "LastChangedAt": "2026-09-01T00:00:00Z"
+  }
+]

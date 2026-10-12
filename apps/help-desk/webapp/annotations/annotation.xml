@@ -52,7 +52,7 @@
               <PropertyValue Property="Label" String="Asset tag"/>
               <PropertyValue Property="Value" Path="Asset/AssetTag"/>
             </Record>
-          </Collection>
+          <Record Type="UI.DataField"><PropertyValue Property="Value" Path="SLAStatus"/><PropertyValue Property="Label" String="SLA"/><PropertyValue Property="Criticality" Path="SLACriticality"/></Record></Collection>
         </Annotation>
         <Annotation Term="UI.SelectionFields">
           <Collection>
@@ -60,7 +60,7 @@
             <PropertyPath>Status</PropertyPath>
             <PropertyPath>Priority</PropertyPath>
             <PropertyPath>Category</PropertyPath>
-          </Collection>
+          <PropertyPath>SLAStatus</PropertyPath></Collection>
         </Annotation>
         <Annotation Term="UI.FieldGroup" Qualifier="Overview">
           <Record>
@@ -168,7 +168,7 @@
               <PropertyValue Property="Label" String="Part movements"/>
               <PropertyValue Property="Target" AnnotationPath="StockTransactions/@UI.LineItem"/>
             </Record>
-          </Collection>
+          <Record Type="UI.ReferenceFacet"><PropertyValue Property="ID" String="SLA"/><PropertyValue Property="Label" String="Service levels"/><PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#SLA"/></Record></Collection>
         </Annotation>
         <Annotation Term="UI.Identification">
           <Collection>
@@ -247,7 +247,9 @@
           </Collection>
         </Annotation>
         <Annotation Term="UI.CreateHidden" Bool="true"/>
-      </Annotations>
+
+<Annotation Term="UI.FieldGroup" Qualifier="SLA"><Record><PropertyValue Property="Data"><Collection><Record Type="UI.DataField"><PropertyValue Property="Value" Path="SLAStatus"/><PropertyValue Property="Criticality" Path="SLACriticality"/></Record><Record Type="UI.DataField"><PropertyValue Property="Value" Path="ResponseSLAStatus"/></Record><Record Type="UI.DataField"><PropertyValue Property="Value" Path="ResponseDueAt"/></Record><Record Type="UI.DataField"><PropertyValue Property="Value" Path="FirstResponseAt"/></Record><Record Type="UI.DataField"><PropertyValue Property="Value" Path="ResolutionSLAStatus"/></Record><Record Type="UI.DataField"><PropertyValue Property="Value" Path="ResolutionDueAt"/></Record><Record Type="UI.DataField"><PropertyValue Property="Value" Path="SLAPauseStartedAt"/></Record><Record Type="UI.DataField"><PropertyValue Property="Value" Path="SLAPausedSeconds"/></Record><Record Type="UI.DataField"><PropertyValue Property="Value" Path="Team/Name"/></Record><Record Type="UI.DataField"><PropertyValue Property="Value" Path="Location/Name"/></Record><Record Type="UI.DataField"><PropertyValue Property="Value" Path="Subcategory/Name"/></Record><Record Type="UI.DataField"><PropertyValue Property="Value" Path="EscalationLevel"/></Record><Record Type="UI.DataField"><PropertyValue Property="Value" Path="EscalationTarget"/></Record><Record Type="UI.DataField"><PropertyValue Property="Value" Path="LastEscalatedAt"/></Record><Record Type="UI.DataField"><PropertyValue Property="Value" Path="SLALastCheckedAt"/></Record></Collection></PropertyValue></Record></Annotation>
+</Annotations>
       <Annotations Target="ITOperations.TicketComment">
         <Annotation Term="UI.LineItem">
           <Collection>
@@ -412,6 +414,7 @@
           <Record>
             <PropertyValue Property="Data">
               <Collection>
+                <Record Type="UI.DataField"><PropertyValue Property="Value" Path="Material/MaterialNumber"/><PropertyValue Property="Label" String="Inventory item"/></Record>
                 <Record Type="UI.DataField">
                   <PropertyValue Property="Value" Path="AssetTag"/>
                 </Record>
@@ -679,6 +682,9 @@
             <Record Type="UI.DataField">
               <PropertyValue Property="Value" Path="UnitOfMeasure"/>
             </Record>
+            <Record Type="UI.DataField"><PropertyValue Property="Value" Path="TrackingMode"/></Record>
+            <Record Type="UI.DataField"><PropertyValue Property="Value" Path="TotalAssets"/></Record>
+            <Record Type="UI.DataField"><PropertyValue Property="Value" Path="AvailableAssets"/></Record>
           </Collection>
         </Annotation>
         <Annotation Term="UI.SelectionFields">
@@ -709,6 +715,7 @@
         </Annotation>
         <Annotation Term="UI.Facets">
           <Collection>
+            <Record Type="UI.ReferenceFacet"><PropertyValue Property="ID" String="Assets"/><PropertyValue Property="Label" String="Registered equipment"/><PropertyValue Property="Target" AnnotationPath="Assets/@UI.LineItem"/></Record>
             <Record Type="UI.ReferenceFacet">
               <PropertyValue Property="ID" String="Details"/>
               <PropertyValue Property="Label" String="Material details"/>

@@ -1,16 +1,30 @@
 const { randomUUID } = require('node:crypto');
 const nullable = require('./_nullable-filter');
 const { INTERNAL, decorate, transitions, serialize, fail, text, reference, history, timestamp } = require('./_workflow');
-const categories = ['Hardware', 'Software', 'Network', 'SAP', 'Email', 'Printer', 'Access', 'Other'];
+const sla = require('./_sla');
 module.exports = {
   ...nullable(),
+  async getAllEntries(request) { return (await this.base.getAllEntries(request)).map(row=>sla.assess(row)); },
+  async fetchEntries(keys, request) { return (await this.base.fetchEntries(keys,request)).map(row=>sla.assess(row)); },
   addEntry(data, request) {
     return serialize(async () => {
       const requester = await reference(this, 'Employees', 'EmployeeUUID', data.RequesterUUID, request);
       const subject = text(this, data.Subject, 'Subject', 200);
       const description = text(this, data.Description, 'Description', 4000);
-      if (!categories.includes(data.Category)) fail(this, 'Choose a valid category.', 400, 'Category');
-      const priority = data.Priority || 'MEDIUM';
+      const categories = await this.base.getEntityInterface('Categories');
+      const category = (await categories.fetchEntries({Name:data.Category},request))[0];
+      if (!category?.Active) fail(this, 'Choose a valid active category.', 400, 'Category');
+      const teams = await this.base.getEntityInterface('Teams');
+      const team = (await teams.fetchEntries({TeamUUID:category.TeamUUID},request))[0];
+      const locations = await this.base.getEntityInterface('Locations');
+      if (!team?.Active || !(await locations.fetchEntries({LocationUUID:team.LocationUUID},request))[0]?.Active) fail(this,'The category routing team or location is inactive.',409);
+      const subcategoryUUID = data.SubcategoryUUID || null;
+      if (subcategoryUUID) {
+        const subcategories = await this.base.getEntityInterface('Subcategories');
+        const subcategory = (await subcategories.fetchEntries({SubcategoryUUID:subcategoryUUID},request))[0];
+        if (!subcategory?.Active || subcategory.CategoryUUID!==category.CategoryUUID) fail(this,'Choose an active subcategory within this category.',400,'SubcategoryUUID');
+      }
+      const priority = data.Priority || category.DefaultPriority;
       if (!['LOW', 'MEDIUM', 'HIGH', 'CRITICAL'].includes(priority)) fail(this, 'Choose a valid priority.', 400, 'Priority');
       const assetUUID = data.AssetUUID || null;
       if (assetUUID) {
@@ -22,11 +36,12 @@ module.exports = {
       const records = await this.base.getAllEntries(request);
       const nextNumber = Math.max(10451, ...records.map(row => Number(row.TicketNumber.replace('IT-', '')) || 0)) + 1;
       const now = timestamp();
-      const ticket = decorate({ TicketUUID: randomUUID(), TicketNumber: `IT-${nextNumber}`, Subject: subject,
+      const ticket = await sla.initialize(this,decorate({ TicketUUID: randomUUID(), TicketNumber: `IT-${nextNumber}`, Subject: subject,
         Description: description, Status: 'NEW', Priority: priority, Category: data.Category,
         RequesterUUID: requester.EmployeeUUID, TechnicianUUID: null, AssetUUID: assetUUID,
         Resolution: null, WaitingReason: null, ResolvedAt: null, ClosedAt: null,
-        CreatedAt: now, CreatedBy: requester.EmployeeNumber, LastChangedAt: now, LastChangedBy: requester.EmployeeNumber });
+        TeamUUID:team.TeamUUID, LocationUUID:team.LocationUUID, SubcategoryUUID:subcategoryUUID,
+        CreatedAt: now, CreatedBy: requester.EmployeeNumber, LastChangedAt: now, LastChangedBy: requester.EmployeeNumber }),request);
       const events = await this.base.getEntityInterface('TicketHistory');
       // Replace client-supplied status, identifiers and audit values with service-owned values.
       for (const key of Object.keys(data)) delete data[key];
@@ -39,6 +54,7 @@ module.exports = {
   onBeforeUpdateEntry() { this.throwError('Ticket fields and status cannot be patched directly. Use a workflow action.', 405); },
   removeEntry() { this.throwError('Tickets with audit history cannot be deleted.', 405); },
   executeAction(definition, parameters, keys, request) {
+    if (['PreviewSLA','CheckSLA','ChangePriority'].includes(definition.name.split('.').at(-1))) return sla.execute(this,definition.name.split('.').at(-1),parameters||{},keys,request);
     if (definition.name.split('.').at(-1) === 'RequestPart') return require('./_inventory').execute(this, 'Tickets', 'RequestPart', parameters, keys, request);
     return serialize(async () => {
       const action = definition.name.split('.').at(-1);
@@ -83,6 +99,7 @@ module.exports = {
       if (action === 'Resolve') next.ResolvedAt = now;
       if (action === 'Close') next.ClosedAt = now;
       next.LastChangedAt = now; next.LastChangedBy = actor.EmployeeNumber;
+      await sla.transition(this,current,next,action,input,now,request);
       decorate(next);
       const events = await this.base.getEntityInterface('TicketHistory');
       await this.base.updateEntry(keys, next, request);

@@ -1,0 +1,74 @@
+[
+  {
+    "Name": "Hardware",
+    "DefaultPriority": "MEDIUM",
+    "TeamUUID": "00000016-0000-4000-8000-000000000001",
+    "Active": true,
+    "CategoryUUID": "00000014-0000-4000-8000-000000000001",
+    "Revision": 1,
+    "LastChangedAt": "2026-09-01T00:00:00Z"
+  },
+  {
+    "Name": "Software",
+    "DefaultPriority": "MEDIUM",
+    "TeamUUID": "00000016-0000-4000-8000-000000000001",
+    "Active": true,
+    "CategoryUUID": "00000014-0000-4000-8000-000000000002",
+    "Revision": 1,
+    "LastChangedAt": "2026-09-01T00:00:00Z"
+  },
+  {
+    "Name": "Network",
+    "DefaultPriority": "MEDIUM",
+    "TeamUUID": "00000016-0000-4000-8000-000000000002",
+    "Active": true,
+    "CategoryUUID": "00000014-0000-4000-8000-000000000003",
+    "Revision": 1,
+    "LastChangedAt": "2026-09-01T00:00:00Z"
+  },
+  {
+    "Name": "SAP",
+    "DefaultPriority": "MEDIUM",
+    "TeamUUID": "00000016-0000-4000-8000-000000000001",
+    "Active": true,
+    "CategoryUUID": "00000014-0000-4000-8000-000000000004",
+    "Revision": 1,
+    "LastChangedAt": "2026-09-01T00:00:00Z"
+  },
+  {
+    "Name": "Email",
+    "DefaultPriority": "MEDIUM",
+    "TeamUUID": "00000016-0000-4000-8000-000000000001",
+    "Active": true,
+    "CategoryUUID": "00000014-0000-4000-8000-000000000005",
+    "Revision": 1,
+    "LastChangedAt": "2026-09-01T00:00:00Z"
+  },
+  {
+    "Name": "Printer",
+    "DefaultPriority": "MEDIUM",
+    "TeamUUID": "00000016-0000-4000-8000-000000000001",
+    "Active": true,
+    "CategoryUUID": "00000014-0000-4000-8000-000000000006",
+    "Revision": 1,
+    "LastChangedAt": "2026-09-01T00:00:00Z"
+  },
+  {
+    "Name": "Access",
+    "DefaultPriority": "MEDIUM",
+    "TeamUUID": "00000016-0000-4000-8000-000000000001",
+    "Active": true,
+    "CategoryUUID": "00000014-0000-4000-8000-000000000007",
+    "Revision": 1,
+    "LastChangedAt": "2026-09-01T00:00:00Z"
+  },
+  {
+    "Name": "Other",
+    "DefaultPriority": "MEDIUM",
+    "TeamUUID": "00000016-0000-4000-8000-000000000001",
+    "Active": true,
+    "CategoryUUID": "00000014-0000-4000-8000-000000000008",
+    "Revision": 1,
+    "LastChangedAt": "2026-09-01T00:00:00Z"
+  }
+]

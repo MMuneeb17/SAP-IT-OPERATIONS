@@ -23,7 +23,12 @@
     "CanSendForRepair": false,
     "CanCompleteRepair": true,
     "CanRetireAsset": false,
-    "CanDisposeAsset": false
+    "CanDisposeAsset": false,
+    "MaterialUUID": "00000009-0000-4000-8000-000000000004",
+    "CompanyCode": null,
+    "AssetClass": null,
+    "AssetNumber": null,
+    "AssetSubnumber": null
   },
   {
     "AssetUUID": "00000002-0000-4000-8000-000000000002",
@@ -49,7 +54,12 @@
     "CanSendForRepair": true,
     "CanCompleteRepair": false,
     "CanRetireAsset": false,
-    "CanDisposeAsset": false
+    "CanDisposeAsset": false,
+    "MaterialUUID": "00000009-0000-4000-8000-000000000005",
+    "CompanyCode": null,
+    "AssetClass": null,
+    "AssetNumber": null,
+    "AssetSubnumber": null
   },
   {
     "AssetUUID": "00000002-0000-4000-8000-000000000003",
@@ -75,7 +85,12 @@
     "CanSendForRepair": true,
     "CanCompleteRepair": false,
     "CanRetireAsset": false,
-    "CanDisposeAsset": false
+    "CanDisposeAsset": false,
+    "MaterialUUID": "00000009-0000-4000-8000-000000000006",
+    "CompanyCode": null,
+    "AssetClass": null,
+    "AssetNumber": null,
+    "AssetSubnumber": null
   },
   {
     "AssetUUID": "00000002-0000-4000-8000-000000000004",
@@ -101,7 +116,12 @@
     "CanSendForRepair": true,
     "CanCompleteRepair": false,
     "CanRetireAsset": true,
-    "CanDisposeAsset": false
+    "CanDisposeAsset": false,
+    "MaterialUUID": "00000009-0000-4000-8000-000000000007",
+    "CompanyCode": null,
+    "AssetClass": null,
+    "AssetNumber": null,
+    "AssetSubnumber": null
   },
   {
     "AssetUUID": "00000002-0000-4000-8000-000000000005",
@@ -127,7 +147,12 @@
     "CanSendForRepair": true,
     "CanCompleteRepair": false,
     "CanRetireAsset": true,
-    "CanDisposeAsset": false
+    "CanDisposeAsset": false,
+    "MaterialUUID": "00000009-0000-4000-8000-000000000008",
+    "CompanyCode": null,
+    "AssetClass": null,
+    "AssetNumber": null,
+    "AssetSubnumber": null
   },
   {
     "AssetUUID": "00000002-0000-4000-8000-000000000006",
@@ -153,7 +178,12 @@
     "CanSendForRepair": false,
     "CanCompleteRepair": false,
     "CanRetireAsset": false,
-    "CanDisposeAsset": true
+    "CanDisposeAsset": true,
+    "MaterialUUID": "00000009-0000-4000-8000-000000000009",
+    "CompanyCode": null,
+    "AssetClass": null,
+    "AssetNumber": null,
+    "AssetSubnumber": null
   },
   {
     "AssetUUID": "00000002-0000-4000-8000-000000000007",
@@ -179,7 +209,12 @@
     "CanSendForRepair": false,
     "CanCompleteRepair": false,
     "CanRetireAsset": false,
-    "CanDisposeAsset": false
+    "CanDisposeAsset": false,
+    "MaterialUUID": "00000009-0000-4000-8000-000000000008",
+    "CompanyCode": null,
+    "AssetClass": null,
+    "AssetNumber": null,
+    "AssetSubnumber": null
   },
   {
     "AssetUUID": "00000002-0000-4000-8000-000000000008",
@@ -205,6 +240,11 @@
     "CanSendForRepair": false,
     "CanCompleteRepair": false,
     "CanRetireAsset": false,
-    "CanDisposeAsset": false
+    "CanDisposeAsset": false,
+    "MaterialUUID": "00000009-0000-4000-8000-000000000008",
+    "CompanyCode": null,
+    "AssetClass": null,
+    "AssetNumber": null,
+    "AssetSubnumber": null
   }
 ]

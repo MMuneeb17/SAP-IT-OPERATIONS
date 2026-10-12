@@ -3,7 +3,7 @@ const { INTERNAL, serialize, fail, text, reference, timestamp } = require('./_wo
 const { allowed, decorateAsset } = require('./_asset-workflow');
 const actorUUID = '00000001-0000-4000-8000-000000000006';
 module.exports = {
-  ...require('./_readonly')(),
+  ...require('./_asset-child')(),
   executeAction(definition, parameters, keys, request) {
     return serialize(async () => {
       const action = definition.name.split('.').at(-1);

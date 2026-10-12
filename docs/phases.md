@@ -255,6 +255,12 @@ The SSD-failure demo can be completed from ticket creation through repair and cl
 
 ## Phase 7 — SLA, Escalation and Configuration
 
+**Status: completed locally, 8 October 2026.** Response/resolution clocks,
+waiting policies, priority changes, explicit escalation checks, configuration
+editing and audit history are implemented. Future-time simulation is read-only;
+background monitoring remains future SAP work. See the
+[report](phase-7-8-report.md) and [manual guide](beginner-guide-phases-7-8.md).
+
 ### Objective
 Add enterprise operational controls.
 
@@ -285,6 +291,12 @@ Tickets visibly show whether they are within SLA, at risk or breached.
 ---
 
 ## Phase 8 — Roles and Authorization Design
+
+**Status: design completed, 8 October 2026.** Seven roles cover all 20 entity
+sets, 35 operations and 19 page targets. The application includes a role-access
+preview; it does not authenticate users or enforce these permissions. See the
+[authorization design](../sap-design/authorization/README.md) for backend rules
+and the future PFCG/RAP mapping.
 
 ### Objective
 Design role-specific access before implementing real SAP authorization.

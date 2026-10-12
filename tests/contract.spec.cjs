@@ -18,7 +18,7 @@ async function getJson(request, url) {
   return response.json();
 }
 
-for (const name of ['Employees', 'Tickets', 'Assets', 'TicketComments', 'TicketHistory', 'AssetAssignments', 'AssetRepairs', 'AssetHistory', 'Materials', 'Stocks', 'Reservations', 'StockTransactions']) {
+for (const name of ['Employees', 'Tickets', 'Assets', 'TicketComments', 'TicketHistory', 'AssetAssignments', 'AssetRepairs', 'AssetHistory', 'Materials', 'Stocks', 'Reservations', 'StockTransactions', 'SLAPolicies', 'Categories', 'Subcategories', 'Teams', 'Locations', 'WaitingReasons', 'EscalationRules', 'ConfigurationHistory']) {
   test(`${name}: exposes seeded collection, count, key reads and projection`, async ({ request }) => {
     const set = contract.sets[name];
     const key = set.type.keys[0];
@@ -28,7 +28,9 @@ for (const name of ['Employees', 'Tickets', 'Assets', 'TicketComments', 'TicketH
     expect(body.value.map(row => row[key]).sort()).toEqual(set.rows.map(row => row[key]).sort());
     for (const row of set.rows) {
       const record = await getJson(request, `${base}/${name}(${row[key]})`);
-      expect(record).toMatchObject(row);
+      const expected={...row};
+      if(name==='Tickets')for(const field of require('../mock/data/_sla').computed)delete expected[field];
+      expect(record).toMatchObject(expected);
     }
     const projected = await getJson(request, `${base}/${name}?$select=${key}&$top=1`);
     expect(projected.value).toHaveLength(1);

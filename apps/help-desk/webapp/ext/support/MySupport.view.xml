@@ -21,11 +21,13 @@
                 <Label text="{i18n>subject}" required="true" labelFor="subject"/>
                 <Input id="subject" value="{support>/form/Subject}" maxLength="200" valueState="{support>/states/Subject}" valueStateText="{i18n>subjectRequired}"/>
                 <Label text="{i18n>category}" required="true" labelFor="category"/>
-                <Select id="category" selectedKey="{support>/form/Category}" items="{support>/categories}"><core:Item key="{support>key}" text="{support>key}"/></Select>
+                <Select id="category" selectedKey="{support>/form/Category}" items="{support>/categories}" change=".onCategoryChange"><core:Item key="{support>key}" text="{support>key}"/></Select>
+                <Label text="{i18n>subcategory}" labelFor="subcategory"/><Select id="subcategory" selectedKey="{support>/form/SubcategoryUUID}" items="{support>/subcategories}"><core:Item key="{support>SubcategoryUUID}" text="{support>Name}"/></Select>
                 <Label text="{i18n>affectedAsset}" labelFor="asset"/>
                 <Select id="asset" selectedKey="{support>/form/AssetUUID}" items="{support>/assets}"><core:Item key="{support>AssetUUID}" text="{support>AssetTag}"/></Select>
                 <Label text="{i18n>priority}" labelFor="priority"/>
                 <Select id="priority" selectedKey="{support>/form/Priority}">
+                  <core:Item key="" text="{i18n>priorityAutomatic}"/>
                   <core:Item key="LOW" text="{i18n>priorityLow}"/><core:Item key="MEDIUM" text="{i18n>priorityMedium}"/>
                   <core:Item key="HIGH" text="{i18n>priorityHigh}"/><core:Item key="CRITICAL" text="{i18n>priorityCritical}"/>
                 </Select>
