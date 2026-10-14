@@ -2,7 +2,7 @@
 
 **Project:** SAP IT Operations Management System (ITOMS)
 
-**Snapshot:** 14 October 2026, through Phase 9 plus shared inventory and the module home page
+**Snapshot:** 14 October 2026, through Phase 10 design, including shared inventory and the module home page
 
 **Current runtime:** local SAPUI5/Fiori Elements application with a mock OData V4 service
 
@@ -55,7 +55,8 @@ asset history, spare parts and inventory movements.
 | SLA rules, explicit escalation checks and configuration | Phase 7 implemented locally |
 | Role matrix, visibility preview and SAP authorization requirements | Phase 8 design implemented; enforcement remains future SAP work |
 | Management analytics | Phase 9 implemented locally; CDS analytical design documented |
-| Complete RAP design package and real ABAP implementation | Phases 10–11 planned; initial mappings exist |
+| RAP backend design package | Phase 10 completed locally; 20 sets mapped to 19 operational table designs plus employee reference |
+| Real ABAP implementation | Phase 11 next; no SAP activation or backend deployment yet |
 | SAP authorization, notifications and production launchpad | Phases 12–13 planned |
 
 There is **one application component**, `itoms.helpdesk`, under `apps/help-desk`.
@@ -1084,3 +1085,17 @@ SAP IT OPERATIONS/
 
 The diagrams summarize the checked-in implementation and planned domain design.
 They are not generated SAP system topology or proof of a deployed backend.
+
+## Phase 10 implementation blueprint
+
+The [backend design package](sap-design/phase-10/README.md) is the authoritative
+mapping of the implemented mock contract. It includes persistence, CDS ownership,
+actions, transaction/locking rules, service migration and SAP acceptance gates,
+with architecture and sequence diagrams. Its 20 sets, 243 fields, 59 navigations
+and 36 bound actions are checked against the canonical metadata. Standard ticket
+creation is mapped separately. See the [report](docs/phase-10-report.md) and
+[manual guide](docs/beginner-guide-phase-10.md).
+
+Run `npm run design:check` and `npm run test:design` to verify the package locally.
+These checks do not compile ABAP or prove SAP runtime behavior. The current
+application remains mock-backed until Phase 11 implementation and acceptance.

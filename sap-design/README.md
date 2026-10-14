@@ -1,5 +1,7 @@
 # SAP design package
 
+- [Current Phase 10 backend blueprint](phase-10/README.md)
+
 - [Domain model and ER diagram](data-model/entities.md)
 - [Naming conventions](naming-conventions.md)
 - [Initial RAP ownership, actions and persistence mapping](rap/baseline.md)
@@ -7,8 +9,9 @@
 - [Service design boundary](services/README.md)
 - [Authorization design boundary](authorization/README.md)
 
-Baseline v1 covers architecture in phase 0. Executable backend artifacts belong to
-phases 10–12 once target SAP capabilities are known.
+Baseline v1 records the original Phase 0 design. Phase 10 now provides the complete
+contract mapping and table/service templates. Activation and executable behavior
+implementation belong to Phase 11 after target SAP capabilities are confirmed.
 # Analytics design
 
 Phase 9 adds [planned CDS analytical views](analytics/README.md), including fact

@@ -1,9 +1,10 @@
 # SAP Fiori IT Operations Management System
 
-ITOMS connects Help Desk, IT Asset Lifecycle and MIS Inventory. Phases 0–8 provide
+ITOMS connects Help Desk, IT Asset Lifecycle and MIS Inventory. Phases 0–9 provide
 the architecture, OData V4 contract, local Help Desk and Asset Management modules,
 with validated business actions, guided repair, configurable SLAs and a role-design preview,
-without an SAP backend.
+with management analytics, without an SAP backend. Phase 10 supplies the validated
+[backend design package](sap-design/phase-10/README.md); SAP implementation is next.
 
 ## Run locally
 
@@ -117,3 +118,6 @@ unconfigured backend proxies, adds the phase 2 fixtures and presentation annotat
 
 Generation reference: [SAP Open UX tools](https://github.com/SAP/open-ux-tools/tree/main/packages/fiori-elements-writer).
 Extension reference: [SAP Fiori tools](https://marketplace.visualstudio.com/items?itemName=SAPSE.sap-ux-fiori-tools-extension-pack).
+
+- [Phase 10 backend design report](docs/phase-10-report.md)
+- [Phase 10 beginner manual](docs/beginner-guide-phase-10.md)

@@ -12,9 +12,12 @@
     "mock:sync": "node scripts/sync-mock.mjs",
     "mock:check": "node scripts/sync-mock.mjs --check",
     "validate:contract": "node scripts/validate-contract.mjs",
+    "design:check": "node scripts/validate-backend-design.mjs",
+    "design:render": "node scripts/validate-backend-design.mjs --write",
+    "test:design": "node --test scripts/tests/backend-design.test.mjs",
     "prestart": "npm run mock:sync",
     "prepreview": "npm run mock:sync",
-    "pretest": "npm run mock:check && npm run validate:contract"
+    "pretest": "npm run mock:check && npm run validate:contract && npm run design:check && npm run test:design"
   },
   "keywords": [],
   "license": "UNLICENSED",

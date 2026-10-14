@@ -1,0 +1,5853 @@
+{
+  "version": 1,
+  "status": "design-only; not activated or compiled in SAP",
+  "serviceDefinition": "ZUI_IT_OPERATIONS",
+  "binding": "ZUI_IT_OPERATIONS_O4",
+  "draft": false,
+  "persistenceMode": "custom operational persistence; no FI-AA/MM postings",
+  "contract": {
+    "namespace": "ITOperations",
+    "entities": {
+      "Employees": {
+        "type": "Employee",
+        "key": "EmployeeUUID",
+        "properties": [
+          {
+            "Name": "EmployeeUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "EmployeeNumber",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "20"
+          },
+          {
+            "Name": "DisplayName",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "100"
+          },
+          {
+            "Name": "Email",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "254"
+          },
+          {
+            "Name": "Department",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "80"
+          },
+          {
+            "Name": "Location",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "80"
+          }
+        ],
+        "navigation": [
+          {
+            "Name": "RequestedTickets",
+            "Type": "Collection(ITOperations.Ticket)",
+            "Partner": "Requester",
+            "constraints": []
+          },
+          {
+            "Name": "AssignedTickets",
+            "Type": "Collection(ITOperations.Ticket)",
+            "Partner": "Technician",
+            "constraints": []
+          },
+          {
+            "Name": "Assets",
+            "Type": "Collection(ITOperations.Asset)",
+            "Partner": "CurrentEmployee",
+            "constraints": []
+          }
+        ],
+        "bindings": [
+          {
+            "Path": "RequestedTickets",
+            "Target": "Tickets"
+          },
+          {
+            "Path": "AssignedTickets",
+            "Target": "Tickets"
+          },
+          {
+            "Path": "Assets",
+            "Target": "Assets"
+          }
+        ]
+      },
+      "Tickets": {
+        "type": "Ticket",
+        "key": "TicketUUID",
+        "properties": [
+          {
+            "Name": "TicketUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "TicketNumber",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "20"
+          },
+          {
+            "Name": "Subject",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "200"
+          },
+          {
+            "Name": "Description",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          },
+          {
+            "Name": "Status",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "20"
+          },
+          {
+            "Name": "Priority",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "10"
+          },
+          {
+            "Name": "Category",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "40"
+          },
+          {
+            "Name": "RequesterUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "TechnicianUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "true"
+          },
+          {
+            "Name": "AssetUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "true"
+          },
+          {
+            "Name": "Resolution",
+            "Type": "Edm.String",
+            "Nullable": "true",
+            "MaxLength": "4000"
+          },
+          {
+            "Name": "WaitingReason",
+            "Type": "Edm.String",
+            "Nullable": "true",
+            "MaxLength": "500"
+          },
+          {
+            "Name": "ResolvedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "true"
+          },
+          {
+            "Name": "ClosedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "true"
+          },
+          {
+            "Name": "CreatedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "false"
+          },
+          {
+            "Name": "CreatedBy",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "80"
+          },
+          {
+            "Name": "LastChangedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "false"
+          },
+          {
+            "Name": "LastChangedBy",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "80"
+          },
+          {
+            "Name": "StatusCriticality",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "PriorityCriticality",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "CanSubmit",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "CanAssignTechnician",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "CanStartWork",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "CanPutOnHold",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "CanResume",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "CanResolve",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "CanClose",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "CanReopen",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "TeamUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "LocationUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "SubcategoryUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "true"
+          },
+          {
+            "Name": "ResponseMinutes",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "ResolutionMinutes",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "WarningPercent",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "SLAPolicyRevision",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "FirstResponseAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "true"
+          },
+          {
+            "Name": "ResolutionStartedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "false"
+          },
+          {
+            "Name": "SLAPausedSeconds",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "SLAPauseStartedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "true"
+          },
+          {
+            "Name": "WaitingReasonCode",
+            "Type": "Edm.String",
+            "Nullable": "true",
+            "MaxLength": "500"
+          },
+          {
+            "Name": "EscalationLevel",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "EscalationTarget",
+            "Type": "Edm.String",
+            "Nullable": "true",
+            "MaxLength": "500"
+          },
+          {
+            "Name": "LastEscalatedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "true"
+          },
+          {
+            "Name": "SLALastCheckedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "true"
+          },
+          {
+            "Name": "ResponseDueAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "false"
+          },
+          {
+            "Name": "ResolutionDueAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "false"
+          },
+          {
+            "Name": "ResponseSLAStatus",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          },
+          {
+            "Name": "ResolutionSLAStatus",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          },
+          {
+            "Name": "SLAStatus",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          },
+          {
+            "Name": "SLACriticality",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "SLAEvaluatedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "false"
+          }
+        ],
+        "navigation": [
+          {
+            "Name": "Requester",
+            "Type": "ITOperations.Employee",
+            "Nullable": "false",
+            "Partner": "RequestedTickets",
+            "constraints": [
+              {
+                "Property": "RequesterUUID",
+                "ReferencedProperty": "EmployeeUUID"
+              }
+            ]
+          },
+          {
+            "Name": "Technician",
+            "Type": "ITOperations.Employee",
+            "Nullable": "true",
+            "Partner": "AssignedTickets",
+            "constraints": [
+              {
+                "Property": "TechnicianUUID",
+                "ReferencedProperty": "EmployeeUUID"
+              }
+            ]
+          },
+          {
+            "Name": "Asset",
+            "Type": "ITOperations.Asset",
+            "Nullable": "true",
+            "Partner": "Tickets",
+            "constraints": [
+              {
+                "Property": "AssetUUID",
+                "ReferencedProperty": "AssetUUID"
+              }
+            ]
+          },
+          {
+            "Name": "Comments",
+            "Type": "Collection(ITOperations.TicketComment)",
+            "Partner": "Ticket",
+            "constraints": []
+          },
+          {
+            "Name": "History",
+            "Type": "Collection(ITOperations.TicketHistory)",
+            "Partner": "Ticket",
+            "constraints": []
+          },
+          {
+            "Name": "Reservations",
+            "Type": "Collection(ITOperations.Reservation)",
+            "Partner": "Ticket",
+            "constraints": []
+          },
+          {
+            "Name": "StockTransactions",
+            "Type": "Collection(ITOperations.StockTransaction)",
+            "Partner": "Ticket",
+            "constraints": []
+          },
+          {
+            "Name": "Team",
+            "Type": "ITOperations.Team",
+            "Nullable": "false",
+            "constraints": [
+              {
+                "Property": "TeamUUID",
+                "ReferencedProperty": "TeamUUID"
+              }
+            ]
+          },
+          {
+            "Name": "Location",
+            "Type": "ITOperations.Location",
+            "Nullable": "false",
+            "constraints": [
+              {
+                "Property": "LocationUUID",
+                "ReferencedProperty": "LocationUUID"
+              }
+            ]
+          },
+          {
+            "Name": "Subcategory",
+            "Type": "ITOperations.Subcategory",
+            "Nullable": "true",
+            "constraints": [
+              {
+                "Property": "SubcategoryUUID",
+                "ReferencedProperty": "SubcategoryUUID"
+              }
+            ]
+          }
+        ],
+        "bindings": [
+          {
+            "Path": "Requester",
+            "Target": "Employees"
+          },
+          {
+            "Path": "Technician",
+            "Target": "Employees"
+          },
+          {
+            "Path": "Asset",
+            "Target": "Assets"
+          },
+          {
+            "Path": "Comments",
+            "Target": "TicketComments"
+          },
+          {
+            "Path": "History",
+            "Target": "TicketHistory"
+          },
+          {
+            "Path": "Reservations",
+            "Target": "Reservations"
+          },
+          {
+            "Path": "StockTransactions",
+            "Target": "StockTransactions"
+          },
+          {
+            "Path": "Team",
+            "Target": "Teams"
+          },
+          {
+            "Path": "Location",
+            "Target": "Locations"
+          },
+          {
+            "Path": "Subcategory",
+            "Target": "Subcategories"
+          }
+        ]
+      },
+      "Assets": {
+        "type": "Asset",
+        "key": "AssetUUID",
+        "properties": [
+          {
+            "Name": "AssetUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "AssetTag",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "30"
+          },
+          {
+            "Name": "SerialNumber",
+            "Type": "Edm.String",
+            "Nullable": "true",
+            "MaxLength": "80"
+          },
+          {
+            "Name": "AssetType",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "40"
+          },
+          {
+            "Name": "Manufacturer",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "80"
+          },
+          {
+            "Name": "Model",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "100"
+          },
+          {
+            "Name": "Status",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "20"
+          },
+          {
+            "Name": "CurrentEmployeeUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "true"
+          },
+          {
+            "Name": "Location",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "80"
+          },
+          {
+            "Name": "PurchaseDate",
+            "Type": "Edm.Date",
+            "Nullable": "true"
+          },
+          {
+            "Name": "WarrantyEnd",
+            "Type": "Edm.Date",
+            "Nullable": "true"
+          },
+          {
+            "Name": "CreatedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "false"
+          },
+          {
+            "Name": "CreatedBy",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "80"
+          },
+          {
+            "Name": "LastChangedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "false"
+          },
+          {
+            "Name": "LastChangedBy",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "80"
+          },
+          {
+            "Name": "StatusCriticality",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "CanMakeAvailable",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "CanAssignAsset",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "CanTransferAsset",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "CanReturnAsset",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "CanSendForRepair",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "CanCompleteRepair",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "CanRetireAsset",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "CanDisposeAsset",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "MaterialUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "CompanyCode",
+            "Type": "Edm.String",
+            "Nullable": "true",
+            "MaxLength": "4"
+          },
+          {
+            "Name": "AssetClass",
+            "Type": "Edm.String",
+            "Nullable": "true",
+            "MaxLength": "20"
+          },
+          {
+            "Name": "AssetNumber",
+            "Type": "Edm.String",
+            "Nullable": "true",
+            "MaxLength": "12"
+          },
+          {
+            "Name": "AssetSubnumber",
+            "Type": "Edm.String",
+            "Nullable": "true",
+            "MaxLength": "4"
+          }
+        ],
+        "navigation": [
+          {
+            "Name": "CurrentEmployee",
+            "Type": "ITOperations.Employee",
+            "Nullable": "true",
+            "Partner": "Assets",
+            "constraints": [
+              {
+                "Property": "CurrentEmployeeUUID",
+                "ReferencedProperty": "EmployeeUUID"
+              }
+            ]
+          },
+          {
+            "Name": "Tickets",
+            "Type": "Collection(ITOperations.Ticket)",
+            "Partner": "Asset",
+            "constraints": []
+          },
+          {
+            "Name": "Assignments",
+            "Type": "Collection(ITOperations.AssetAssignment)",
+            "Partner": "Asset",
+            "constraints": []
+          },
+          {
+            "Name": "Repairs",
+            "Type": "Collection(ITOperations.AssetRepair)",
+            "Partner": "Asset",
+            "constraints": []
+          },
+          {
+            "Name": "History",
+            "Type": "Collection(ITOperations.AssetHistory)",
+            "Partner": "Asset",
+            "constraints": []
+          },
+          {
+            "Name": "Reservations",
+            "Type": "Collection(ITOperations.Reservation)",
+            "Partner": "Asset",
+            "constraints": []
+          },
+          {
+            "Name": "StockTransactions",
+            "Type": "Collection(ITOperations.StockTransaction)",
+            "Partner": "Asset",
+            "constraints": []
+          },
+          {
+            "Name": "Material",
+            "Type": "ITOperations.Material",
+            "Nullable": "false",
+            "Partner": "Assets",
+            "constraints": [
+              {
+                "Property": "MaterialUUID",
+                "ReferencedProperty": "MaterialUUID"
+              }
+            ]
+          }
+        ],
+        "bindings": [
+          {
+            "Path": "CurrentEmployee",
+            "Target": "Employees"
+          },
+          {
+            "Path": "Tickets",
+            "Target": "Tickets"
+          },
+          {
+            "Path": "Assignments",
+            "Target": "AssetAssignments"
+          },
+          {
+            "Path": "Repairs",
+            "Target": "AssetRepairs"
+          },
+          {
+            "Path": "History",
+            "Target": "AssetHistory"
+          },
+          {
+            "Path": "Reservations",
+            "Target": "Reservations"
+          },
+          {
+            "Path": "StockTransactions",
+            "Target": "StockTransactions"
+          },
+          {
+            "Path": "Material",
+            "Target": "Materials"
+          }
+        ]
+      },
+      "TicketComments": {
+        "type": "TicketComment",
+        "key": "TicketCommentUUID",
+        "properties": [
+          {
+            "Name": "TicketCommentUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "TicketUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "AuthorUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Text",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          },
+          {
+            "Name": "CreatedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "false"
+          },
+          {
+            "Name": "CreatedBy",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "80"
+          }
+        ],
+        "navigation": [
+          {
+            "Name": "Ticket",
+            "Type": "ITOperations.Ticket",
+            "Nullable": "false",
+            "Partner": "Comments",
+            "constraints": [
+              {
+                "Property": "TicketUUID",
+                "ReferencedProperty": "TicketUUID"
+              }
+            ]
+          },
+          {
+            "Name": "Author",
+            "Type": "ITOperations.Employee",
+            "Nullable": "false",
+            "constraints": [
+              {
+                "Property": "AuthorUUID",
+                "ReferencedProperty": "EmployeeUUID"
+              }
+            ]
+          }
+        ],
+        "bindings": [
+          {
+            "Path": "Ticket",
+            "Target": "Tickets"
+          },
+          {
+            "Path": "Author",
+            "Target": "Employees"
+          }
+        ]
+      },
+      "TicketHistory": {
+        "type": "TicketHistory",
+        "key": "TicketHistoryUUID",
+        "properties": [
+          {
+            "Name": "TicketHistoryUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "TicketUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "ActorUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Action",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "40"
+          },
+          {
+            "Name": "OldValue",
+            "Type": "Edm.String",
+            "Nullable": "true",
+            "MaxLength": "1000"
+          },
+          {
+            "Name": "NewValue",
+            "Type": "Edm.String",
+            "Nullable": "true",
+            "MaxLength": "1000"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "true",
+            "MaxLength": "4000"
+          },
+          {
+            "Name": "CreatedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "false"
+          },
+          {
+            "Name": "CreatedBy",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "80"
+          }
+        ],
+        "navigation": [
+          {
+            "Name": "Ticket",
+            "Type": "ITOperations.Ticket",
+            "Nullable": "false",
+            "Partner": "History",
+            "constraints": [
+              {
+                "Property": "TicketUUID",
+                "ReferencedProperty": "TicketUUID"
+              }
+            ]
+          },
+          {
+            "Name": "Actor",
+            "Type": "ITOperations.Employee",
+            "Nullable": "false",
+            "constraints": [
+              {
+                "Property": "ActorUUID",
+                "ReferencedProperty": "EmployeeUUID"
+              }
+            ]
+          }
+        ],
+        "bindings": [
+          {
+            "Path": "Ticket",
+            "Target": "Tickets"
+          },
+          {
+            "Path": "Actor",
+            "Target": "Employees"
+          }
+        ]
+      },
+      "AssetAssignments": {
+        "type": "AssetAssignment",
+        "key": "AssetAssignmentUUID",
+        "properties": [
+          {
+            "Name": "AssetAssignmentUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "AssetUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "EmployeeUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "StartAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "false"
+          },
+          {
+            "Name": "EndAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "true"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          },
+          {
+            "Name": "EndReason",
+            "Type": "Edm.String",
+            "Nullable": "true",
+            "MaxLength": "4000"
+          },
+          {
+            "Name": "CreatedBy",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "80"
+          },
+          {
+            "Name": "ClosedBy",
+            "Type": "Edm.String",
+            "Nullable": "true",
+            "MaxLength": "80"
+          }
+        ],
+        "navigation": [
+          {
+            "Name": "Asset",
+            "Type": "ITOperations.Asset",
+            "Nullable": "false",
+            "Partner": "Assignments",
+            "constraints": [
+              {
+                "Property": "AssetUUID",
+                "ReferencedProperty": "AssetUUID"
+              }
+            ]
+          },
+          {
+            "Name": "Employee",
+            "Type": "ITOperations.Employee",
+            "Nullable": "false",
+            "constraints": [
+              {
+                "Property": "EmployeeUUID",
+                "ReferencedProperty": "EmployeeUUID"
+              }
+            ]
+          }
+        ],
+        "bindings": [
+          {
+            "Path": "Asset",
+            "Target": "Assets"
+          },
+          {
+            "Path": "Employee",
+            "Target": "Employees"
+          }
+        ]
+      },
+      "AssetRepairs": {
+        "type": "AssetRepair",
+        "key": "AssetRepairUUID",
+        "properties": [
+          {
+            "Name": "AssetRepairUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "AssetUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "TicketUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "true"
+          },
+          {
+            "Name": "TechnicianUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Status",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "20"
+          },
+          {
+            "Name": "Diagnosis",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          },
+          {
+            "Name": "RepairDescription",
+            "Type": "Edm.String",
+            "Nullable": "true",
+            "MaxLength": "4000"
+          },
+          {
+            "Name": "StartedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "false"
+          },
+          {
+            "Name": "RepairedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "true"
+          },
+          {
+            "Name": "CreatedBy",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "80"
+          },
+          {
+            "Name": "CompletedBy",
+            "Type": "Edm.String",
+            "Nullable": "true",
+            "MaxLength": "80"
+          }
+        ],
+        "navigation": [
+          {
+            "Name": "Asset",
+            "Type": "ITOperations.Asset",
+            "Nullable": "false",
+            "Partner": "Repairs",
+            "constraints": [
+              {
+                "Property": "AssetUUID",
+                "ReferencedProperty": "AssetUUID"
+              }
+            ]
+          },
+          {
+            "Name": "Ticket",
+            "Type": "ITOperations.Ticket",
+            "Nullable": "true",
+            "constraints": [
+              {
+                "Property": "TicketUUID",
+                "ReferencedProperty": "TicketUUID"
+              }
+            ]
+          },
+          {
+            "Name": "Technician",
+            "Type": "ITOperations.Employee",
+            "Nullable": "false",
+            "constraints": [
+              {
+                "Property": "TechnicianUUID",
+                "ReferencedProperty": "EmployeeUUID"
+              }
+            ]
+          },
+          {
+            "Name": "Reservations",
+            "Type": "Collection(ITOperations.Reservation)",
+            "Partner": "Repair",
+            "constraints": []
+          },
+          {
+            "Name": "StockTransactions",
+            "Type": "Collection(ITOperations.StockTransaction)",
+            "Partner": "Repair",
+            "constraints": []
+          }
+        ],
+        "bindings": [
+          {
+            "Path": "Asset",
+            "Target": "Assets"
+          },
+          {
+            "Path": "Ticket",
+            "Target": "Tickets"
+          },
+          {
+            "Path": "Technician",
+            "Target": "Employees"
+          },
+          {
+            "Path": "Reservations",
+            "Target": "Reservations"
+          },
+          {
+            "Path": "StockTransactions",
+            "Target": "StockTransactions"
+          }
+        ]
+      },
+      "AssetHistory": {
+        "type": "AssetHistory",
+        "key": "AssetHistoryUUID",
+        "properties": [
+          {
+            "Name": "AssetHistoryUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "AssetUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "ActorUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Action",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "40"
+          },
+          {
+            "Name": "OldStatus",
+            "Type": "Edm.String",
+            "Nullable": "true",
+            "MaxLength": "20"
+          },
+          {
+            "Name": "NewStatus",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "20"
+          },
+          {
+            "Name": "OldEmployeeUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "true"
+          },
+          {
+            "Name": "NewEmployeeUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "true"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          },
+          {
+            "Name": "CreatedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "false"
+          }
+        ],
+        "navigation": [
+          {
+            "Name": "Asset",
+            "Type": "ITOperations.Asset",
+            "Nullable": "false",
+            "Partner": "History",
+            "constraints": [
+              {
+                "Property": "AssetUUID",
+                "ReferencedProperty": "AssetUUID"
+              }
+            ]
+          },
+          {
+            "Name": "Actor",
+            "Type": "ITOperations.Employee",
+            "Nullable": "false",
+            "constraints": [
+              {
+                "Property": "ActorUUID",
+                "ReferencedProperty": "EmployeeUUID"
+              }
+            ]
+          },
+          {
+            "Name": "PreviousEmployee",
+            "Type": "ITOperations.Employee",
+            "Nullable": "true",
+            "constraints": [
+              {
+                "Property": "OldEmployeeUUID",
+                "ReferencedProperty": "EmployeeUUID"
+              }
+            ]
+          },
+          {
+            "Name": "NewEmployee",
+            "Type": "ITOperations.Employee",
+            "Nullable": "true",
+            "constraints": [
+              {
+                "Property": "NewEmployeeUUID",
+                "ReferencedProperty": "EmployeeUUID"
+              }
+            ]
+          }
+        ],
+        "bindings": [
+          {
+            "Path": "Asset",
+            "Target": "Assets"
+          },
+          {
+            "Path": "Actor",
+            "Target": "Employees"
+          },
+          {
+            "Path": "PreviousEmployee",
+            "Target": "Employees"
+          },
+          {
+            "Path": "NewEmployee",
+            "Target": "Employees"
+          }
+        ]
+      },
+      "Materials": {
+        "type": "Material",
+        "key": "MaterialUUID",
+        "properties": [
+          {
+            "Name": "MaterialUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "MaterialNumber",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          },
+          {
+            "Name": "Description",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          },
+          {
+            "Name": "Category",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          },
+          {
+            "Name": "UnitOfMeasure",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          },
+          {
+            "Name": "TrackingMode",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "20"
+          },
+          {
+            "Name": "AssetType",
+            "Type": "Edm.String",
+            "Nullable": "true",
+            "MaxLength": "30"
+          },
+          {
+            "Name": "Manufacturer",
+            "Type": "Edm.String",
+            "Nullable": "true",
+            "MaxLength": "100"
+          },
+          {
+            "Name": "Model",
+            "Type": "Edm.String",
+            "Nullable": "true",
+            "MaxLength": "100"
+          },
+          {
+            "Name": "TotalAssets",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "AvailableAssets",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          }
+        ],
+        "navigation": [
+          {
+            "Name": "Stocks",
+            "Type": "Collection(ITOperations.Stock)",
+            "Partner": "Material",
+            "constraints": []
+          },
+          {
+            "Name": "Reservations",
+            "Type": "Collection(ITOperations.Reservation)",
+            "Partner": "Material",
+            "constraints": []
+          },
+          {
+            "Name": "StockTransactions",
+            "Type": "Collection(ITOperations.StockTransaction)",
+            "Partner": "Material",
+            "constraints": []
+          },
+          {
+            "Name": "Assets",
+            "Type": "Collection(ITOperations.Asset)",
+            "Partner": "Material",
+            "constraints": []
+          }
+        ],
+        "bindings": [
+          {
+            "Path": "Stocks",
+            "Target": "Stocks"
+          },
+          {
+            "Path": "Reservations",
+            "Target": "Reservations"
+          },
+          {
+            "Path": "StockTransactions",
+            "Target": "StockTransactions"
+          },
+          {
+            "Path": "Assets",
+            "Target": "Assets"
+          }
+        ]
+      },
+      "Stocks": {
+        "type": "Stock",
+        "key": "StockUUID",
+        "properties": [
+          {
+            "Name": "StockUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "MaterialUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "StockLabel",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          },
+          {
+            "Name": "StorageLocation",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          },
+          {
+            "Name": "UnitOfMeasure",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          },
+          {
+            "Name": "PhysicalQuantity",
+            "Type": "Edm.Decimal",
+            "Nullable": "false",
+            "Precision": "15",
+            "Scale": "3"
+          },
+          {
+            "Name": "ReservedQuantity",
+            "Type": "Edm.Decimal",
+            "Nullable": "false",
+            "Precision": "15",
+            "Scale": "3"
+          },
+          {
+            "Name": "AvailableQuantity",
+            "Type": "Edm.Decimal",
+            "Nullable": "false",
+            "Precision": "15",
+            "Scale": "3"
+          },
+          {
+            "Name": "ReorderLevel",
+            "Type": "Edm.Decimal",
+            "Nullable": "false",
+            "Precision": "15",
+            "Scale": "3"
+          },
+          {
+            "Name": "LowStock",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "StockCriticality",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "LastChangedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "false"
+          }
+        ],
+        "navigation": [
+          {
+            "Name": "Material",
+            "Type": "ITOperations.Material",
+            "Nullable": "false",
+            "Partner": "Stocks",
+            "constraints": [
+              {
+                "Property": "MaterialUUID",
+                "ReferencedProperty": "MaterialUUID"
+              }
+            ]
+          },
+          {
+            "Name": "Reservations",
+            "Type": "Collection(ITOperations.Reservation)",
+            "Partner": "Stock",
+            "constraints": []
+          },
+          {
+            "Name": "StockTransactions",
+            "Type": "Collection(ITOperations.StockTransaction)",
+            "Partner": "Stock",
+            "constraints": []
+          }
+        ],
+        "bindings": [
+          {
+            "Path": "Material",
+            "Target": "Materials"
+          },
+          {
+            "Path": "Reservations",
+            "Target": "Reservations"
+          },
+          {
+            "Path": "StockTransactions",
+            "Target": "StockTransactions"
+          }
+        ]
+      },
+      "Reservations": {
+        "type": "Reservation",
+        "key": "ReservationUUID",
+        "properties": [
+          {
+            "Name": "ReservationUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "MaterialUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "StockUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "TicketUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "true"
+          },
+          {
+            "Name": "AssetUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "true"
+          },
+          {
+            "Name": "AssetRepairUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "true"
+          },
+          {
+            "Name": "Quantity",
+            "Type": "Edm.Decimal",
+            "Nullable": "false",
+            "Precision": "15",
+            "Scale": "3"
+          },
+          {
+            "Name": "IssuedQuantity",
+            "Type": "Edm.Decimal",
+            "Nullable": "false",
+            "Precision": "15",
+            "Scale": "3"
+          },
+          {
+            "Name": "OutstandingQuantity",
+            "Type": "Edm.Decimal",
+            "Nullable": "false",
+            "Precision": "15",
+            "Scale": "3"
+          },
+          {
+            "Name": "Status",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          },
+          {
+            "Name": "CancelReason",
+            "Type": "Edm.String",
+            "Nullable": "true",
+            "MaxLength": "4000"
+          },
+          {
+            "Name": "CreatedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "false"
+          },
+          {
+            "Name": "CreatedBy",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          },
+          {
+            "Name": "LastChangedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "false"
+          },
+          {
+            "Name": "CanIssueReservation",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "CanCancelReservation",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          }
+        ],
+        "navigation": [
+          {
+            "Name": "Material",
+            "Type": "ITOperations.Material",
+            "Nullable": "false",
+            "Partner": "Reservations",
+            "constraints": [
+              {
+                "Property": "MaterialUUID",
+                "ReferencedProperty": "MaterialUUID"
+              }
+            ]
+          },
+          {
+            "Name": "Stock",
+            "Type": "ITOperations.Stock",
+            "Nullable": "false",
+            "Partner": "Reservations",
+            "constraints": [
+              {
+                "Property": "StockUUID",
+                "ReferencedProperty": "StockUUID"
+              }
+            ]
+          },
+          {
+            "Name": "Ticket",
+            "Type": "ITOperations.Ticket",
+            "Nullable": "true",
+            "Partner": "Reservations",
+            "constraints": [
+              {
+                "Property": "TicketUUID",
+                "ReferencedProperty": "TicketUUID"
+              }
+            ]
+          },
+          {
+            "Name": "Asset",
+            "Type": "ITOperations.Asset",
+            "Nullable": "true",
+            "Partner": "Reservations",
+            "constraints": [
+              {
+                "Property": "AssetUUID",
+                "ReferencedProperty": "AssetUUID"
+              }
+            ]
+          },
+          {
+            "Name": "Repair",
+            "Type": "ITOperations.AssetRepair",
+            "Nullable": "true",
+            "Partner": "Reservations",
+            "constraints": [
+              {
+                "Property": "AssetRepairUUID",
+                "ReferencedProperty": "AssetRepairUUID"
+              }
+            ]
+          },
+          {
+            "Name": "Transactions",
+            "Type": "Collection(ITOperations.StockTransaction)",
+            "Partner": "Reservation",
+            "constraints": []
+          }
+        ],
+        "bindings": [
+          {
+            "Path": "Material",
+            "Target": "Materials"
+          },
+          {
+            "Path": "Stock",
+            "Target": "Stocks"
+          },
+          {
+            "Path": "Ticket",
+            "Target": "Tickets"
+          },
+          {
+            "Path": "Asset",
+            "Target": "Assets"
+          },
+          {
+            "Path": "Repair",
+            "Target": "AssetRepairs"
+          },
+          {
+            "Path": "Transactions",
+            "Target": "StockTransactions"
+          }
+        ]
+      },
+      "StockTransactions": {
+        "type": "StockTransaction",
+        "key": "StockTransactionUUID",
+        "properties": [
+          {
+            "Name": "StockTransactionUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "MaterialUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "StockUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "ReservationUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "true"
+          },
+          {
+            "Name": "TicketUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "true"
+          },
+          {
+            "Name": "AssetUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "true"
+          },
+          {
+            "Name": "AssetRepairUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "true"
+          },
+          {
+            "Name": "MovementType",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          },
+          {
+            "Name": "Quantity",
+            "Type": "Edm.Decimal",
+            "Nullable": "false",
+            "Precision": "15",
+            "Scale": "3"
+          },
+          {
+            "Name": "PhysicalDelta",
+            "Type": "Edm.Decimal",
+            "Nullable": "false",
+            "Precision": "15",
+            "Scale": "3"
+          },
+          {
+            "Name": "ReservedDelta",
+            "Type": "Edm.Decimal",
+            "Nullable": "false",
+            "Precision": "15",
+            "Scale": "3"
+          },
+          {
+            "Name": "UnitOfMeasure",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          },
+          {
+            "Name": "TransferUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "true"
+          },
+          {
+            "Name": "OriginalTransactionUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "true"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          },
+          {
+            "Name": "CreatedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "false"
+          },
+          {
+            "Name": "CreatedBy",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          }
+        ],
+        "navigation": [
+          {
+            "Name": "Material",
+            "Type": "ITOperations.Material",
+            "Nullable": "false",
+            "Partner": "StockTransactions",
+            "constraints": [
+              {
+                "Property": "MaterialUUID",
+                "ReferencedProperty": "MaterialUUID"
+              }
+            ]
+          },
+          {
+            "Name": "Stock",
+            "Type": "ITOperations.Stock",
+            "Nullable": "false",
+            "Partner": "StockTransactions",
+            "constraints": [
+              {
+                "Property": "StockUUID",
+                "ReferencedProperty": "StockUUID"
+              }
+            ]
+          },
+          {
+            "Name": "Ticket",
+            "Type": "ITOperations.Ticket",
+            "Nullable": "true",
+            "Partner": "StockTransactions",
+            "constraints": [
+              {
+                "Property": "TicketUUID",
+                "ReferencedProperty": "TicketUUID"
+              }
+            ]
+          },
+          {
+            "Name": "Asset",
+            "Type": "ITOperations.Asset",
+            "Nullable": "true",
+            "Partner": "StockTransactions",
+            "constraints": [
+              {
+                "Property": "AssetUUID",
+                "ReferencedProperty": "AssetUUID"
+              }
+            ]
+          },
+          {
+            "Name": "Repair",
+            "Type": "ITOperations.AssetRepair",
+            "Nullable": "true",
+            "Partner": "StockTransactions",
+            "constraints": [
+              {
+                "Property": "AssetRepairUUID",
+                "ReferencedProperty": "AssetRepairUUID"
+              }
+            ]
+          },
+          {
+            "Name": "Reservation",
+            "Type": "ITOperations.Reservation",
+            "Nullable": "true",
+            "Partner": "Transactions",
+            "constraints": [
+              {
+                "Property": "ReservationUUID",
+                "ReferencedProperty": "ReservationUUID"
+              }
+            ]
+          }
+        ],
+        "bindings": [
+          {
+            "Path": "Material",
+            "Target": "Materials"
+          },
+          {
+            "Path": "Stock",
+            "Target": "Stocks"
+          },
+          {
+            "Path": "Ticket",
+            "Target": "Tickets"
+          },
+          {
+            "Path": "Asset",
+            "Target": "Assets"
+          },
+          {
+            "Path": "Repair",
+            "Target": "AssetRepairs"
+          },
+          {
+            "Path": "Reservation",
+            "Target": "Reservations"
+          }
+        ]
+      },
+      "SLAPolicies": {
+        "type": "SLAPolicy",
+        "key": "SLAPolicyUUID",
+        "properties": [
+          {
+            "Name": "SLAPolicyUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Priority",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          },
+          {
+            "Name": "ResponseMinutes",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "ResolutionMinutes",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "WarningPercent",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Revision",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "LastChangedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "false"
+          }
+        ],
+        "navigation": [],
+        "bindings": []
+      },
+      "Categories": {
+        "type": "Category",
+        "key": "CategoryUUID",
+        "properties": [
+          {
+            "Name": "CategoryUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Name",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          },
+          {
+            "Name": "DefaultPriority",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          },
+          {
+            "Name": "TeamUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Active",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Revision",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "LastChangedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "false"
+          }
+        ],
+        "navigation": [
+          {
+            "Name": "Team",
+            "Type": "ITOperations.Team",
+            "Nullable": "false",
+            "constraints": [
+              {
+                "Property": "TeamUUID",
+                "ReferencedProperty": "TeamUUID"
+              }
+            ]
+          }
+        ],
+        "bindings": [
+          {
+            "Path": "Team",
+            "Target": "Teams"
+          }
+        ]
+      },
+      "Subcategories": {
+        "type": "Subcategory",
+        "key": "SubcategoryUUID",
+        "properties": [
+          {
+            "Name": "SubcategoryUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Name",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          },
+          {
+            "Name": "CategoryUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Active",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Revision",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "LastChangedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "false"
+          }
+        ],
+        "navigation": [
+          {
+            "Name": "Category",
+            "Type": "ITOperations.Category",
+            "Nullable": "false",
+            "constraints": [
+              {
+                "Property": "CategoryUUID",
+                "ReferencedProperty": "CategoryUUID"
+              }
+            ]
+          }
+        ],
+        "bindings": [
+          {
+            "Path": "Category",
+            "Target": "Categories"
+          }
+        ]
+      },
+      "Teams": {
+        "type": "Team",
+        "key": "TeamUUID",
+        "properties": [
+          {
+            "Name": "TeamUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Name",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          },
+          {
+            "Name": "LocationUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "LeadUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Active",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Revision",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "LastChangedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "false"
+          }
+        ],
+        "navigation": [
+          {
+            "Name": "Location",
+            "Type": "ITOperations.Location",
+            "Nullable": "false",
+            "constraints": [
+              {
+                "Property": "LocationUUID",
+                "ReferencedProperty": "LocationUUID"
+              }
+            ]
+          },
+          {
+            "Name": "Lead",
+            "Type": "ITOperations.Employee",
+            "Nullable": "false",
+            "constraints": [
+              {
+                "Property": "LeadUUID",
+                "ReferencedProperty": "EmployeeUUID"
+              }
+            ]
+          }
+        ],
+        "bindings": [
+          {
+            "Path": "Location",
+            "Target": "Locations"
+          },
+          {
+            "Path": "Lead",
+            "Target": "Employees"
+          }
+        ]
+      },
+      "Locations": {
+        "type": "Location",
+        "key": "LocationUUID",
+        "properties": [
+          {
+            "Name": "LocationUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Name",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          },
+          {
+            "Name": "Active",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Revision",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "LastChangedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "false"
+          }
+        ],
+        "navigation": [],
+        "bindings": []
+      },
+      "WaitingReasons": {
+        "type": "WaitingReason",
+        "key": "WaitingReasonUUID",
+        "properties": [
+          {
+            "Name": "WaitingReasonUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Code",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          },
+          {
+            "Name": "Name",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          },
+          {
+            "Name": "PauseResolution",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Active",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Revision",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "LastChangedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "false"
+          }
+        ],
+        "navigation": [],
+        "bindings": []
+      },
+      "EscalationRules": {
+        "type": "EscalationRule",
+        "key": "EscalationRuleUUID",
+        "properties": [
+          {
+            "Name": "EscalationRuleUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "TriggerStatus",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          },
+          {
+            "Name": "Level",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "TargetRole",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          },
+          {
+            "Name": "Active",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Revision",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "LastChangedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "false"
+          }
+        ],
+        "navigation": [],
+        "bindings": []
+      },
+      "ConfigurationHistory": {
+        "type": "ConfigurationHistory",
+        "key": "ConfigurationHistoryUUID",
+        "properties": [
+          {
+            "Name": "ConfigurationHistoryUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "EntitySet",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          },
+          {
+            "Name": "RecordUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Revision",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          },
+          {
+            "Name": "Before",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "8000"
+          },
+          {
+            "Name": "After",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "8000"
+          },
+          {
+            "Name": "CreatedAt",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "false"
+          },
+          {
+            "Name": "CreatedBy",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          }
+        ],
+        "navigation": [],
+        "bindings": []
+      }
+    },
+    "actions": [
+      {
+        "Name": "CreateInventoryItem",
+        "IsBound": "true",
+        "parameters": [
+          {
+            "Name": "bindingParameter",
+            "Type": "Collection(ITOperations.Material)"
+          },
+          {
+            "Name": "MaterialNumber",
+            "Type": "Edm.String",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Description",
+            "Type": "Edm.String",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Category",
+            "Type": "Edm.String",
+            "Nullable": "false"
+          },
+          {
+            "Name": "TrackingMode",
+            "Type": "Edm.String",
+            "Nullable": "false"
+          },
+          {
+            "Name": "UnitOfMeasure",
+            "Type": "Edm.String",
+            "Nullable": "false"
+          },
+          {
+            "Name": "AssetType",
+            "Type": "Edm.String",
+            "Nullable": "true"
+          },
+          {
+            "Name": "Manufacturer",
+            "Type": "Edm.String",
+            "Nullable": "true"
+          },
+          {
+            "Name": "Model",
+            "Type": "Edm.String",
+            "Nullable": "true"
+          },
+          {
+            "Name": "ReorderLevel",
+            "Type": "Edm.Decimal",
+            "Nullable": "true",
+            "Precision": "15",
+            "Scale": "3"
+          },
+          {
+            "Name": "Quantity",
+            "Type": "Edm.Decimal",
+            "Nullable": "false",
+            "Precision": "15",
+            "Scale": "3"
+          },
+          {
+            "Name": "StorageLocation",
+            "Type": "Edm.String",
+            "Nullable": "false"
+          },
+          {
+            "Name": "SerialNumbers",
+            "Type": "Edm.String",
+            "Nullable": "true"
+          },
+          {
+            "Name": "PurchaseDate",
+            "Type": "Edm.Date",
+            "Nullable": "true"
+          },
+          {
+            "Name": "WarrantyEnd",
+            "Type": "Edm.Date",
+            "Nullable": "true"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Material",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "ReceiveEquipment",
+        "IsBound": "true",
+        "parameters": [
+          {
+            "Name": "bindingParameter",
+            "Type": "ITOperations.Material"
+          },
+          {
+            "Name": "Quantity",
+            "Type": "Edm.Decimal",
+            "Nullable": "false",
+            "Precision": "15",
+            "Scale": "3"
+          },
+          {
+            "Name": "StorageLocation",
+            "Type": "Edm.String",
+            "Nullable": "false"
+          },
+          {
+            "Name": "SerialNumbers",
+            "Type": "Edm.String",
+            "Nullable": "true"
+          },
+          {
+            "Name": "PurchaseDate",
+            "Type": "Edm.Date",
+            "Nullable": "true"
+          },
+          {
+            "Name": "WarrantyEnd",
+            "Type": "Edm.Date",
+            "Nullable": "true"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Material",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "Submit",
+        "IsBound": "true",
+        "EntitySetPath": "ticket",
+        "parameters": [
+          {
+            "Name": "ticket",
+            "Type": "ITOperations.Ticket",
+            "Nullable": "false"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Ticket",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "AssignTechnician",
+        "IsBound": "true",
+        "EntitySetPath": "ticket",
+        "parameters": [
+          {
+            "Name": "ticket",
+            "Type": "ITOperations.Ticket",
+            "Nullable": "false"
+          },
+          {
+            "Name": "TechnicianUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Ticket",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "StartWork",
+        "IsBound": "true",
+        "EntitySetPath": "ticket",
+        "parameters": [
+          {
+            "Name": "ticket",
+            "Type": "ITOperations.Ticket",
+            "Nullable": "false"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Ticket",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "PutOnHold",
+        "IsBound": "true",
+        "EntitySetPath": "ticket",
+        "parameters": [
+          {
+            "Name": "ticket",
+            "Type": "ITOperations.Ticket",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          },
+          {
+            "Name": "WaitingReasonCode",
+            "Type": "Edm.String",
+            "Nullable": "true",
+            "MaxLength": "500"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Ticket",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "Resume",
+        "IsBound": "true",
+        "EntitySetPath": "ticket",
+        "parameters": [
+          {
+            "Name": "ticket",
+            "Type": "ITOperations.Ticket",
+            "Nullable": "false"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Ticket",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "Resolve",
+        "IsBound": "true",
+        "EntitySetPath": "ticket",
+        "parameters": [
+          {
+            "Name": "ticket",
+            "Type": "ITOperations.Ticket",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Resolution",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Ticket",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "Close",
+        "IsBound": "true",
+        "EntitySetPath": "ticket",
+        "parameters": [
+          {
+            "Name": "ticket",
+            "Type": "ITOperations.Ticket",
+            "Nullable": "false"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Ticket",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "Reopen",
+        "IsBound": "true",
+        "EntitySetPath": "ticket",
+        "parameters": [
+          {
+            "Name": "ticket",
+            "Type": "ITOperations.Ticket",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Ticket",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "MakeAvailable",
+        "IsBound": "true",
+        "EntitySetPath": "asset",
+        "parameters": [
+          {
+            "Name": "asset",
+            "Type": "ITOperations.Asset",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Asset",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "AssignAsset",
+        "IsBound": "true",
+        "EntitySetPath": "asset",
+        "parameters": [
+          {
+            "Name": "asset",
+            "Type": "ITOperations.Asset",
+            "Nullable": "false"
+          },
+          {
+            "Name": "EmployeeUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Asset",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "TransferAsset",
+        "IsBound": "true",
+        "EntitySetPath": "asset",
+        "parameters": [
+          {
+            "Name": "asset",
+            "Type": "ITOperations.Asset",
+            "Nullable": "false"
+          },
+          {
+            "Name": "EmployeeUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Asset",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "ReturnAsset",
+        "IsBound": "true",
+        "EntitySetPath": "asset",
+        "parameters": [
+          {
+            "Name": "asset",
+            "Type": "ITOperations.Asset",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Asset",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "SendForRepair",
+        "IsBound": "true",
+        "EntitySetPath": "asset",
+        "parameters": [
+          {
+            "Name": "asset",
+            "Type": "ITOperations.Asset",
+            "Nullable": "false"
+          },
+          {
+            "Name": "TechnicianUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "TicketUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "true"
+          },
+          {
+            "Name": "Diagnosis",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Asset",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "CompleteRepair",
+        "IsBound": "true",
+        "EntitySetPath": "asset",
+        "parameters": [
+          {
+            "Name": "asset",
+            "Type": "ITOperations.Asset",
+            "Nullable": "false"
+          },
+          {
+            "Name": "RepairDescription",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Asset",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "RetireAsset",
+        "IsBound": "true",
+        "EntitySetPath": "asset",
+        "parameters": [
+          {
+            "Name": "asset",
+            "Type": "ITOperations.Asset",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Asset",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "DisposeAsset",
+        "IsBound": "true",
+        "EntitySetPath": "asset",
+        "parameters": [
+          {
+            "Name": "asset",
+            "Type": "ITOperations.Asset",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "4000"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Asset",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "ReceiveStock",
+        "IsBound": "true",
+        "EntitySetPath": "item",
+        "parameters": [
+          {
+            "Name": "item",
+            "Type": "ITOperations.Stock",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Quantity",
+            "Type": "Edm.Decimal",
+            "Nullable": "false",
+            "Precision": "15",
+            "Scale": "3"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Stock",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "ReserveStock",
+        "IsBound": "true",
+        "EntitySetPath": "item",
+        "parameters": [
+          {
+            "Name": "item",
+            "Type": "ITOperations.Stock",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Quantity",
+            "Type": "Edm.Decimal",
+            "Nullable": "false",
+            "Precision": "15",
+            "Scale": "3"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          },
+          {
+            "Name": "TicketUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "true"
+          },
+          {
+            "Name": "AssetUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "true"
+          },
+          {
+            "Name": "AssetRepairUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "true"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Stock",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "TransferStock",
+        "IsBound": "true",
+        "EntitySetPath": "item",
+        "parameters": [
+          {
+            "Name": "item",
+            "Type": "ITOperations.Stock",
+            "Nullable": "false"
+          },
+          {
+            "Name": "TargetStockUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Quantity",
+            "Type": "Edm.Decimal",
+            "Nullable": "false",
+            "Precision": "15",
+            "Scale": "3"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Stock",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "ReturnStock",
+        "IsBound": "true",
+        "EntitySetPath": "item",
+        "parameters": [
+          {
+            "Name": "item",
+            "Type": "ITOperations.Stock",
+            "Nullable": "false"
+          },
+          {
+            "Name": "IssueTransactionUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Quantity",
+            "Type": "Edm.Decimal",
+            "Nullable": "false",
+            "Precision": "15",
+            "Scale": "3"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Stock",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "AdjustStock",
+        "IsBound": "true",
+        "EntitySetPath": "item",
+        "parameters": [
+          {
+            "Name": "item",
+            "Type": "ITOperations.Stock",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Quantity",
+            "Type": "Edm.Decimal",
+            "Nullable": "false",
+            "Precision": "15",
+            "Scale": "3"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Stock",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "IssueReservation",
+        "IsBound": "true",
+        "EntitySetPath": "item",
+        "parameters": [
+          {
+            "Name": "item",
+            "Type": "ITOperations.Reservation",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Quantity",
+            "Type": "Edm.Decimal",
+            "Nullable": "false",
+            "Precision": "15",
+            "Scale": "3"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Reservation",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "CancelReservation",
+        "IsBound": "true",
+        "EntitySetPath": "item",
+        "parameters": [
+          {
+            "Name": "item",
+            "Type": "ITOperations.Reservation",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Reservation",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "RequestPart",
+        "IsBound": "true",
+        "EntitySetPath": "item",
+        "parameters": [
+          {
+            "Name": "item",
+            "Type": "ITOperations.Ticket",
+            "Nullable": "false"
+          },
+          {
+            "Name": "StockUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Quantity",
+            "Type": "Edm.Decimal",
+            "Nullable": "false",
+            "Precision": "15",
+            "Scale": "3"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Ticket",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "SaveSLAPolicies",
+        "IsBound": "true",
+        "EntitySetPath": "item",
+        "parameters": [
+          {
+            "Name": "item",
+            "Type": "ITOperations.SLAPolicy",
+            "Nullable": "false"
+          },
+          {
+            "Name": "ResponseMinutes",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "ResolutionMinutes",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "WarningPercent",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Revision",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.SLAPolicy",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "SaveCategories",
+        "IsBound": "true",
+        "EntitySetPath": "item",
+        "parameters": [
+          {
+            "Name": "item",
+            "Type": "ITOperations.Category",
+            "Nullable": "false"
+          },
+          {
+            "Name": "DefaultPriority",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          },
+          {
+            "Name": "TeamUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Active",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Revision",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Category",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "SaveSubcategories",
+        "IsBound": "true",
+        "EntitySetPath": "item",
+        "parameters": [
+          {
+            "Name": "item",
+            "Type": "ITOperations.Subcategory",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Name",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          },
+          {
+            "Name": "Active",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Revision",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Subcategory",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "SaveTeams",
+        "IsBound": "true",
+        "EntitySetPath": "item",
+        "parameters": [
+          {
+            "Name": "item",
+            "Type": "ITOperations.Team",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Name",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          },
+          {
+            "Name": "LocationUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "LeadUUID",
+            "Type": "Edm.Guid",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Active",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Revision",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Team",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "SaveLocations",
+        "IsBound": "true",
+        "EntitySetPath": "item",
+        "parameters": [
+          {
+            "Name": "item",
+            "Type": "ITOperations.Location",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Name",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          },
+          {
+            "Name": "Active",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Revision",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Location",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "SaveWaitingReasons",
+        "IsBound": "true",
+        "EntitySetPath": "item",
+        "parameters": [
+          {
+            "Name": "item",
+            "Type": "ITOperations.WaitingReason",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Name",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          },
+          {
+            "Name": "PauseResolution",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Active",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Revision",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.WaitingReason",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "SaveEscalationRules",
+        "IsBound": "true",
+        "EntitySetPath": "item",
+        "parameters": [
+          {
+            "Name": "item",
+            "Type": "ITOperations.EscalationRule",
+            "Nullable": "false"
+          },
+          {
+            "Name": "TargetRole",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          },
+          {
+            "Name": "Active",
+            "Type": "Edm.Boolean",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Revision",
+            "Type": "Edm.Int32",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.EscalationRule",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "CheckSLA",
+        "IsBound": "true",
+        "EntitySetPath": "item",
+        "parameters": [
+          {
+            "Name": "item",
+            "Type": "ITOperations.Ticket",
+            "Nullable": "false"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Ticket",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "PreviewSLA",
+        "IsBound": "true",
+        "EntitySetPath": "item",
+        "parameters": [
+          {
+            "Name": "item",
+            "Type": "ITOperations.Ticket",
+            "Nullable": "false"
+          },
+          {
+            "Name": "AsOf",
+            "Type": "Edm.DateTimeOffset",
+            "Nullable": "false"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Ticket",
+          "Nullable": "false"
+        }
+      },
+      {
+        "Name": "ChangePriority",
+        "IsBound": "true",
+        "EntitySetPath": "item",
+        "parameters": [
+          {
+            "Name": "item",
+            "Type": "ITOperations.Ticket",
+            "Nullable": "false"
+          },
+          {
+            "Name": "Priority",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          },
+          {
+            "Name": "Reason",
+            "Type": "Edm.String",
+            "Nullable": "false",
+            "MaxLength": "500"
+          }
+        ],
+        "returns": {
+          "Type": "ITOperations.Ticket",
+          "Nullable": "false"
+        }
+      }
+    ]
+  },
+  "entities": {
+    "Employees": {
+      "table": null,
+      "interface": "ZI_IT_Employee",
+      "projection": "ZC_IT_Employee",
+      "parent": null,
+      "root": "Employees",
+      "externalCreate": false,
+      "externalUpdate": false,
+      "externalDelete": false,
+      "appendOnly": false,
+      "fields": {
+        "EmployeeUUID": {
+          "kind": "reference",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "EmployeeNumber": {
+          "kind": "reference",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "DisplayName": {
+          "kind": "reference",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "Email": {
+          "kind": "reference",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "Department": {
+          "kind": "reference",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "Location": {
+          "kind": "reference",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        }
+      },
+      "lock": null,
+      "etag": null
+    },
+    "Tickets": {
+      "table": "ZIT_TICKET",
+      "interface": "ZI_IT_Ticket",
+      "projection": "ZC_IT_Ticket",
+      "parent": null,
+      "root": "Tickets",
+      "externalCreate": true,
+      "externalUpdate": false,
+      "externalDelete": false,
+      "appendOnly": false,
+      "fields": {
+        "TicketUUID": {
+          "kind": "stored",
+          "column": "ticket_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "TicketNumber": {
+          "kind": "stored",
+          "column": "ticket_number",
+          "abapType": "abap.char(20)",
+          "presenceColumn": null
+        },
+        "Subject": {
+          "kind": "stored",
+          "column": "subject",
+          "abapType": "abap.char(200)",
+          "presenceColumn": null
+        },
+        "Description": {
+          "kind": "stored",
+          "column": "description",
+          "abapType": "abap.string",
+          "presenceColumn": null
+        },
+        "Status": {
+          "kind": "stored",
+          "column": "status",
+          "abapType": "abap.char(20)",
+          "presenceColumn": null
+        },
+        "Priority": {
+          "kind": "stored",
+          "column": "priority",
+          "abapType": "abap.char(10)",
+          "presenceColumn": null
+        },
+        "Category": {
+          "kind": "stored",
+          "column": "category",
+          "abapType": "abap.char(40)",
+          "presenceColumn": null
+        },
+        "RequesterUUID": {
+          "kind": "stored",
+          "column": "requester_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "TechnicianUUID": {
+          "kind": "stored",
+          "column": "technician_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": "has_technician_uuid"
+        },
+        "AssetUUID": {
+          "kind": "stored",
+          "column": "asset_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": "has_asset_uuid"
+        },
+        "Resolution": {
+          "kind": "stored",
+          "column": "resolution",
+          "abapType": "abap.string",
+          "presenceColumn": "has_resolution"
+        },
+        "WaitingReason": {
+          "kind": "stored",
+          "column": "waiting_reason",
+          "abapType": "abap.char(500)",
+          "presenceColumn": "has_waiting_reason"
+        },
+        "ResolvedAt": {
+          "kind": "stored",
+          "column": "resolved_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": "has_resolved_at"
+        },
+        "ClosedAt": {
+          "kind": "stored",
+          "column": "closed_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": "has_closed_at"
+        },
+        "CreatedAt": {
+          "kind": "stored",
+          "column": "created_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": null
+        },
+        "CreatedBy": {
+          "kind": "stored",
+          "column": "created_by",
+          "abapType": "abap.char(80)",
+          "presenceColumn": null
+        },
+        "LastChangedAt": {
+          "kind": "stored",
+          "column": "last_changed_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": null
+        },
+        "LastChangedBy": {
+          "kind": "stored",
+          "column": "last_changed_by",
+          "abapType": "abap.char(80)",
+          "presenceColumn": null
+        },
+        "StatusCriticality": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "PriorityCriticality": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "CanSubmit": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "CanAssignTechnician": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "CanStartWork": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "CanPutOnHold": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "CanResume": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "CanResolve": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "CanClose": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "CanReopen": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "TeamUUID": {
+          "kind": "stored",
+          "column": "team_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "LocationUUID": {
+          "kind": "stored",
+          "column": "location_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "SubcategoryUUID": {
+          "kind": "stored",
+          "column": "subcategory_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": "has_subcategory_uuid"
+        },
+        "ResponseMinutes": {
+          "kind": "stored",
+          "column": "response_minutes",
+          "abapType": "abap.int4",
+          "presenceColumn": null
+        },
+        "ResolutionMinutes": {
+          "kind": "stored",
+          "column": "resolution_minutes",
+          "abapType": "abap.int4",
+          "presenceColumn": null
+        },
+        "WarningPercent": {
+          "kind": "stored",
+          "column": "warning_percent",
+          "abapType": "abap.int4",
+          "presenceColumn": null
+        },
+        "SLAPolicyRevision": {
+          "kind": "stored",
+          "column": "slapolicy_revision",
+          "abapType": "abap.int4",
+          "presenceColumn": null
+        },
+        "FirstResponseAt": {
+          "kind": "stored",
+          "column": "first_response_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": "has_first_response_at"
+        },
+        "ResolutionStartedAt": {
+          "kind": "stored",
+          "column": "resolution_started_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": null
+        },
+        "SLAPausedSeconds": {
+          "kind": "stored",
+          "column": "slapaused_seconds",
+          "abapType": "abap.int4",
+          "presenceColumn": null
+        },
+        "SLAPauseStartedAt": {
+          "kind": "stored",
+          "column": "slapause_started_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": "has_slapause_started_at"
+        },
+        "WaitingReasonCode": {
+          "kind": "stored",
+          "column": "waiting_reason_code",
+          "abapType": "abap.char(500)",
+          "presenceColumn": "has_waiting_reason_code"
+        },
+        "EscalationLevel": {
+          "kind": "stored",
+          "column": "escalation_level",
+          "abapType": "abap.int4",
+          "presenceColumn": null
+        },
+        "EscalationTarget": {
+          "kind": "stored",
+          "column": "escalation_target",
+          "abapType": "abap.char(500)",
+          "presenceColumn": "has_escalation_target"
+        },
+        "LastEscalatedAt": {
+          "kind": "stored",
+          "column": "last_escalated_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": "has_last_escalated_at"
+        },
+        "SLALastCheckedAt": {
+          "kind": "stored",
+          "column": "slalast_checked_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": "has_slalast_checked_at"
+        },
+        "ResponseDueAt": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "ResolutionDueAt": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "ResponseSLAStatus": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "ResolutionSLAStatus": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "SLAStatus": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "SLACriticality": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "SLAEvaluatedAt": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        }
+      },
+      "lock": "Tickets",
+      "etag": "LocalChangedAt"
+    },
+    "Assets": {
+      "table": "ZIT_ASSET",
+      "interface": "ZI_IT_Asset",
+      "projection": "ZC_IT_Asset",
+      "parent": null,
+      "root": "Assets",
+      "externalCreate": false,
+      "externalUpdate": false,
+      "externalDelete": false,
+      "appendOnly": false,
+      "fields": {
+        "AssetUUID": {
+          "kind": "stored",
+          "column": "asset_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "AssetTag": {
+          "kind": "stored",
+          "column": "asset_tag",
+          "abapType": "abap.char(30)",
+          "presenceColumn": null
+        },
+        "SerialNumber": {
+          "kind": "stored",
+          "column": "serial_number",
+          "abapType": "abap.char(80)",
+          "presenceColumn": "has_serial_number"
+        },
+        "AssetType": {
+          "kind": "stored",
+          "column": "asset_type",
+          "abapType": "abap.char(40)",
+          "presenceColumn": null
+        },
+        "Manufacturer": {
+          "kind": "stored",
+          "column": "manufacturer",
+          "abapType": "abap.char(80)",
+          "presenceColumn": null
+        },
+        "Model": {
+          "kind": "stored",
+          "column": "model",
+          "abapType": "abap.char(100)",
+          "presenceColumn": null
+        },
+        "Status": {
+          "kind": "stored",
+          "column": "status",
+          "abapType": "abap.char(20)",
+          "presenceColumn": null
+        },
+        "CurrentEmployeeUUID": {
+          "kind": "stored",
+          "column": "current_employee_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": "has_current_employee_uuid"
+        },
+        "Location": {
+          "kind": "stored",
+          "column": "location",
+          "abapType": "abap.char(80)",
+          "presenceColumn": null
+        },
+        "PurchaseDate": {
+          "kind": "stored",
+          "column": "purchase_date",
+          "abapType": "abap.dats",
+          "presenceColumn": "has_purchase_date"
+        },
+        "WarrantyEnd": {
+          "kind": "stored",
+          "column": "warranty_end",
+          "abapType": "abap.dats",
+          "presenceColumn": "has_warranty_end"
+        },
+        "CreatedAt": {
+          "kind": "stored",
+          "column": "created_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": null
+        },
+        "CreatedBy": {
+          "kind": "stored",
+          "column": "created_by",
+          "abapType": "abap.char(80)",
+          "presenceColumn": null
+        },
+        "LastChangedAt": {
+          "kind": "stored",
+          "column": "last_changed_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": null
+        },
+        "LastChangedBy": {
+          "kind": "stored",
+          "column": "last_changed_by",
+          "abapType": "abap.char(80)",
+          "presenceColumn": null
+        },
+        "StatusCriticality": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "CanMakeAvailable": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "CanAssignAsset": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "CanTransferAsset": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "CanReturnAsset": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "CanSendForRepair": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "CanCompleteRepair": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "CanRetireAsset": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "CanDisposeAsset": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "MaterialUUID": {
+          "kind": "stored",
+          "column": "material_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "CompanyCode": {
+          "kind": "stored",
+          "column": "company_code",
+          "abapType": "abap.char(4)",
+          "presenceColumn": "has_company_code"
+        },
+        "AssetClass": {
+          "kind": "stored",
+          "column": "asset_class",
+          "abapType": "abap.char(20)",
+          "presenceColumn": "has_asset_class"
+        },
+        "AssetNumber": {
+          "kind": "stored",
+          "column": "asset_number",
+          "abapType": "abap.char(12)",
+          "presenceColumn": "has_asset_number"
+        },
+        "AssetSubnumber": {
+          "kind": "stored",
+          "column": "asset_subnumber",
+          "abapType": "abap.char(4)",
+          "presenceColumn": "has_asset_subnumber"
+        }
+      },
+      "lock": "Assets",
+      "etag": "LocalChangedAt"
+    },
+    "TicketComments": {
+      "table": "ZIT_TKT_COMMENT",
+      "interface": "ZI_IT_TicketComment",
+      "projection": "ZC_IT_TicketComment",
+      "parent": "Tickets",
+      "root": "Tickets",
+      "externalCreate": false,
+      "externalUpdate": false,
+      "externalDelete": false,
+      "appendOnly": true,
+      "fields": {
+        "TicketCommentUUID": {
+          "kind": "stored",
+          "column": "ticket_comment_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "TicketUUID": {
+          "kind": "stored",
+          "column": "ticket_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "AuthorUUID": {
+          "kind": "stored",
+          "column": "author_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "Text": {
+          "kind": "stored",
+          "column": "text",
+          "abapType": "abap.string",
+          "presenceColumn": null
+        },
+        "CreatedAt": {
+          "kind": "stored",
+          "column": "created_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": null
+        },
+        "CreatedBy": {
+          "kind": "stored",
+          "column": "created_by",
+          "abapType": "abap.char(80)",
+          "presenceColumn": null
+        }
+      },
+      "lock": "Tickets",
+      "etag": null
+    },
+    "TicketHistory": {
+      "table": "ZIT_TKT_HISTORY",
+      "interface": "ZI_IT_TicketHistory",
+      "projection": "ZC_IT_TicketHistory",
+      "parent": "Tickets",
+      "root": "Tickets",
+      "externalCreate": false,
+      "externalUpdate": false,
+      "externalDelete": false,
+      "appendOnly": true,
+      "fields": {
+        "TicketHistoryUUID": {
+          "kind": "stored",
+          "column": "ticket_history_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "TicketUUID": {
+          "kind": "stored",
+          "column": "ticket_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "ActorUUID": {
+          "kind": "stored",
+          "column": "actor_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "Action": {
+          "kind": "stored",
+          "column": "action",
+          "abapType": "abap.char(40)",
+          "presenceColumn": null
+        },
+        "OldValue": {
+          "kind": "stored",
+          "column": "old_value",
+          "abapType": "abap.char(1000)",
+          "presenceColumn": "has_old_value"
+        },
+        "NewValue": {
+          "kind": "stored",
+          "column": "new_value",
+          "abapType": "abap.char(1000)",
+          "presenceColumn": "has_new_value"
+        },
+        "Reason": {
+          "kind": "stored",
+          "column": "reason",
+          "abapType": "abap.string",
+          "presenceColumn": "has_reason"
+        },
+        "CreatedAt": {
+          "kind": "stored",
+          "column": "created_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": null
+        },
+        "CreatedBy": {
+          "kind": "stored",
+          "column": "created_by",
+          "abapType": "abap.char(80)",
+          "presenceColumn": null
+        }
+      },
+      "lock": "Tickets",
+      "etag": null
+    },
+    "AssetAssignments": {
+      "table": "ZIT_ASSET_ASSIGN",
+      "interface": "ZI_IT_AssetAssignment",
+      "projection": "ZC_IT_AssetAssignment",
+      "parent": "Assets",
+      "root": "Assets",
+      "externalCreate": false,
+      "externalUpdate": false,
+      "externalDelete": false,
+      "appendOnly": false,
+      "fields": {
+        "AssetAssignmentUUID": {
+          "kind": "stored",
+          "column": "asset_assignment_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "AssetUUID": {
+          "kind": "stored",
+          "column": "asset_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "EmployeeUUID": {
+          "kind": "stored",
+          "column": "employee_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "StartAt": {
+          "kind": "stored",
+          "column": "start_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": null
+        },
+        "EndAt": {
+          "kind": "stored",
+          "column": "end_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": "has_end_at"
+        },
+        "Reason": {
+          "kind": "stored",
+          "column": "reason",
+          "abapType": "abap.string",
+          "presenceColumn": null
+        },
+        "EndReason": {
+          "kind": "stored",
+          "column": "end_reason",
+          "abapType": "abap.string",
+          "presenceColumn": "has_end_reason"
+        },
+        "CreatedBy": {
+          "kind": "stored",
+          "column": "created_by",
+          "abapType": "abap.char(80)",
+          "presenceColumn": null
+        },
+        "ClosedBy": {
+          "kind": "stored",
+          "column": "closed_by",
+          "abapType": "abap.char(80)",
+          "presenceColumn": "has_closed_by"
+        }
+      },
+      "lock": "Assets",
+      "etag": "LocalChangedAt"
+    },
+    "AssetRepairs": {
+      "table": "ZIT_ASSET_REPAIR",
+      "interface": "ZI_IT_AssetRepair",
+      "projection": "ZC_IT_AssetRepair",
+      "parent": "Assets",
+      "root": "Assets",
+      "externalCreate": false,
+      "externalUpdate": false,
+      "externalDelete": false,
+      "appendOnly": false,
+      "fields": {
+        "AssetRepairUUID": {
+          "kind": "stored",
+          "column": "asset_repair_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "AssetUUID": {
+          "kind": "stored",
+          "column": "asset_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "TicketUUID": {
+          "kind": "stored",
+          "column": "ticket_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": "has_ticket_uuid"
+        },
+        "TechnicianUUID": {
+          "kind": "stored",
+          "column": "technician_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "Status": {
+          "kind": "stored",
+          "column": "status",
+          "abapType": "abap.char(20)",
+          "presenceColumn": null
+        },
+        "Diagnosis": {
+          "kind": "stored",
+          "column": "diagnosis",
+          "abapType": "abap.string",
+          "presenceColumn": null
+        },
+        "RepairDescription": {
+          "kind": "stored",
+          "column": "repair_description",
+          "abapType": "abap.string",
+          "presenceColumn": "has_repair_description"
+        },
+        "StartedAt": {
+          "kind": "stored",
+          "column": "started_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": null
+        },
+        "RepairedAt": {
+          "kind": "stored",
+          "column": "repaired_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": "has_repaired_at"
+        },
+        "CreatedBy": {
+          "kind": "stored",
+          "column": "created_by",
+          "abapType": "abap.char(80)",
+          "presenceColumn": null
+        },
+        "CompletedBy": {
+          "kind": "stored",
+          "column": "completed_by",
+          "abapType": "abap.char(80)",
+          "presenceColumn": "has_completed_by"
+        }
+      },
+      "lock": "Assets",
+      "etag": "LocalChangedAt"
+    },
+    "AssetHistory": {
+      "table": "ZIT_ASSET_HIST",
+      "interface": "ZI_IT_AssetHistory",
+      "projection": "ZC_IT_AssetHistory",
+      "parent": "Assets",
+      "root": "Assets",
+      "externalCreate": false,
+      "externalUpdate": false,
+      "externalDelete": false,
+      "appendOnly": true,
+      "fields": {
+        "AssetHistoryUUID": {
+          "kind": "stored",
+          "column": "asset_history_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "AssetUUID": {
+          "kind": "stored",
+          "column": "asset_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "ActorUUID": {
+          "kind": "stored",
+          "column": "actor_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "Action": {
+          "kind": "stored",
+          "column": "action",
+          "abapType": "abap.char(40)",
+          "presenceColumn": null
+        },
+        "OldStatus": {
+          "kind": "stored",
+          "column": "old_status",
+          "abapType": "abap.char(20)",
+          "presenceColumn": "has_old_status"
+        },
+        "NewStatus": {
+          "kind": "stored",
+          "column": "new_status",
+          "abapType": "abap.char(20)",
+          "presenceColumn": null
+        },
+        "OldEmployeeUUID": {
+          "kind": "stored",
+          "column": "old_employee_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": "has_old_employee_uuid"
+        },
+        "NewEmployeeUUID": {
+          "kind": "stored",
+          "column": "new_employee_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": "has_new_employee_uuid"
+        },
+        "Reason": {
+          "kind": "stored",
+          "column": "reason",
+          "abapType": "abap.string",
+          "presenceColumn": null
+        },
+        "CreatedAt": {
+          "kind": "stored",
+          "column": "created_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": null
+        }
+      },
+      "lock": "Assets",
+      "etag": null
+    },
+    "Materials": {
+      "table": "ZIT_MATERIAL",
+      "interface": "ZI_IT_Material",
+      "projection": "ZC_IT_Material",
+      "parent": null,
+      "root": "Materials",
+      "externalCreate": false,
+      "externalUpdate": false,
+      "externalDelete": false,
+      "appendOnly": false,
+      "fields": {
+        "MaterialUUID": {
+          "kind": "stored",
+          "column": "material_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "MaterialNumber": {
+          "kind": "stored",
+          "column": "material_number",
+          "abapType": "abap.string",
+          "presenceColumn": null
+        },
+        "Description": {
+          "kind": "stored",
+          "column": "description",
+          "abapType": "abap.string",
+          "presenceColumn": null
+        },
+        "Category": {
+          "kind": "stored",
+          "column": "category",
+          "abapType": "abap.string",
+          "presenceColumn": null
+        },
+        "UnitOfMeasure": {
+          "kind": "stored",
+          "column": "unit_of_measure",
+          "abapType": "abap.string",
+          "presenceColumn": null
+        },
+        "TrackingMode": {
+          "kind": "stored",
+          "column": "tracking_mode",
+          "abapType": "abap.char(20)",
+          "presenceColumn": null
+        },
+        "AssetType": {
+          "kind": "stored",
+          "column": "asset_type",
+          "abapType": "abap.char(30)",
+          "presenceColumn": "has_asset_type"
+        },
+        "Manufacturer": {
+          "kind": "stored",
+          "column": "manufacturer",
+          "abapType": "abap.char(100)",
+          "presenceColumn": "has_manufacturer"
+        },
+        "Model": {
+          "kind": "stored",
+          "column": "model",
+          "abapType": "abap.char(100)",
+          "presenceColumn": "has_model"
+        },
+        "TotalAssets": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "AvailableAssets": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        }
+      },
+      "lock": "Materials",
+      "etag": "LocalChangedAt"
+    },
+    "Stocks": {
+      "table": "ZIT_STOCK",
+      "interface": "ZI_IT_Stock",
+      "projection": "ZC_IT_Stock",
+      "parent": "Materials",
+      "root": "Materials",
+      "externalCreate": false,
+      "externalUpdate": false,
+      "externalDelete": false,
+      "appendOnly": false,
+      "fields": {
+        "StockUUID": {
+          "kind": "stored",
+          "column": "stock_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "MaterialUUID": {
+          "kind": "stored",
+          "column": "material_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "StockLabel": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "StorageLocation": {
+          "kind": "stored",
+          "column": "storage_location",
+          "abapType": "abap.string",
+          "presenceColumn": null
+        },
+        "UnitOfMeasure": {
+          "kind": "stored",
+          "column": "unit_of_measure",
+          "abapType": "abap.string",
+          "presenceColumn": null
+        },
+        "PhysicalQuantity": {
+          "kind": "stored",
+          "column": "physical_quantity",
+          "abapType": "abap.dec(15,3)",
+          "presenceColumn": null
+        },
+        "ReservedQuantity": {
+          "kind": "stored",
+          "column": "reserved_quantity",
+          "abapType": "abap.dec(15,3)",
+          "presenceColumn": null
+        },
+        "AvailableQuantity": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "ReorderLevel": {
+          "kind": "stored",
+          "column": "reorder_level",
+          "abapType": "abap.dec(15,3)",
+          "presenceColumn": null
+        },
+        "LowStock": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "StockCriticality": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "LastChangedAt": {
+          "kind": "stored",
+          "column": "last_changed_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": null
+        }
+      },
+      "lock": "Materials",
+      "etag": "LocalChangedAt"
+    },
+    "Reservations": {
+      "table": "ZIT_RESERVATION",
+      "interface": "ZI_IT_Reservation",
+      "projection": "ZC_IT_Reservation",
+      "parent": "Materials",
+      "root": "Materials",
+      "externalCreate": false,
+      "externalUpdate": false,
+      "externalDelete": false,
+      "appendOnly": false,
+      "fields": {
+        "ReservationUUID": {
+          "kind": "stored",
+          "column": "reservation_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "MaterialUUID": {
+          "kind": "stored",
+          "column": "material_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "StockUUID": {
+          "kind": "stored",
+          "column": "stock_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "TicketUUID": {
+          "kind": "stored",
+          "column": "ticket_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": "has_ticket_uuid"
+        },
+        "AssetUUID": {
+          "kind": "stored",
+          "column": "asset_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": "has_asset_uuid"
+        },
+        "AssetRepairUUID": {
+          "kind": "stored",
+          "column": "asset_repair_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": "has_asset_repair_uuid"
+        },
+        "Quantity": {
+          "kind": "stored",
+          "column": "quantity",
+          "abapType": "abap.dec(15,3)",
+          "presenceColumn": null
+        },
+        "IssuedQuantity": {
+          "kind": "stored",
+          "column": "issued_quantity",
+          "abapType": "abap.dec(15,3)",
+          "presenceColumn": null
+        },
+        "OutstandingQuantity": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "Status": {
+          "kind": "stored",
+          "column": "status",
+          "abapType": "abap.string",
+          "presenceColumn": null
+        },
+        "Reason": {
+          "kind": "stored",
+          "column": "reason",
+          "abapType": "abap.string",
+          "presenceColumn": null
+        },
+        "CancelReason": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "CreatedAt": {
+          "kind": "stored",
+          "column": "created_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": null
+        },
+        "CreatedBy": {
+          "kind": "stored",
+          "column": "created_by",
+          "abapType": "abap.string",
+          "presenceColumn": null
+        },
+        "LastChangedAt": {
+          "kind": "stored",
+          "column": "last_changed_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": null
+        },
+        "CanIssueReservation": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        },
+        "CanCancelReservation": {
+          "kind": "derived",
+          "column": null,
+          "abapType": null,
+          "presenceColumn": null
+        }
+      },
+      "lock": "Materials",
+      "etag": "LocalChangedAt"
+    },
+    "StockTransactions": {
+      "table": "ZIT_STOCK_TXN",
+      "interface": "ZI_IT_StockTransaction",
+      "projection": "ZC_IT_StockTransaction",
+      "parent": "Materials",
+      "root": "Materials",
+      "externalCreate": false,
+      "externalUpdate": false,
+      "externalDelete": false,
+      "appendOnly": true,
+      "fields": {
+        "StockTransactionUUID": {
+          "kind": "stored",
+          "column": "stock_transaction_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "MaterialUUID": {
+          "kind": "stored",
+          "column": "material_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "StockUUID": {
+          "kind": "stored",
+          "column": "stock_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "ReservationUUID": {
+          "kind": "stored",
+          "column": "reservation_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": "has_reservation_uuid"
+        },
+        "TicketUUID": {
+          "kind": "stored",
+          "column": "ticket_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": "has_ticket_uuid"
+        },
+        "AssetUUID": {
+          "kind": "stored",
+          "column": "asset_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": "has_asset_uuid"
+        },
+        "AssetRepairUUID": {
+          "kind": "stored",
+          "column": "asset_repair_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": "has_asset_repair_uuid"
+        },
+        "MovementType": {
+          "kind": "stored",
+          "column": "movement_type",
+          "abapType": "abap.string",
+          "presenceColumn": null
+        },
+        "Quantity": {
+          "kind": "stored",
+          "column": "quantity",
+          "abapType": "abap.dec(15,3)",
+          "presenceColumn": null
+        },
+        "PhysicalDelta": {
+          "kind": "stored",
+          "column": "physical_delta",
+          "abapType": "abap.dec(15,3)",
+          "presenceColumn": null
+        },
+        "ReservedDelta": {
+          "kind": "stored",
+          "column": "reserved_delta",
+          "abapType": "abap.dec(15,3)",
+          "presenceColumn": null
+        },
+        "UnitOfMeasure": {
+          "kind": "stored",
+          "column": "unit_of_measure",
+          "abapType": "abap.string",
+          "presenceColumn": null
+        },
+        "TransferUUID": {
+          "kind": "stored",
+          "column": "transfer_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": "has_transfer_uuid"
+        },
+        "OriginalTransactionUUID": {
+          "kind": "stored",
+          "column": "original_transaction_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": "has_original_transaction_uuid"
+        },
+        "Reason": {
+          "kind": "stored",
+          "column": "reason",
+          "abapType": "abap.string",
+          "presenceColumn": null
+        },
+        "CreatedAt": {
+          "kind": "stored",
+          "column": "created_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": null
+        },
+        "CreatedBy": {
+          "kind": "stored",
+          "column": "created_by",
+          "abapType": "abap.string",
+          "presenceColumn": null
+        }
+      },
+      "lock": "Materials",
+      "etag": null
+    },
+    "SLAPolicies": {
+      "table": "ZIT_SLA_POLICY",
+      "interface": "ZI_IT_SLAPolicy",
+      "projection": "ZC_IT_SLAPolicy",
+      "parent": null,
+      "root": "SLAPolicies",
+      "externalCreate": false,
+      "externalUpdate": false,
+      "externalDelete": false,
+      "appendOnly": false,
+      "fields": {
+        "SLAPolicyUUID": {
+          "kind": "stored",
+          "column": "slapolicy_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "Priority": {
+          "kind": "stored",
+          "column": "priority",
+          "abapType": "abap.char(500)",
+          "presenceColumn": null
+        },
+        "ResponseMinutes": {
+          "kind": "stored",
+          "column": "response_minutes",
+          "abapType": "abap.int4",
+          "presenceColumn": null
+        },
+        "ResolutionMinutes": {
+          "kind": "stored",
+          "column": "resolution_minutes",
+          "abapType": "abap.int4",
+          "presenceColumn": null
+        },
+        "WarningPercent": {
+          "kind": "stored",
+          "column": "warning_percent",
+          "abapType": "abap.int4",
+          "presenceColumn": null
+        },
+        "Revision": {
+          "kind": "stored",
+          "column": "revision",
+          "abapType": "abap.int4",
+          "presenceColumn": null
+        },
+        "LastChangedAt": {
+          "kind": "stored",
+          "column": "last_changed_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": null
+        }
+      },
+      "lock": "SLAPolicies",
+      "etag": "LocalChangedAt"
+    },
+    "Categories": {
+      "table": "ZIT_CATEGORY",
+      "interface": "ZI_IT_Category",
+      "projection": "ZC_IT_Category",
+      "parent": null,
+      "root": "Categories",
+      "externalCreate": false,
+      "externalUpdate": false,
+      "externalDelete": false,
+      "appendOnly": false,
+      "fields": {
+        "CategoryUUID": {
+          "kind": "stored",
+          "column": "category_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "Name": {
+          "kind": "stored",
+          "column": "name",
+          "abapType": "abap.char(500)",
+          "presenceColumn": null
+        },
+        "DefaultPriority": {
+          "kind": "stored",
+          "column": "default_priority",
+          "abapType": "abap.char(500)",
+          "presenceColumn": null
+        },
+        "TeamUUID": {
+          "kind": "stored",
+          "column": "team_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "Active": {
+          "kind": "stored",
+          "column": "active",
+          "abapType": "abap.char(1)",
+          "presenceColumn": null
+        },
+        "Revision": {
+          "kind": "stored",
+          "column": "revision",
+          "abapType": "abap.int4",
+          "presenceColumn": null
+        },
+        "LastChangedAt": {
+          "kind": "stored",
+          "column": "last_changed_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": null
+        }
+      },
+      "lock": "Categories",
+      "etag": "LocalChangedAt"
+    },
+    "Subcategories": {
+      "table": "ZIT_SUBCATEGORY",
+      "interface": "ZI_IT_Subcategory",
+      "projection": "ZC_IT_Subcategory",
+      "parent": null,
+      "root": "Subcategories",
+      "externalCreate": false,
+      "externalUpdate": false,
+      "externalDelete": false,
+      "appendOnly": false,
+      "fields": {
+        "SubcategoryUUID": {
+          "kind": "stored",
+          "column": "subcategory_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "Name": {
+          "kind": "stored",
+          "column": "name",
+          "abapType": "abap.char(500)",
+          "presenceColumn": null
+        },
+        "CategoryUUID": {
+          "kind": "stored",
+          "column": "category_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "Active": {
+          "kind": "stored",
+          "column": "active",
+          "abapType": "abap.char(1)",
+          "presenceColumn": null
+        },
+        "Revision": {
+          "kind": "stored",
+          "column": "revision",
+          "abapType": "abap.int4",
+          "presenceColumn": null
+        },
+        "LastChangedAt": {
+          "kind": "stored",
+          "column": "last_changed_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": null
+        }
+      },
+      "lock": "Subcategories",
+      "etag": "LocalChangedAt"
+    },
+    "Teams": {
+      "table": "ZIT_TEAM",
+      "interface": "ZI_IT_Team",
+      "projection": "ZC_IT_Team",
+      "parent": null,
+      "root": "Teams",
+      "externalCreate": false,
+      "externalUpdate": false,
+      "externalDelete": false,
+      "appendOnly": false,
+      "fields": {
+        "TeamUUID": {
+          "kind": "stored",
+          "column": "team_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "Name": {
+          "kind": "stored",
+          "column": "name",
+          "abapType": "abap.char(500)",
+          "presenceColumn": null
+        },
+        "LocationUUID": {
+          "kind": "stored",
+          "column": "location_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "LeadUUID": {
+          "kind": "stored",
+          "column": "lead_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "Active": {
+          "kind": "stored",
+          "column": "active",
+          "abapType": "abap.char(1)",
+          "presenceColumn": null
+        },
+        "Revision": {
+          "kind": "stored",
+          "column": "revision",
+          "abapType": "abap.int4",
+          "presenceColumn": null
+        },
+        "LastChangedAt": {
+          "kind": "stored",
+          "column": "last_changed_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": null
+        }
+      },
+      "lock": "Teams",
+      "etag": "LocalChangedAt"
+    },
+    "Locations": {
+      "table": "ZIT_LOCATION",
+      "interface": "ZI_IT_Location",
+      "projection": "ZC_IT_Location",
+      "parent": null,
+      "root": "Locations",
+      "externalCreate": false,
+      "externalUpdate": false,
+      "externalDelete": false,
+      "appendOnly": false,
+      "fields": {
+        "LocationUUID": {
+          "kind": "stored",
+          "column": "location_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "Name": {
+          "kind": "stored",
+          "column": "name",
+          "abapType": "abap.char(500)",
+          "presenceColumn": null
+        },
+        "Active": {
+          "kind": "stored",
+          "column": "active",
+          "abapType": "abap.char(1)",
+          "presenceColumn": null
+        },
+        "Revision": {
+          "kind": "stored",
+          "column": "revision",
+          "abapType": "abap.int4",
+          "presenceColumn": null
+        },
+        "LastChangedAt": {
+          "kind": "stored",
+          "column": "last_changed_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": null
+        }
+      },
+      "lock": "Locations",
+      "etag": "LocalChangedAt"
+    },
+    "WaitingReasons": {
+      "table": "ZIT_WAIT_REASON",
+      "interface": "ZI_IT_WaitingReason",
+      "projection": "ZC_IT_WaitingReason",
+      "parent": null,
+      "root": "WaitingReasons",
+      "externalCreate": false,
+      "externalUpdate": false,
+      "externalDelete": false,
+      "appendOnly": false,
+      "fields": {
+        "WaitingReasonUUID": {
+          "kind": "stored",
+          "column": "waiting_reason_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "Code": {
+          "kind": "stored",
+          "column": "code",
+          "abapType": "abap.char(500)",
+          "presenceColumn": null
+        },
+        "Name": {
+          "kind": "stored",
+          "column": "name",
+          "abapType": "abap.char(500)",
+          "presenceColumn": null
+        },
+        "PauseResolution": {
+          "kind": "stored",
+          "column": "pause_resolution",
+          "abapType": "abap.char(1)",
+          "presenceColumn": null
+        },
+        "Active": {
+          "kind": "stored",
+          "column": "active",
+          "abapType": "abap.char(1)",
+          "presenceColumn": null
+        },
+        "Revision": {
+          "kind": "stored",
+          "column": "revision",
+          "abapType": "abap.int4",
+          "presenceColumn": null
+        },
+        "LastChangedAt": {
+          "kind": "stored",
+          "column": "last_changed_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": null
+        }
+      },
+      "lock": "WaitingReasons",
+      "etag": "LocalChangedAt"
+    },
+    "EscalationRules": {
+      "table": "ZIT_ESC_RULE",
+      "interface": "ZI_IT_EscalationRule",
+      "projection": "ZC_IT_EscalationRule",
+      "parent": null,
+      "root": "EscalationRules",
+      "externalCreate": false,
+      "externalUpdate": false,
+      "externalDelete": false,
+      "appendOnly": false,
+      "fields": {
+        "EscalationRuleUUID": {
+          "kind": "stored",
+          "column": "escalation_rule_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "TriggerStatus": {
+          "kind": "stored",
+          "column": "trigger_status",
+          "abapType": "abap.char(500)",
+          "presenceColumn": null
+        },
+        "Level": {
+          "kind": "stored",
+          "column": "level",
+          "abapType": "abap.int4",
+          "presenceColumn": null
+        },
+        "TargetRole": {
+          "kind": "stored",
+          "column": "target_role",
+          "abapType": "abap.char(500)",
+          "presenceColumn": null
+        },
+        "Active": {
+          "kind": "stored",
+          "column": "active",
+          "abapType": "abap.char(1)",
+          "presenceColumn": null
+        },
+        "Revision": {
+          "kind": "stored",
+          "column": "revision",
+          "abapType": "abap.int4",
+          "presenceColumn": null
+        },
+        "LastChangedAt": {
+          "kind": "stored",
+          "column": "last_changed_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": null
+        }
+      },
+      "lock": "EscalationRules",
+      "etag": "LocalChangedAt"
+    },
+    "ConfigurationHistory": {
+      "table": "ZIT_CONFIG_HIST",
+      "interface": "ZI_IT_ConfigurationHistory",
+      "projection": "ZC_IT_ConfigurationHistory",
+      "parent": null,
+      "root": "ConfigurationHistory",
+      "externalCreate": false,
+      "externalUpdate": false,
+      "externalDelete": false,
+      "appendOnly": true,
+      "fields": {
+        "ConfigurationHistoryUUID": {
+          "kind": "stored",
+          "column": "configuration_history_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "EntitySet": {
+          "kind": "stored",
+          "column": "entity_set",
+          "abapType": "abap.char(500)",
+          "presenceColumn": null
+        },
+        "RecordUUID": {
+          "kind": "stored",
+          "column": "record_uuid",
+          "abapType": "abap.raw(16)",
+          "presenceColumn": null
+        },
+        "Revision": {
+          "kind": "stored",
+          "column": "revision",
+          "abapType": "abap.int4",
+          "presenceColumn": null
+        },
+        "Reason": {
+          "kind": "stored",
+          "column": "reason",
+          "abapType": "abap.char(500)",
+          "presenceColumn": null
+        },
+        "Before": {
+          "kind": "stored",
+          "column": "before",
+          "abapType": "abap.string",
+          "presenceColumn": null
+        },
+        "After": {
+          "kind": "stored",
+          "column": "after",
+          "abapType": "abap.string",
+          "presenceColumn": null
+        },
+        "CreatedAt": {
+          "kind": "stored",
+          "column": "created_at",
+          "abapType": "abap.dec(21,7)",
+          "presenceColumn": null
+        },
+        "CreatedBy": {
+          "kind": "stored",
+          "column": "created_by",
+          "abapType": "abap.char(500)",
+          "presenceColumn": null
+        }
+      },
+      "lock": "ConfigurationHistory",
+      "etag": null
+    }
+  },
+  "operations": {
+    "Submit": {
+      "guard": "NEW -> SUBMITTED; apply ticket guards in behavior.md",
+      "writes": [
+        "Tickets",
+        "TicketHistory"
+      ],
+      "lockRoots": [
+        "Tickets",
+        "Assets",
+        "Materials"
+      ],
+      "determinations": "Authenticated actor, UTC timestamp, status/feature fields and SLA lifecycle update; append event atomically.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "EMPLOYEE"
+      ],
+      "scope": "Authenticated requester owns this NEW ticket."
+    },
+    "AssignTechnician": {
+      "guard": "SUBMITTED -> ASSIGNED; apply ticket guards in behavior.md",
+      "writes": [
+        "Tickets",
+        "TicketHistory"
+      ],
+      "lockRoots": [
+        "Tickets",
+        "Assets",
+        "Materials"
+      ],
+      "determinations": "Authenticated actor, UTC timestamp, status/feature fields and SLA lifecycle update; append event atomically.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "SUPERVISOR"
+      ],
+      "scope": "Supervisor manages the ticket team; chosen technician must be eligible for that team."
+    },
+    "StartWork": {
+      "guard": "ASSIGNED -> IN_PROGRESS; apply ticket guards in behavior.md",
+      "writes": [
+        "Tickets",
+        "TicketHistory"
+      ],
+      "lockRoots": [
+        "Tickets",
+        "Assets",
+        "Materials"
+      ],
+      "determinations": "Authenticated actor, UTC timestamp, status/feature fields and SLA lifecycle update; append event atomically.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "TECHNICIAN"
+      ],
+      "scope": "Authenticated technician is assigned to this ticket; enforce workflow and linked repair/parts constraints."
+    },
+    "PutOnHold": {
+      "guard": "IN_PROGRESS -> WAITING; apply ticket guards in behavior.md",
+      "writes": [
+        "Tickets",
+        "TicketHistory"
+      ],
+      "lockRoots": [
+        "Tickets",
+        "Assets",
+        "Materials"
+      ],
+      "determinations": "Authenticated actor, UTC timestamp, status/feature fields and SLA lifecycle update; append event atomically.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "TECHNICIAN"
+      ],
+      "scope": "Authenticated technician is assigned to this ticket; enforce workflow and linked repair/parts constraints."
+    },
+    "Resume": {
+      "guard": "WAITING -> IN_PROGRESS; apply ticket guards in behavior.md",
+      "writes": [
+        "Tickets",
+        "TicketHistory"
+      ],
+      "lockRoots": [
+        "Tickets",
+        "Assets",
+        "Materials"
+      ],
+      "determinations": "Authenticated actor, UTC timestamp, status/feature fields and SLA lifecycle update; append event atomically.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "TECHNICIAN"
+      ],
+      "scope": "Authenticated technician is assigned to this ticket; enforce workflow and linked repair/parts constraints."
+    },
+    "Resolve": {
+      "guard": "IN_PROGRESS -> RESOLVED; apply ticket guards in behavior.md",
+      "writes": [
+        "Tickets",
+        "TicketHistory"
+      ],
+      "lockRoots": [
+        "Tickets",
+        "Assets",
+        "Materials"
+      ],
+      "determinations": "Authenticated actor, UTC timestamp, status/feature fields and SLA lifecycle update; append event atomically.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "TECHNICIAN"
+      ],
+      "scope": "Authenticated technician is assigned to this ticket; enforce workflow and linked repair/parts constraints."
+    },
+    "Close": {
+      "guard": "RESOLVED -> CLOSED; apply ticket guards in behavior.md",
+      "writes": [
+        "Tickets",
+        "TicketHistory"
+      ],
+      "lockRoots": [
+        "Tickets",
+        "Assets",
+        "Materials"
+      ],
+      "determinations": "Authenticated actor, UTC timestamp, status/feature fields and SLA lifecycle update; append event atomically.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "EMPLOYEE"
+      ],
+      "scope": "Authenticated requester owns this RESOLVED ticket; CLOSED tickets cannot reopen in this MVP."
+    },
+    "Reopen": {
+      "guard": "RESOLVED -> IN_PROGRESS; apply ticket guards in behavior.md",
+      "writes": [
+        "Tickets",
+        "TicketHistory"
+      ],
+      "lockRoots": [
+        "Tickets",
+        "Assets",
+        "Materials"
+      ],
+      "determinations": "Authenticated actor, UTC timestamp, status/feature fields and SLA lifecycle update; append event atomically.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "EMPLOYEE"
+      ],
+      "scope": "Authenticated requester owns this RESOLVED ticket; CLOSED tickets cannot reopen in this MVP."
+    },
+    "MakeAvailable": {
+      "guard": "RECEIVED or TAGGED -> AVAILABLE",
+      "writes": [
+        "Assets",
+        "AssetHistory"
+      ],
+      "lockRoots": [
+        "Tickets",
+        "Assets",
+        "Materials"
+      ],
+      "determinations": "Derive current custody; close/create assignment intervals at the same instant; preserve custody during repair; append history.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "ASSET_ADMIN"
+      ],
+      "scope": "Validate role, record scope and current business state; reject direct field writes."
+    },
+    "AssignAsset": {
+      "guard": "AVAILABLE -> ASSIGNED; eligible employee",
+      "writes": [
+        "Assets",
+        "AssetHistory",
+        "AssetAssignments"
+      ],
+      "lockRoots": [
+        "Tickets",
+        "Assets",
+        "Materials"
+      ],
+      "determinations": "Derive current custody; close/create assignment intervals at the same instant; preserve custody during repair; append history.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "ASSET_ADMIN"
+      ],
+      "scope": "Validate role, record scope and current business state; reject direct field writes."
+    },
+    "TransferAsset": {
+      "guard": "ASSIGNED -> ASSIGNED; different eligible employee",
+      "writes": [
+        "Assets",
+        "AssetHistory",
+        "AssetAssignments"
+      ],
+      "lockRoots": [
+        "Tickets",
+        "Assets",
+        "Materials"
+      ],
+      "determinations": "Derive current custody; close/create assignment intervals at the same instant; preserve custody during repair; append history.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "ASSET_ADMIN"
+      ],
+      "scope": "Validate role, record scope and current business state; reject direct field writes."
+    },
+    "ReturnAsset": {
+      "guard": "ASSIGNED -> AVAILABLE",
+      "writes": [
+        "Assets",
+        "AssetHistory",
+        "AssetAssignments"
+      ],
+      "lockRoots": [
+        "Tickets",
+        "Assets",
+        "Materials"
+      ],
+      "determinations": "Derive current custody; close/create assignment intervals at the same instant; preserve custody during repair; append history.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "ASSET_ADMIN"
+      ],
+      "scope": "Validate role, record scope and current business state; reject direct field writes."
+    },
+    "SendForRepair": {
+      "guard": "AVAILABLE or ASSIGNED -> IN_REPAIR; at most one open repair; matching ticket and technician",
+      "writes": [
+        "Assets",
+        "AssetHistory",
+        "AssetRepairs"
+      ],
+      "lockRoots": [
+        "Tickets",
+        "Assets",
+        "Materials"
+      ],
+      "determinations": "Derive current custody; close/create assignment intervals at the same instant; preserve custody during repair; append history.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "TECHNICIAN",
+        "ASSET_ADMIN"
+      ],
+      "scope": "Technician has assigned linked work, or asset administrator controls the asset; preserve repair and parts invariants."
+    },
+    "CompleteRepair": {
+      "guard": "IN_REPAIR -> ASSIGNED if current custody exists, otherwise AVAILABLE; no outstanding linked requests",
+      "writes": [
+        "Assets",
+        "AssetHistory",
+        "AssetRepairs"
+      ],
+      "lockRoots": [
+        "Tickets",
+        "Assets",
+        "Materials"
+      ],
+      "determinations": "Derive current custody; close/create assignment intervals at the same instant; preserve custody during repair; append history.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "TECHNICIAN",
+        "ASSET_ADMIN"
+      ],
+      "scope": "Technician has assigned linked work, or asset administrator controls the asset; preserve repair and parts invariants."
+    },
+    "RetireAsset": {
+      "guard": "AVAILABLE -> RETIRED",
+      "writes": [
+        "Assets",
+        "AssetHistory"
+      ],
+      "lockRoots": [
+        "Tickets",
+        "Assets",
+        "Materials"
+      ],
+      "determinations": "Derive current custody; close/create assignment intervals at the same instant; preserve custody during repair; append history.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "ASSET_ADMIN"
+      ],
+      "scope": "Validate role, record scope and current business state; reject direct field writes."
+    },
+    "DisposeAsset": {
+      "guard": "RETIRED -> DISPOSED",
+      "writes": [
+        "Assets",
+        "AssetHistory"
+      ],
+      "lockRoots": [
+        "Tickets",
+        "Assets",
+        "Materials"
+      ],
+      "determinations": "Derive current custody; close/create assignment intervals at the same instant; preserve custody during repair; append history.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "ASSET_ADMIN"
+      ],
+      "scope": "Validate role, record scope and current business state; reject direct field writes."
+    },
+    "ReceiveStock": {
+      "guard": "positive quantity; parts only",
+      "writes": [
+        "Stocks",
+        "StockTransactions"
+      ],
+      "lockRoots": [
+        "Tickets",
+        "Assets",
+        "Materials"
+      ],
+      "determinations": "Fixed decimal (15,3); EA whole units; recompute availability/status, pair transfers, retain all origin references; append immutable movement.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "STORE_OFFICER"
+      ],
+      "scope": "Store officer controls source and destination locations; validate quantities, references and mandatory reasons."
+    },
+    "ReserveStock": {
+      "guard": "positive available quantity; matching optional ticket/asset/open repair",
+      "writes": [
+        "Stocks",
+        "Reservations",
+        "StockTransactions",
+        "TicketHistory"
+      ],
+      "lockRoots": [
+        "Tickets",
+        "Assets",
+        "Materials"
+      ],
+      "determinations": "Fixed decimal (15,3); EA whole units; recompute availability/status, pair transfers, retain all origin references; append immutable movement.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "TECHNICIAN",
+        "STORE_OFFICER"
+      ],
+      "scope": "Store officer controls location, or technician has assigned linked work; prevent oversubscription."
+    },
+    "RequestPart": {
+      "guard": "IN_PROGRESS or WAITING ticket; matching open repair when affected asset exists; sufficient stock",
+      "writes": [
+        "Stocks",
+        "Reservations",
+        "StockTransactions",
+        "TicketHistory"
+      ],
+      "lockRoots": [
+        "Tickets",
+        "Assets",
+        "Materials"
+      ],
+      "determinations": "Fixed decimal (15,3); EA whole units; recompute availability/status, pair transfers, retain all origin references; append immutable movement.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "TECHNICIAN"
+      ],
+      "scope": "Authenticated technician is assigned to this ticket; enforce workflow and linked repair/parts constraints."
+    },
+    "TransferStock": {
+      "guard": "distinct locations of same material; source available quantity sufficient",
+      "writes": [
+        "Stocks",
+        "StockTransactions"
+      ],
+      "lockRoots": [
+        "Tickets",
+        "Assets",
+        "Materials"
+      ],
+      "determinations": "Fixed decimal (15,3); EA whole units; recompute availability/status, pair transfers, retain all origin references; append immutable movement.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "STORE_OFFICER"
+      ],
+      "scope": "Store officer controls source and destination locations; validate quantities, references and mandatory reasons."
+    },
+    "ReturnStock": {
+      "guard": "original ISSUE belongs to this stock; cumulative returns <= original issued quantity",
+      "writes": [
+        "Stocks",
+        "StockTransactions",
+        "TicketHistory"
+      ],
+      "lockRoots": [
+        "Tickets",
+        "Assets",
+        "Materials"
+      ],
+      "determinations": "Fixed decimal (15,3); EA whole units; recompute availability/status, pair transfers, retain all origin references; append immutable movement.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "STORE_OFFICER"
+      ],
+      "scope": "Store officer controls source and destination locations; validate quantities, references and mandatory reasons."
+    },
+    "AdjustStock": {
+      "guard": "nonzero signed adjustment; resulting physical >= reserved >= 0; reason required",
+      "writes": [
+        "Stocks",
+        "StockTransactions"
+      ],
+      "lockRoots": [
+        "Tickets",
+        "Assets",
+        "Materials"
+      ],
+      "determinations": "Fixed decimal (15,3); EA whole units; recompute availability/status, pair transfers, retain all origin references; append immutable movement.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "STORE_OFFICER"
+      ],
+      "scope": "Store officer controls source and destination locations; validate quantities, references and mandatory reasons."
+    },
+    "IssueReservation": {
+      "guard": "OPEN or PARTIAL; positive quantity <= unissued remainder; linked ticket/repair eligible",
+      "writes": [
+        "Stocks",
+        "Reservations",
+        "StockTransactions",
+        "TicketHistory"
+      ],
+      "lockRoots": [
+        "Tickets",
+        "Assets",
+        "Materials"
+      ],
+      "determinations": "Fixed decimal (15,3); EA whole units; recompute availability/status, pair transfers, retain all origin references; append immutable movement.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "STORE_OFFICER"
+      ],
+      "scope": "Store officer controls source and destination locations; validate quantities, references and mandatory reasons."
+    },
+    "CancelReservation": {
+      "guard": "OPEN or PARTIAL; release only unissued remainder",
+      "writes": [
+        "Stocks",
+        "Reservations",
+        "StockTransactions",
+        "TicketHistory"
+      ],
+      "lockRoots": [
+        "Tickets",
+        "Assets",
+        "Materials"
+      ],
+      "determinations": "Fixed decimal (15,3); EA whole units; recompute availability/status, pair transfers, retain all origin references; append immutable movement.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "TECHNICIAN",
+        "STORE_OFFICER"
+      ],
+      "scope": "Store officer controls stock location, or technician owns the linked part request; cancel only outstanding quantity."
+    },
+    "CreateInventoryItem": {
+      "guard": "Unique material number; valid tracking mode/unit/location; equipment serials and quantity consistent; configured number range; existing receipt requires EQUIPMENT",
+      "writes": [
+        "Materials",
+        "Assets",
+        "AssetHistory",
+        "Stocks",
+        "StockTransactions"
+      ],
+      "lockRoots": [
+        "Materials",
+        "Assets"
+      ],
+      "determinations": "Create equipment as shared Assets, or quantity parts as Stocks and opening movement; allocate UUIDs/numbers; bump catalogue root ETag.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "STORE_OFFICER"
+      ],
+      "scope": "Create catalogue items and receive into permitted locations; equipment creates shared assets."
+    },
+    "ReceiveEquipment": {
+      "guard": "Unique material number; valid tracking mode/unit/location; equipment serials and quantity consistent; configured number range; existing receipt requires EQUIPMENT",
+      "writes": [
+        "Materials",
+        "Assets",
+        "AssetHistory",
+        "Stocks",
+        "StockTransactions"
+      ],
+      "lockRoots": [
+        "Materials",
+        "Assets"
+      ],
+      "determinations": "Create equipment as shared Assets, or quantity parts as Stocks and opening movement; allocate UUIDs/numbers; bump catalogue root ETag.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "STORE_OFFICER"
+      ],
+      "scope": "Receive serialized equipment into permitted locations; backend allocates tags."
+    },
+    "SaveSLAPolicies": {
+      "guard": "Expected Revision matches; editable parameter whitelist; validate active references and bounds; nonblank Reason",
+      "writes": [
+        "SLAPolicies",
+        "ConfigurationHistory"
+      ],
+      "lockRoots": [
+        "SLAPolicies"
+      ],
+      "determinations": "Revision + 1, changed timestamp, immutable before/after audit; never rewrite prior ticket SLA snapshots.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "SYSTEM_ADMIN"
+      ],
+      "scope": "Validate role, record scope and current business state; reject direct field writes."
+    },
+    "SaveCategories": {
+      "guard": "Expected Revision matches; editable parameter whitelist; validate active references and bounds; nonblank Reason",
+      "writes": [
+        "Categories",
+        "ConfigurationHistory"
+      ],
+      "lockRoots": [
+        "Categories"
+      ],
+      "determinations": "Revision + 1, changed timestamp, immutable before/after audit; never rewrite prior ticket SLA snapshots.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "SYSTEM_ADMIN"
+      ],
+      "scope": "Validate role, record scope and current business state; reject direct field writes."
+    },
+    "SaveSubcategories": {
+      "guard": "Expected Revision matches; editable parameter whitelist; validate active references and bounds; nonblank Reason",
+      "writes": [
+        "Subcategories",
+        "ConfigurationHistory"
+      ],
+      "lockRoots": [
+        "Subcategories"
+      ],
+      "determinations": "Revision + 1, changed timestamp, immutable before/after audit; never rewrite prior ticket SLA snapshots.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "SYSTEM_ADMIN"
+      ],
+      "scope": "Validate role, record scope and current business state; reject direct field writes."
+    },
+    "SaveTeams": {
+      "guard": "Expected Revision matches; editable parameter whitelist; validate active references and bounds; nonblank Reason",
+      "writes": [
+        "Teams",
+        "ConfigurationHistory"
+      ],
+      "lockRoots": [
+        "Teams"
+      ],
+      "determinations": "Revision + 1, changed timestamp, immutable before/after audit; never rewrite prior ticket SLA snapshots.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "SYSTEM_ADMIN"
+      ],
+      "scope": "Validate role, record scope and current business state; reject direct field writes."
+    },
+    "SaveLocations": {
+      "guard": "Expected Revision matches; editable parameter whitelist; validate active references and bounds; nonblank Reason",
+      "writes": [
+        "Locations",
+        "ConfigurationHistory"
+      ],
+      "lockRoots": [
+        "Locations"
+      ],
+      "determinations": "Revision + 1, changed timestamp, immutable before/after audit; never rewrite prior ticket SLA snapshots.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "SYSTEM_ADMIN"
+      ],
+      "scope": "Validate role, record scope and current business state; reject direct field writes."
+    },
+    "SaveWaitingReasons": {
+      "guard": "Expected Revision matches; editable parameter whitelist; validate active references and bounds; nonblank Reason",
+      "writes": [
+        "WaitingReasons",
+        "ConfigurationHistory"
+      ],
+      "lockRoots": [
+        "WaitingReasons"
+      ],
+      "determinations": "Revision + 1, changed timestamp, immutable before/after audit; never rewrite prior ticket SLA snapshots.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "SYSTEM_ADMIN"
+      ],
+      "scope": "Validate role, record scope and current business state; reject direct field writes."
+    },
+    "SaveEscalationRules": {
+      "guard": "Expected Revision matches; editable parameter whitelist; validate active references and bounds; nonblank Reason",
+      "writes": [
+        "EscalationRules",
+        "ConfigurationHistory"
+      ],
+      "lockRoots": [
+        "EscalationRules"
+      ],
+      "determinations": "Revision + 1, changed timestamp, immutable before/after audit; never rewrite prior ticket SLA snapshots.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "SYSTEM_ADMIN"
+      ],
+      "scope": "Validate role, record scope and current business state; reject direct field writes."
+    },
+    "PreviewSLA": {
+      "guard": "Valid AsOf >= latest ticket change and <= 2100; authorized read",
+      "writes": [],
+      "lockRoots": [],
+      "determinations": "Evaluate a copy; no state, audit, locks or ETag changes.",
+      "transaction": "read-only",
+      "roles": [
+        "TECHNICIAN",
+        "SUPERVISOR",
+        "IT_MANAGER"
+      ],
+      "scope": "Technician reads assigned tickets, supervisor manages team tickets, manager reads all; only CheckSLA can write escalation history."
+    },
+    "CheckSLA": {
+      "guard": "Authorized scoped ticket; active escalation rules; no new escalation on completed ticket",
+      "writes": [
+        "Tickets",
+        "TicketHistory"
+      ],
+      "lockRoots": [
+        "Tickets"
+      ],
+      "determinations": "Assess current time, escalate only above recorded level; update checked time; no external notifications in this phase.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "SUPERVISOR",
+        "IT_MANAGER"
+      ],
+      "scope": "Technician reads assigned tickets, supervisor manages team tickets, manager reads all; only CheckSLA can write escalation history."
+    },
+    "ChangePriority": {
+      "guard": "Authorized supervisor; valid priority, policy and reason",
+      "writes": [
+        "Tickets",
+        "TicketHistory"
+      ],
+      "lockRoots": [
+        "Tickets"
+      ],
+      "determinations": "Snapshot selected policy; preserve elapsed time and pauses; append audit; never reset historical first response.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "SUPERVISOR"
+      ],
+      "scope": "Supervisor manages the ticket team; chosen technician must be eligible for that team."
+    },
+    "CreateTicket": {
+      "guard": "Authenticated requester; active category/subcategory/team/location; affected asset belongs to requester; required subject/description",
+      "writes": [
+        "Tickets",
+        "TicketHistory"
+      ],
+      "lockRoots": [
+        "Tickets",
+        "Assets"
+      ],
+      "determinations": "Generate UUID and number; NEW status; server actors and UTC times; snapshot routing/SLA and append Create history.",
+      "transaction": "single SAP LUW",
+      "roles": [
+        "EMPLOYEE"
+      ],
+      "scope": "Requester must equal authenticated employee; use active configuration and assigned asset."
+    }
+  }
+}

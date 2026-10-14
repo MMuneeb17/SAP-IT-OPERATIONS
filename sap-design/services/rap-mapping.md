@@ -1,5 +1,9 @@
 # Phase 2 public service → planned RAP mapping
 
+Historical design: the [Phase 10 package](../phase-10/README.md) supersedes
+these initial names and mappings for implementation. Use its complete dictionary,
+service migration decisions and acceptance checklist.
+
 Status: implementation blueprint, 22 September 2026. The local read contract is
 specified in [service-contract.md](../../docs/service-contract.md). This document
 contains planned mappings, not deployed SAP artifacts or executable ABAP.

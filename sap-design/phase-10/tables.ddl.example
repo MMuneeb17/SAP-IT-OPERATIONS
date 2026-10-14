@@ -1,0 +1,477 @@
+// DESIGN TEMPLATE BUNDLE: split each define table into its own ADT object.
+// Review target-release types, nullable projection and client/ETag semantics before activation.
+
+// Tickets; public key TicketUUID; root Tickets
+@EndUserText.label: 'Tickets'
+@AbapCatalog.enhancement.category: #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory: #TRANSPARENT
+@AbapCatalog.deliveryClass: #A
+@AbapCatalog.dataMaintenance: #RESTRICTED
+define table zit_ticket {
+  key client : abap.clnt not null;
+  key ticket_uuid : abap.raw(16) not null;
+  ticket_number : abap.char(20);
+  subject : abap.char(200);
+  description : abap.string;
+  status : abap.char(20);
+  priority : abap.char(10);
+  category : abap.char(40);
+  requester_uuid : abap.raw(16);
+  technician_uuid : abap.raw(16);
+  has_technician_uuid : abap.char(1);
+  asset_uuid : abap.raw(16);
+  has_asset_uuid : abap.char(1);
+  resolution : abap.string;
+  has_resolution : abap.char(1);
+  waiting_reason : abap.char(500);
+  has_waiting_reason : abap.char(1);
+  resolved_at : abap.dec(21,7);
+  has_resolved_at : abap.char(1);
+  closed_at : abap.dec(21,7);
+  has_closed_at : abap.char(1);
+  created_at : abap.dec(21,7);
+  created_by : abap.char(80);
+  last_changed_at : abap.dec(21,7);
+  last_changed_by : abap.char(80);
+  team_uuid : abap.raw(16);
+  location_uuid : abap.raw(16);
+  subcategory_uuid : abap.raw(16);
+  has_subcategory_uuid : abap.char(1);
+  response_minutes : abap.int4;
+  resolution_minutes : abap.int4;
+  warning_percent : abap.int4;
+  slapolicy_revision : abap.int4;
+  first_response_at : abap.dec(21,7);
+  has_first_response_at : abap.char(1);
+  resolution_started_at : abap.dec(21,7);
+  slapaused_seconds : abap.int4;
+  slapause_started_at : abap.dec(21,7);
+  has_slapause_started_at : abap.char(1);
+  waiting_reason_code : abap.char(500);
+  has_waiting_reason_code : abap.char(1);
+  escalation_level : abap.int4;
+  escalation_target : abap.char(500);
+  has_escalation_target : abap.char(1);
+  last_escalated_at : abap.dec(21,7);
+  has_last_escalated_at : abap.char(1);
+  slalast_checked_at : abap.dec(21,7);
+  has_slalast_checked_at : abap.char(1);
+  // Internal concurrency timestamp; separate from public precision-zero audit time.
+  local_changed_at : abp_locinst_lastchange_tstmpl;
+}
+
+// Assets; public key AssetUUID; root Assets
+@EndUserText.label: 'Assets'
+@AbapCatalog.enhancement.category: #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory: #TRANSPARENT
+@AbapCatalog.deliveryClass: #A
+@AbapCatalog.dataMaintenance: #RESTRICTED
+define table zit_asset {
+  key client : abap.clnt not null;
+  key asset_uuid : abap.raw(16) not null;
+  asset_tag : abap.char(30);
+  serial_number : abap.char(80);
+  has_serial_number : abap.char(1);
+  asset_type : abap.char(40);
+  manufacturer : abap.char(80);
+  model : abap.char(100);
+  status : abap.char(20);
+  current_employee_uuid : abap.raw(16);
+  has_current_employee_uuid : abap.char(1);
+  location : abap.char(80);
+  purchase_date : abap.dats;
+  has_purchase_date : abap.char(1);
+  warranty_end : abap.dats;
+  has_warranty_end : abap.char(1);
+  created_at : abap.dec(21,7);
+  created_by : abap.char(80);
+  last_changed_at : abap.dec(21,7);
+  last_changed_by : abap.char(80);
+  material_uuid : abap.raw(16);
+  company_code : abap.char(4);
+  has_company_code : abap.char(1);
+  asset_class : abap.char(20);
+  has_asset_class : abap.char(1);
+  asset_number : abap.char(12);
+  has_asset_number : abap.char(1);
+  asset_subnumber : abap.char(4);
+  has_asset_subnumber : abap.char(1);
+  // Internal concurrency timestamp; separate from public precision-zero audit time.
+  local_changed_at : abp_locinst_lastchange_tstmpl;
+}
+
+// TicketComments; public key TicketCommentUUID; root Tickets
+@EndUserText.label: 'TicketComments'
+@AbapCatalog.enhancement.category: #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory: #TRANSPARENT
+@AbapCatalog.deliveryClass: #A
+@AbapCatalog.dataMaintenance: #RESTRICTED
+define table zit_tkt_comment {
+  key client : abap.clnt not null;
+  key ticket_comment_uuid : abap.raw(16) not null;
+  ticket_uuid : abap.raw(16);
+  author_uuid : abap.raw(16);
+  text : abap.string;
+  created_at : abap.dec(21,7);
+  created_by : abap.char(80);
+  // Internal concurrency timestamp; separate from public precision-zero audit time.
+  local_changed_at : abp_locinst_lastchange_tstmpl;
+}
+
+// TicketHistory; public key TicketHistoryUUID; root Tickets
+@EndUserText.label: 'TicketHistory'
+@AbapCatalog.enhancement.category: #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory: #TRANSPARENT
+@AbapCatalog.deliveryClass: #A
+@AbapCatalog.dataMaintenance: #RESTRICTED
+define table zit_tkt_history {
+  key client : abap.clnt not null;
+  key ticket_history_uuid : abap.raw(16) not null;
+  ticket_uuid : abap.raw(16);
+  actor_uuid : abap.raw(16);
+  action : abap.char(40);
+  old_value : abap.char(1000);
+  has_old_value : abap.char(1);
+  new_value : abap.char(1000);
+  has_new_value : abap.char(1);
+  reason : abap.string;
+  has_reason : abap.char(1);
+  created_at : abap.dec(21,7);
+  created_by : abap.char(80);
+  // Internal concurrency timestamp; separate from public precision-zero audit time.
+  local_changed_at : abp_locinst_lastchange_tstmpl;
+}
+
+// AssetAssignments; public key AssetAssignmentUUID; root Assets
+@EndUserText.label: 'AssetAssignments'
+@AbapCatalog.enhancement.category: #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory: #TRANSPARENT
+@AbapCatalog.deliveryClass: #A
+@AbapCatalog.dataMaintenance: #RESTRICTED
+define table zit_asset_assign {
+  key client : abap.clnt not null;
+  key asset_assignment_uuid : abap.raw(16) not null;
+  asset_uuid : abap.raw(16);
+  employee_uuid : abap.raw(16);
+  start_at : abap.dec(21,7);
+  end_at : abap.dec(21,7);
+  has_end_at : abap.char(1);
+  reason : abap.string;
+  end_reason : abap.string;
+  has_end_reason : abap.char(1);
+  created_by : abap.char(80);
+  closed_by : abap.char(80);
+  has_closed_by : abap.char(1);
+  // Internal concurrency timestamp; separate from public precision-zero audit time.
+  local_changed_at : abp_locinst_lastchange_tstmpl;
+}
+
+// AssetRepairs; public key AssetRepairUUID; root Assets
+@EndUserText.label: 'AssetRepairs'
+@AbapCatalog.enhancement.category: #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory: #TRANSPARENT
+@AbapCatalog.deliveryClass: #A
+@AbapCatalog.dataMaintenance: #RESTRICTED
+define table zit_asset_repair {
+  key client : abap.clnt not null;
+  key asset_repair_uuid : abap.raw(16) not null;
+  asset_uuid : abap.raw(16);
+  ticket_uuid : abap.raw(16);
+  has_ticket_uuid : abap.char(1);
+  technician_uuid : abap.raw(16);
+  status : abap.char(20);
+  diagnosis : abap.string;
+  repair_description : abap.string;
+  has_repair_description : abap.char(1);
+  started_at : abap.dec(21,7);
+  repaired_at : abap.dec(21,7);
+  has_repaired_at : abap.char(1);
+  created_by : abap.char(80);
+  completed_by : abap.char(80);
+  has_completed_by : abap.char(1);
+  // Internal concurrency timestamp; separate from public precision-zero audit time.
+  local_changed_at : abp_locinst_lastchange_tstmpl;
+}
+
+// AssetHistory; public key AssetHistoryUUID; root Assets
+@EndUserText.label: 'AssetHistory'
+@AbapCatalog.enhancement.category: #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory: #TRANSPARENT
+@AbapCatalog.deliveryClass: #A
+@AbapCatalog.dataMaintenance: #RESTRICTED
+define table zit_asset_hist {
+  key client : abap.clnt not null;
+  key asset_history_uuid : abap.raw(16) not null;
+  asset_uuid : abap.raw(16);
+  actor_uuid : abap.raw(16);
+  action : abap.char(40);
+  old_status : abap.char(20);
+  has_old_status : abap.char(1);
+  new_status : abap.char(20);
+  old_employee_uuid : abap.raw(16);
+  has_old_employee_uuid : abap.char(1);
+  new_employee_uuid : abap.raw(16);
+  has_new_employee_uuid : abap.char(1);
+  reason : abap.string;
+  created_at : abap.dec(21,7);
+  // Internal concurrency timestamp; separate from public precision-zero audit time.
+  local_changed_at : abp_locinst_lastchange_tstmpl;
+}
+
+// Materials; public key MaterialUUID; root Materials
+@EndUserText.label: 'Materials'
+@AbapCatalog.enhancement.category: #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory: #TRANSPARENT
+@AbapCatalog.deliveryClass: #A
+@AbapCatalog.dataMaintenance: #RESTRICTED
+define table zit_material {
+  key client : abap.clnt not null;
+  key material_uuid : abap.raw(16) not null;
+  material_number : abap.string;
+  description : abap.string;
+  category : abap.string;
+  unit_of_measure : abap.string;
+  tracking_mode : abap.char(20);
+  asset_type : abap.char(30);
+  has_asset_type : abap.char(1);
+  manufacturer : abap.char(100);
+  has_manufacturer : abap.char(1);
+  model : abap.char(100);
+  has_model : abap.char(1);
+  // Internal concurrency timestamp; separate from public precision-zero audit time.
+  local_changed_at : abp_locinst_lastchange_tstmpl;
+}
+
+// Stocks; public key StockUUID; root Materials
+@EndUserText.label: 'Stocks'
+@AbapCatalog.enhancement.category: #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory: #TRANSPARENT
+@AbapCatalog.deliveryClass: #A
+@AbapCatalog.dataMaintenance: #RESTRICTED
+define table zit_stock {
+  key client : abap.clnt not null;
+  key stock_uuid : abap.raw(16) not null;
+  material_uuid : abap.raw(16);
+  storage_location : abap.string;
+  unit_of_measure : abap.string;
+  physical_quantity : abap.dec(15,3);
+  reserved_quantity : abap.dec(15,3);
+  reorder_level : abap.dec(15,3);
+  last_changed_at : abap.dec(21,7);
+  // Internal concurrency timestamp; separate from public precision-zero audit time.
+  local_changed_at : abp_locinst_lastchange_tstmpl;
+}
+
+// Reservations; public key ReservationUUID; root Materials
+@EndUserText.label: 'Reservations'
+@AbapCatalog.enhancement.category: #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory: #TRANSPARENT
+@AbapCatalog.deliveryClass: #A
+@AbapCatalog.dataMaintenance: #RESTRICTED
+define table zit_reservation {
+  key client : abap.clnt not null;
+  key reservation_uuid : abap.raw(16) not null;
+  material_uuid : abap.raw(16);
+  stock_uuid : abap.raw(16);
+  ticket_uuid : abap.raw(16);
+  has_ticket_uuid : abap.char(1);
+  asset_uuid : abap.raw(16);
+  has_asset_uuid : abap.char(1);
+  asset_repair_uuid : abap.raw(16);
+  has_asset_repair_uuid : abap.char(1);
+  quantity : abap.dec(15,3);
+  issued_quantity : abap.dec(15,3);
+  status : abap.string;
+  reason : abap.string;
+  created_at : abap.dec(21,7);
+  created_by : abap.string;
+  last_changed_at : abap.dec(21,7);
+  // Internal concurrency timestamp; separate from public precision-zero audit time.
+  local_changed_at : abp_locinst_lastchange_tstmpl;
+}
+
+// StockTransactions; public key StockTransactionUUID; root Materials
+@EndUserText.label: 'StockTransactions'
+@AbapCatalog.enhancement.category: #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory: #TRANSPARENT
+@AbapCatalog.deliveryClass: #A
+@AbapCatalog.dataMaintenance: #RESTRICTED
+define table zit_stock_txn {
+  key client : abap.clnt not null;
+  key stock_transaction_uuid : abap.raw(16) not null;
+  material_uuid : abap.raw(16);
+  stock_uuid : abap.raw(16);
+  reservation_uuid : abap.raw(16);
+  has_reservation_uuid : abap.char(1);
+  ticket_uuid : abap.raw(16);
+  has_ticket_uuid : abap.char(1);
+  asset_uuid : abap.raw(16);
+  has_asset_uuid : abap.char(1);
+  asset_repair_uuid : abap.raw(16);
+  has_asset_repair_uuid : abap.char(1);
+  movement_type : abap.string;
+  quantity : abap.dec(15,3);
+  physical_delta : abap.dec(15,3);
+  reserved_delta : abap.dec(15,3);
+  unit_of_measure : abap.string;
+  transfer_uuid : abap.raw(16);
+  has_transfer_uuid : abap.char(1);
+  original_transaction_uuid : abap.raw(16);
+  has_original_transaction_uuid : abap.char(1);
+  reason : abap.string;
+  created_at : abap.dec(21,7);
+  created_by : abap.string;
+  // Internal concurrency timestamp; separate from public precision-zero audit time.
+  local_changed_at : abp_locinst_lastchange_tstmpl;
+}
+
+// SLAPolicies; public key SLAPolicyUUID; root SLAPolicies
+@EndUserText.label: 'SLAPolicies'
+@AbapCatalog.enhancement.category: #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory: #TRANSPARENT
+@AbapCatalog.deliveryClass: #A
+@AbapCatalog.dataMaintenance: #RESTRICTED
+define table zit_sla_policy {
+  key client : abap.clnt not null;
+  key slapolicy_uuid : abap.raw(16) not null;
+  priority : abap.char(500);
+  response_minutes : abap.int4;
+  resolution_minutes : abap.int4;
+  warning_percent : abap.int4;
+  revision : abap.int4;
+  last_changed_at : abap.dec(21,7);
+  // Internal concurrency timestamp; separate from public precision-zero audit time.
+  local_changed_at : abp_locinst_lastchange_tstmpl;
+}
+
+// Categories; public key CategoryUUID; root Categories
+@EndUserText.label: 'Categories'
+@AbapCatalog.enhancement.category: #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory: #TRANSPARENT
+@AbapCatalog.deliveryClass: #A
+@AbapCatalog.dataMaintenance: #RESTRICTED
+define table zit_category {
+  key client : abap.clnt not null;
+  key category_uuid : abap.raw(16) not null;
+  name : abap.char(500);
+  default_priority : abap.char(500);
+  team_uuid : abap.raw(16);
+  active : abap.char(1);
+  revision : abap.int4;
+  last_changed_at : abap.dec(21,7);
+  // Internal concurrency timestamp; separate from public precision-zero audit time.
+  local_changed_at : abp_locinst_lastchange_tstmpl;
+}
+
+// Subcategories; public key SubcategoryUUID; root Subcategories
+@EndUserText.label: 'Subcategories'
+@AbapCatalog.enhancement.category: #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory: #TRANSPARENT
+@AbapCatalog.deliveryClass: #A
+@AbapCatalog.dataMaintenance: #RESTRICTED
+define table zit_subcategory {
+  key client : abap.clnt not null;
+  key subcategory_uuid : abap.raw(16) not null;
+  name : abap.char(500);
+  category_uuid : abap.raw(16);
+  active : abap.char(1);
+  revision : abap.int4;
+  last_changed_at : abap.dec(21,7);
+  // Internal concurrency timestamp; separate from public precision-zero audit time.
+  local_changed_at : abp_locinst_lastchange_tstmpl;
+}
+
+// Teams; public key TeamUUID; root Teams
+@EndUserText.label: 'Teams'
+@AbapCatalog.enhancement.category: #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory: #TRANSPARENT
+@AbapCatalog.deliveryClass: #A
+@AbapCatalog.dataMaintenance: #RESTRICTED
+define table zit_team {
+  key client : abap.clnt not null;
+  key team_uuid : abap.raw(16) not null;
+  name : abap.char(500);
+  location_uuid : abap.raw(16);
+  lead_uuid : abap.raw(16);
+  active : abap.char(1);
+  revision : abap.int4;
+  last_changed_at : abap.dec(21,7);
+  // Internal concurrency timestamp; separate from public precision-zero audit time.
+  local_changed_at : abp_locinst_lastchange_tstmpl;
+}
+
+// Locations; public key LocationUUID; root Locations
+@EndUserText.label: 'Locations'
+@AbapCatalog.enhancement.category: #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory: #TRANSPARENT
+@AbapCatalog.deliveryClass: #A
+@AbapCatalog.dataMaintenance: #RESTRICTED
+define table zit_location {
+  key client : abap.clnt not null;
+  key location_uuid : abap.raw(16) not null;
+  name : abap.char(500);
+  active : abap.char(1);
+  revision : abap.int4;
+  last_changed_at : abap.dec(21,7);
+  // Internal concurrency timestamp; separate from public precision-zero audit time.
+  local_changed_at : abp_locinst_lastchange_tstmpl;
+}
+
+// WaitingReasons; public key WaitingReasonUUID; root WaitingReasons
+@EndUserText.label: 'WaitingReasons'
+@AbapCatalog.enhancement.category: #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory: #TRANSPARENT
+@AbapCatalog.deliveryClass: #A
+@AbapCatalog.dataMaintenance: #RESTRICTED
+define table zit_wait_reason {
+  key client : abap.clnt not null;
+  key waiting_reason_uuid : abap.raw(16) not null;
+  code : abap.char(500);
+  name : abap.char(500);
+  pause_resolution : abap.char(1);
+  active : abap.char(1);
+  revision : abap.int4;
+  last_changed_at : abap.dec(21,7);
+  // Internal concurrency timestamp; separate from public precision-zero audit time.
+  local_changed_at : abp_locinst_lastchange_tstmpl;
+}
+
+// EscalationRules; public key EscalationRuleUUID; root EscalationRules
+@EndUserText.label: 'EscalationRules'
+@AbapCatalog.enhancement.category: #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory: #TRANSPARENT
+@AbapCatalog.deliveryClass: #A
+@AbapCatalog.dataMaintenance: #RESTRICTED
+define table zit_esc_rule {
+  key client : abap.clnt not null;
+  key escalation_rule_uuid : abap.raw(16) not null;
+  trigger_status : abap.char(500);
+  level : abap.int4;
+  target_role : abap.char(500);
+  active : abap.char(1);
+  revision : abap.int4;
+  last_changed_at : abap.dec(21,7);
+  // Internal concurrency timestamp; separate from public precision-zero audit time.
+  local_changed_at : abp_locinst_lastchange_tstmpl;
+}
+
+// ConfigurationHistory; public key ConfigurationHistoryUUID; root ConfigurationHistory
+@EndUserText.label: 'ConfigurationHistory'
+@AbapCatalog.enhancement.category: #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory: #TRANSPARENT
+@AbapCatalog.deliveryClass: #A
+@AbapCatalog.dataMaintenance: #RESTRICTED
+define table zit_config_hist {
+  key client : abap.clnt not null;
+  key configuration_history_uuid : abap.raw(16) not null;
+  entity_set : abap.char(500);
+  record_uuid : abap.raw(16);
+  revision : abap.int4;
+  reason : abap.char(500);
+  before : abap.string;
+  after : abap.string;
+  created_at : abap.dec(21,7);
+  created_by : abap.char(500);
+  // Internal concurrency timestamp; separate from public precision-zero audit time.
+  local_changed_at : abp_locinst_lastchange_tstmpl;
+}

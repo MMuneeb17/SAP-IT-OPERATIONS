@@ -360,39 +360,21 @@ Management can move from KPI to the underlying operational records.
 ### Objective
 Complete the backend blueprint before server access.
 
-### Planned tables
-```text
-ZIT_TICKET
-ZIT_TICKET_COMMENT
-ZIT_TICKET_HISTORY
-ZIT_ASSET
-ZIT_ASSET_ASSIGN
-ZIT_ASSET_REPAIR
-ZIT_MATERIAL
-ZIT_STOCK
-ZIT_STOCK_TXN
-ZIT_RESERVATION
-```
+Status: **Design completed locally — 14 October 2026**. See the
+[design package](../sap-design/phase-10/README.md), [completion report](phase-10-report.md)
+and [beginner manual](beginner-guide-phase-10.md). SAP activation and execution
+remain Phase 11 work.
 
-### Planned CDS
-```text
-ZI_IT_Ticket
-ZI_IT_Asset
-ZI_IT_AssetAssignment
-ZI_IT_AssetRepair
-ZI_IT_Material
-ZI_IT_Stock
-ZI_IT_StockTransaction
-ZI_IT_Reservation
-```
+### Designed contract
 
-### Planned projections/services
-```text
-ZC_IT_Ticket
-ZC_IT_Asset
-ZC_IT_Inventory
-ZUI_IT_OPERATIONS
-```
+- 20 entity sets, 243 public fields and 59 navigation properties
+- 19 custom operational table templates; Employees uses an external reference source
+- 36 bound actions plus standard ticket creation
+- Interface/projection mapping, ownership, locking, null handling and migration gates
+- Generated field/action/navigation references with automated drift validation
+
+The current package supersedes the original shorter table list and provisional
+names. Use its dictionary for implementation names and complete coverage.
 
 ### Deliverables
 - Table definitions/design

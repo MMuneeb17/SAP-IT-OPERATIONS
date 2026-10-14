@@ -1,5 +1,9 @@
 # RAP baseline mapping
 
+Historical design: the [Phase 10 package](../phase-10/README.md) supersedes
+these initial names and mappings for implementation. Use its complete dictionary,
+service migration decisions and acceptance checklist.
+
 This is a design inventory, not executable ABAP or the full phase 10 package.
 
 | Entity | Planned persistence | Interface / projection | BO relationship |

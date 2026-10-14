@@ -1,0 +1,23 @@
+// DESIGN TEMPLATE: projections and behaviors must exist before activation.
+define service ZUI_IT_OPERATIONS {
+  expose ZC_IT_Employee as Employees;
+  expose ZC_IT_Ticket as Tickets;
+  expose ZC_IT_Asset as Assets;
+  expose ZC_IT_TicketComment as TicketComments;
+  expose ZC_IT_TicketHistory as TicketHistory;
+  expose ZC_IT_AssetAssignment as AssetAssignments;
+  expose ZC_IT_AssetRepair as AssetRepairs;
+  expose ZC_IT_AssetHistory as AssetHistory;
+  expose ZC_IT_Material as Materials;
+  expose ZC_IT_Stock as Stocks;
+  expose ZC_IT_Reservation as Reservations;
+  expose ZC_IT_StockTransaction as StockTransactions;
+  expose ZC_IT_SLAPolicy as SLAPolicies;
+  expose ZC_IT_Category as Categories;
+  expose ZC_IT_Subcategory as Subcategories;
+  expose ZC_IT_Team as Teams;
+  expose ZC_IT_Location as Locations;
+  expose ZC_IT_WaitingReason as WaitingReasons;
+  expose ZC_IT_EscalationRule as EscalationRules;
+  expose ZC_IT_ConfigurationHistory as ConfigurationHistory;
+}

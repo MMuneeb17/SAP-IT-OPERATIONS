@@ -1,5 +1,9 @@
 # Naming conventions — v1
 
+For implementation, the [Phase 10 dictionary](phase-10/field-dictionary.md)
+supersedes provisional table names. Its operational table names fit 16 characters;
+the target SAP release must still validate every object and type.
+
 | Area | Convention | Example |
 | --- | --- | --- |
 | App folder | kebab-case | `apps/help-desk` |
