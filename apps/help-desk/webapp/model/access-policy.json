@@ -455,6 +455,20 @@
   },
   "pages": [
     {
+      "route": "Home",
+      "name": "Home",
+      "roles": [
+        "EMPLOYEE",
+        "TECHNICIAN",
+        "SUPERVISOR",
+        "ASSET_ADMIN",
+        "STORE_OFFICER",
+        "IT_MANAGER",
+        "SYSTEM_ADMIN"
+      ],
+      "description": "Launch IT Operations modules."
+    },
+    {
       "route": "MySupport",
       "name": "My IT Support",
       "roles": [
@@ -517,6 +531,14 @@
         "IT_MANAGER",
         "SYSTEM_ADMIN"
       ]
+    },
+    {
+      "route": "Dashboard",
+      "name": "IT Operations Dashboard",
+      "roles": [
+        "IT_MANAGER"
+      ],
+      "description": "Operational KPIs, trends and drill-downs"
     }
   ],
   "configurationSets": [
@@ -723,6 +745,24 @@
         "STORE_OFFICER"
       ],
       "scope": "Create items or receive equipment within permitted locations"
+    },
+    "Dashboard": {
+      "roles": [
+        "IT_MANAGER"
+      ],
+      "scope": "Organization-wide operational aggregates and authorized drill-down records; backend must apply read scopes before aggregation."
+    },
+    "Home": {
+      "roles": [
+        "EMPLOYEE",
+        "TECHNICIAN",
+        "SUPERVISOR",
+        "ASSET_ADMIN",
+        "STORE_OFFICER",
+        "IT_MANAGER",
+        "SYSTEM_ADMIN"
+      ],
+      "scope": "Module launcher; destination services enforce their own access scopes."
     }
   }
 }

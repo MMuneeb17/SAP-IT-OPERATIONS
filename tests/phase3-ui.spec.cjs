@@ -15,7 +15,7 @@ test('employee creates a ticket and Help Desk completes the Fiori workflow', asy
     return route.continue({ url: url.toString() });
   });
   await page.goto('/test/flp.html#app-preview', { waitUntil: 'domcontentloaded' });
-  await page.getByRole('button', { name: 'My IT Support', exact: true }).click({ timeout: 90000 });
+  await page.getByRole('button', { name: /My IT Support/ }).click({ timeout: 90000 });
   await expect(page).toHaveURL(/MySupport/);
   const create = page.getByRole('button', { name: 'Create ticket', exact: true });
   await expect(create).toBeEnabled();

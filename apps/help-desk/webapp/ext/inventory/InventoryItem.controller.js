@@ -4,6 +4,7 @@ sap.ui.define(['sap/fe/core/PageController', 'sap/ui/model/json/JSONModel'], fun
     AssetType: 'LAPTOP', Manufacturer: '', Model: '', Quantity: '1', StorageLocation: '', SerialNumbers: '',
     PurchaseDate: new Date().toISOString().slice(0, 10), WarrantyEnd: '', ReorderLevel: '0', Reason: '' });
   return PageController.extend('itoms.helpdesk.ext.inventory.InventoryItem', {
+    onHome: function () { this.getExtensionAPI().getRouting().navigateToRoute('Home'); },
     onInit: function () {
       PageController.prototype.onInit.apply(this, arguments);
       this.getView().setModel(new JSONModel({ busy: false, error: '', existing: false, saved: false, result: null, assets: [], form: defaults() }), 'item');

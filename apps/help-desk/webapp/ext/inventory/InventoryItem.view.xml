@@ -1,5 +1,6 @@
 <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" controllerName="itoms.helpdesk.ext.inventory.InventoryItem">
   <Page title="{= ${item>/existing} ? ${i18n>receiveEquipment} : ${i18n>newInventoryItem} }" busy="{item>/busy}" busyIndicatorDelay="0" showNavButton="true" navButtonPress=".onInventory">
+    <headerContent><Button text="Home" icon="sap-icon://home" press=".onHome"/></headerContent>
     <content><VBox class="sapUiResponsiveContentPadding" width="100%">
       <MessageStrip text="{item>/error}" type="Error" showIcon="true" visible="{= !!${item>/error} }" class="sapUiSmallMarginBottom"/>
       <VBox visible="{= !${item>/saved} }">

@@ -1,0 +1,12 @@
+.itomsHome .sapMFlexBox {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: 0.5rem;
+  max-width: 70rem;
+}
+.itomsHome .sapMFlexBox > .sapMFlexItem,
+.itomsHome .sapMFlexBox .sapMGT {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+}

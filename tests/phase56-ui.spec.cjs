@@ -11,7 +11,7 @@ async function nativeAction(page,label,values){
 test('inventory list, stock actions and reservation navigation work through Fiori',async({page})=>{
  await setup(page);const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto('/test/flp.html#app-preview',{waitUntil:'domcontentloaded'});
- await page.getByRole('button',{name:'MIS Inventory',exact:true}).click({timeout:90000});
+ await page.getByRole('button',{name:/MIS Inventory/}).click({timeout:90000});
  await expect(page.getByRole('heading',{name:'Materials',exact:true})).toBeVisible();await page.getByRole('button',{name:'Go',exact:true}).click();
  await page.getByText('SSD-512',{exact:true}).click();
  await expect(page).toHaveURL(/Materials\(/);

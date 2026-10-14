@@ -1,7 +1,11 @@
 <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" controllerName="itoms.helpdesk.ext.inventory.RepairWorkspace">
   <Page title="{i18n>repairWorkspace}" busy="{repair>/busy}" busyIndicatorDelay="0">
-    <headerContent><Button text="{i18n>viewTicket}" press=".onTicket"/><Button text="{i18n>inventory}" press=".onInventory"/></headerContent>
+    <headerContent><Button text="Home" icon="sap-icon://home" press=".onHome"/><Button text="{i18n>viewTicket}" press=".onTicket" enabled="{= !!${repair>/selectedTicket} }"/><Button text="{i18n>inventory}" press=".onInventory"/></headerContent>
     <content><VBox class="sapUiResponsiveContentPadding" width="100%">
+      <Label text="Repair ticket" labelFor="repairTicketPicker"/>
+      <ComboBox id="repairTicketPicker" width="100%" placeholder="Choose a ticket to open its repair workflow" selectedKey="{repair>/selectedTicket}" items="{path: '/Tickets', parameters: { $select: 'TicketUUID,TicketNumber,Subject', $orderby: 'TicketNumber' }}" change=".onSelectTicket">
+        <core:Item key="{TicketUUID}" text="{TicketNumber} — {Subject}"/>
+      </ComboBox>
       <MessageStrip text="{i18n>repairPreviewNote}" type="Information" showIcon="true" class="sapUiSmallMarginBottom"/>
       <MessageStrip text="{repair>/error}" visible="{= !!${repair>/error} }" type="Error" showIcon="true" class="sapUiSmallMarginBottom"/>
       <ObjectHeader title="{repair>/ticket/TicketNumber}" intro="{repair>/ticket/Subject}" responsive="true">

@@ -323,6 +323,13 @@ Every app, entity and action has an identified authorized role.
 
 ## Phase 9 — Analytics and Management Dashboard
 
+**Local implementation:** dashboard metrics, operational drill-downs, period trends,
+unit-specific consumption and planned CDS analytical views are implemented.
+The app now opens on a Home page with all module tiles.
+See the [report](phase-9-report.md), [manual guide](beginner-guide-phase-9.md)
+and [metric definitions](analytics-workflow.md). Production analytics and
+authorization still require the SAP backend.
+
 ### Objective
 Turn operational data into management information.
 

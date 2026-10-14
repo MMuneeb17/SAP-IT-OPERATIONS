@@ -1,0 +1,39 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" controllerName="itoms.helpdesk.ext.analytics.Dashboard">
+  <Page title="IT Operations Dashboard" busy="{dash>/busy}" busyIndicatorDelay="0" showNavButton="true" navButtonPress=".onHelpDesk">
+    <headerContent><Button text="Home" icon="sap-icon://home" press=".onHome"/><Button text="Refresh" icon="sap-icon://refresh" press=".onRefresh" enabled="{= !${dash>/busy} }"/></headerContent>
+    <content><VBox class="sapUiSmallMargin">
+      <MessageStrip text="{dash>/error}" visible="{= !!${dash>/error} }" type="Error" showIcon="true" class="sapUiSmallMarginBottom"/>
+      <Text text="Current workload, equipment and stock, with period-based service and consumption trends." class="sapUiSmallMarginBottom"/>
+      <HBox wrap="Wrap" alignItems="Center" class="sapUiSmallMarginBottom">
+        <Label text="Analysis period" labelFor="period" class="sapUiTinyMarginEnd"/>
+        <Select id="period" selectedKey="{dash>/days}" change=".onPeriod" enabled="{dash>/loaded}" class="sapUiSmallMarginEnd"><core:Item key="30" text="Last 30 days"/><core:Item key="90" text="Last 90 days"/><core:Item key="365" text="Last 365 days"/></Select>
+        <Text text="{= 'Loaded at ' + ${dash>/asOf} }" visible="{dash>/loaded}"/>
+      </HBox>
+      <MessageStrip text="The period applies to averages, incident frequency and movements. Current counts use the latest loaded data. This local preview does not enforce management permissions." type="Information" showIcon="true" class="sapUiSmallMarginBottom"/>
+      <VBox visible="{dash>/loaded}">
+        <Table items="{dash>/metrics}" fixedLayout="true">
+          <headerToolbar><OverflowToolbar><Title text="Operational indicators" level="H2"/></OverflowToolbar></headerToolbar>
+          <columns><Column width="42%"><Text text="Indicator"/></Column><Column><Text text="Value"/></Column><Column minScreenWidth="Tablet" demandPopin="true"><Text text="Definition"/></Column></columns>
+          <items><ColumnListItem><cells><Link text="{dash>label}" press=".onMetric" wrapping="true"/><ObjectStatus text="{dash>value}"/><VBox><Text text="{dash>scope}"/><Text text="{dash>description}"/></VBox></cells></ColumnListItem></items>
+        </Table>
+        <Title text="Ticket trends" level="H2" class="sapUiMediumMarginTop"/>
+        <Text text="Counts per UTC interval: created tickets and currently completed resolution cycles. These are not historical backlog counts. Select a count to inspect tickets." class="sapUiSmallMarginBottom"/>
+        <Table items="{dash>/trend}">
+          <columns><Column width="40%"><Text text="UTC interval"/></Column><Column><Text text="Created"/></Column><Column><Text text="Resolved"/></Column></columns>
+          <items><ColumnListItem><cells><Text text="{dash>label}"/><VBox><Link text="{= 'Created: ' + ${dash>created} }" press=".onCreated"/><ProgressIndicator percentValue="{dash>createdPercent}" displayValue="{= '' + ${dash>created} }" state="Information"/></VBox><VBox><Link text="{= 'Resolved: ' + ${dash>resolved} }" press=".onResolved"/><ProgressIndicator percentValue="{dash>resolvedPercent}" displayValue="{= '' + ${dash>resolved} }" state="Success"/></VBox></cells></ColumnListItem></items>
+        </Table>
+        <Title text="Inventory consumption" level="H2" class="sapUiMediumMarginTop"/>
+        <Text text="Net consumption = issued minus returned during the period. Each material keeps its own unit. Returns of earlier issues can produce a negative net value." class="sapUiSmallMarginBottom"/>
+        <Table items="{dash>/consumption}" noDataText="No issue or return movements in this period.">
+          <columns><Column><Text text="Material"/></Column><Column minScreenWidth="Tablet" demandPopin="true"><Text text="Issued"/></Column><Column minScreenWidth="Tablet" demandPopin="true"><Text text="Returned"/></Column><Column><Text text="Net"/></Column><Column><Text text="Unit"/></Column></columns>
+          <items><ColumnListItem><cells><Link text="{dash>title}" press=".onConsumption" wrapping="true"/><Text text="{dash>issued}"/><Text text="{dash>returned}"/><Text text="{dash>net}"/><Text text="{dash>unit}"/></cells></ColumnListItem></items>
+        </Table>
+        <Table id="records" items="{dash>/details}" noDataText="No supporting records. Choose another indicator or period." growing="true" growingThreshold="30" class="sapUiMediumMarginTop">
+          <headerToolbar><OverflowToolbar><Title text="{dash>/detailTitle}" level="H2" wrapping="true"/></OverflowToolbar></headerToolbar>
+          <columns><Column><Text text="Record"/></Column><Column minScreenWidth="Tablet" demandPopin="true"><Text text="Description"/></Column><Column><Text text="Value / status"/></Column></columns>
+          <items><ColumnListItem><cells><Link text="{dash>title}" press=".onRecord" wrapping="true"/><Text text="{dash>detail}"/><Text text="{dash>value}"/></cells></ColumnListItem></items>
+        </Table>
+      </VBox>
+    </VBox></content>
+  </Page>
+</mvc:View>

@@ -1,6 +1,6 @@
 <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" controllerName="itoms.helpdesk.ext.assets.MyAssets">
   <Page title="{i18n>myAssets}" busy="{assets>/busy}" busyIndicatorDelay="0">
-    <headerContent><Button text="{i18n>assetManagement}" press=".onAssetManagement"/><Button text="{i18n>mySupport}" press=".onSupport"/></headerContent>
+    <headerContent><Button text="Home" icon="sap-icon://home" press=".onHome"/><Button text="{i18n>assetManagement}" press=".onAssetManagement"/><Button text="{i18n>mySupport}" press=".onSupport"/></headerContent>
     <content><VBox class="sapUiResponsiveContentPadding" width="100%">
       <MessageStrip text="{i18n>previewAssetEmployeeNote}" type="Information" showIcon="true" class="sapUiSmallMarginBottom"/>
       <MessageStrip text="{assets>/error}" visible="{= !!${assets>/error} }" type="Error" showIcon="true" class="sapUiSmallMarginBottom"/>

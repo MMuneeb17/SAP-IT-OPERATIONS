@@ -1,6 +1,7 @@
 sap.ui.define(['sap/fe/core/PageController','sap/ui/model/json/JSONModel','sap/m/MessageToast'],function(PageController,JSONModel,MessageToast){
   'use strict';
   return PageController.extend('itoms.helpdesk.ext.operations.Operations',{
+    onHome: function () { this.getExtensionAPI().getRouting().navigateToRoute('Home'); },
     onInit:function(){
       PageController.prototype.onInit.apply(this,arguments);
       this.getView().setModel(new JSONModel({busy:true,error:'',tickets:[],ticket:'',selected:{},preview:null,asOf:new Date(Date.now()+3600000).toISOString(),priority:'HIGH',reason:'',sets:[],set:'SLAPolicies',records:[],record:'',fields:[],revision:0,configReason:'',history:[]}),'ops');

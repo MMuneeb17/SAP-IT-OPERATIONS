@@ -1,6 +1,8 @@
 sap.ui.define([], function () {
   "use strict";
   return {
+    home: function () { this.getRouting().navigateToRoute("Home"); },
+    dashboard: function () { this.getRouting().navigateToRoute("Dashboard"); },
     newInventoryItem: function () { this.getRouting().navigateToRoute("InventoryItem"); },
     receiveEquipment: function (context) { this.getRouting().navigateToRoute("InventoryItem", { "?query": { material: context.getProperty("MaterialUUID") } }); },
     inventoryItem: async function (context) { this.getRouting().navigateToRoute("MaterialsObjectPage", { key: await context.requestProperty("MaterialUUID") }); },

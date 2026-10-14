@@ -1,6 +1,6 @@
 <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" controllerName="itoms.helpdesk.ext.operations.Operations">
   <Page title="{i18n>operationsTitle}" busy="{ops>/busy}" busyIndicatorDelay="0">
-    <headerContent><Button text="{i18n>roleAccessTitle}" press=".onRoles"/><Button text="{i18n>helpDesk}" press=".onHelpDesk"/></headerContent>
+    <headerContent><Button text="Home" icon="sap-icon://home" press=".onHome"/><Button text="{i18n>roleAccessTitle}" press=".onRoles"/><Button text="{i18n>helpDesk}" press=".onHelpDesk"/></headerContent>
     <content><VBox class="sapUiResponsiveContentPadding">
       <MessageStrip text="{i18n>slaNotice}" type="Information" showIcon="true" class="sapUiSmallMarginBottom"/>
       <MessageStrip text="{ops>/error}" type="Error" showIcon="true" visible="{= !!${ops>/error} }"/>

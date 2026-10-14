@@ -5,6 +5,7 @@ sap.ui.define([
   "use strict";
   const emptyForm = () => ({ Subject: "", Description: "", Category: "Hardware", Priority: "", AssetUUID: "", SubcategoryUUID: "" });
   return PageController.extend("itoms.helpdesk.ext.support.MySupport", {
+    onHome: function () { this.getExtensionAPI().getRouting().navigateToRoute('Home'); },
     onInit: function () {
       PageController.prototype.onInit.apply(this, arguments);
       this.getView().setModel(new JSONModel({ busy: true, error: "", employee: "", employees: [], assets: [], tickets: [],

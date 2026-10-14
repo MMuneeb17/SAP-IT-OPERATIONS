@@ -2,6 +2,7 @@ sap.ui.define(['sap/fe/core/PageController', 'sap/ui/model/json/JSONModel', 'sap
 function (PageController, JSONModel, Filter, FilterOperator, Sorter) {
   'use strict';
   return PageController.extend('itoms.helpdesk.ext.assets.MyAssets', {
+    onHome: function () { this.getExtensionAPI().getRouting().navigateToRoute('Home'); },
     onInit: function () {
       PageController.prototype.onInit.apply(this, arguments);
       const state = new JSONModel({ busy: true, error: '', employee: '', employees: [], rows: [] });

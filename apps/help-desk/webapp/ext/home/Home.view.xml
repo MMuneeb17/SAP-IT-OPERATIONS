@@ -1,0 +1,28 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" controllerName="itoms.helpdesk.ext.home.Home">
+  <Page title="IT Operations"><content><VBox class="sapUiSmallMargin itomsHome">
+    <Title text="Home" level="H1" class="sapUiSmallMarginTop"/>
+    <Text text="Choose a module to start your work." class="sapUiSmallMarginBottom"/>
+    <Title text="Service and equipment" level="H2" class="sapUiMediumMarginTop sapUiSmallMarginBottom"/>
+    <FlexBox wrap="Wrap" renderType="Div">
+      <GenericTile header="Help Desk" subheader="Manage tickets and support requests" press=".onModule" class="sapUiTinyMarginEnd sapUiTinyMarginBottom"><customData><core:CustomData key="route" value="TicketsList"/></customData><TileContent><ImageContent src="sap-icon://customer-view"/></TileContent></GenericTile>
+      <GenericTile header="My IT Support" subheader="Raise and follow your requests" press=".onModule" class="sapUiTinyMarginEnd sapUiTinyMarginBottom"><customData><core:CustomData key="route" value="MySupport"/></customData><TileContent><ImageContent src="sap-icon://discussion-2"/></TileContent></GenericTile>
+      <GenericTile header="Asset Management" subheader="Manage equipment and custody" press=".onModule" class="sapUiTinyMarginEnd sapUiTinyMarginBottom"><customData><core:CustomData key="route" value="AssetsList"/></customData><TileContent><ImageContent src="sap-icon://laptop"/></TileContent></GenericTile>
+      <GenericTile header="My Assets" subheader="View your assigned equipment" press=".onModule" class="sapUiTinyMarginEnd sapUiTinyMarginBottom"><customData><core:CustomData key="route" value="MyAssets"/></customData><TileContent><ImageContent src="sap-icon://employee"/></TileContent></GenericTile>
+      <GenericTile header="Repair Workspace" subheader="Repair tickets and replacement parts" press=".onModule" class="sapUiTinyMarginEnd sapUiTinyMarginBottom"><customData><core:CustomData key="route" value="RepairWorkspace"/></customData><TileContent><ImageContent src="sap-icon://wrench"/></TileContent></GenericTile>
+    </FlexBox>
+    <Title text="MIS inventory" level="H2" class="sapUiMediumMarginTop sapUiSmallMarginBottom"/>
+    <FlexBox wrap="Wrap" renderType="Div">
+      <GenericTile header="MIS Inventory" subheader="Equipment catalogue and spare parts" press=".onModule" class="sapUiTinyMarginEnd sapUiTinyMarginBottom"><customData><core:CustomData key="route" value="MaterialsList"/></customData><TileContent><ImageContent src="sap-icon://product"/></TileContent></GenericTile>
+      <GenericTile header="New Inventory Item" subheader="Add equipment or quantity-tracked parts" press=".onModule" class="sapUiTinyMarginEnd sapUiTinyMarginBottom"><customData><core:CustomData key="route" value="InventoryItem"/></customData><TileContent><ImageContent src="sap-icon://add-product"/></TileContent></GenericTile>
+      <GenericTile header="Stock Overview" subheader="Availability by storage location" press=".onModule" class="sapUiTinyMarginEnd sapUiTinyMarginBottom"><customData><core:CustomData key="route" value="StocksList"/></customData><TileContent><ImageContent src="sap-icon://inventory"/></TileContent></GenericTile>
+      <GenericTile header="Reservations" subheader="Reserve and fulfil spare parts" press=".onModule" class="sapUiTinyMarginEnd sapUiTinyMarginBottom"><customData><core:CustomData key="route" value="ReservationsList"/></customData><TileContent><ImageContent src="sap-icon://cart"/></TileContent></GenericTile>
+      <GenericTile header="Stock Movements" subheader="Receipts, issues and returns" press=".onModule" class="sapUiTinyMarginEnd sapUiTinyMarginBottom"><customData><core:CustomData key="route" value="StockTransactionsList"/></customData><TileContent><ImageContent src="sap-icon://shipping-status"/></TileContent></GenericTile>
+    </FlexBox>
+    <Title text="Management and administration" level="H2" class="sapUiMediumMarginTop sapUiSmallMarginBottom"/>
+    <FlexBox wrap="Wrap" renderType="Div">
+      <GenericTile header="IT Operations Dashboard" subheader="Indicators, trends and supporting records" press=".onModule" class="sapUiTinyMarginEnd sapUiTinyMarginBottom"><customData><core:CustomData key="route" value="Dashboard"/></customData><TileContent><ImageContent src="sap-icon://business-objects-experience"/></TileContent></GenericTile>
+      <GenericTile header="SLA &amp; Configuration" subheader="Service targets and operational settings" press=".onModule" class="sapUiTinyMarginEnd sapUiTinyMarginBottom"><customData><core:CustomData key="route" value="Operations"/></customData><TileContent><ImageContent src="sap-icon://action-settings"/></TileContent></GenericTile>
+      <GenericTile header="Role Access Design" subheader="Review planned roles and permissions" press=".onModule" class="sapUiTinyMarginEnd sapUiTinyMarginBottom"><customData><core:CustomData key="route" value="RoleAccess"/></customData><TileContent><ImageContent src="sap-icon://shield"/></TileContent></GenericTile>
+    </FlexBox>
+  </VBox></content></Page>
+</mvc:View>

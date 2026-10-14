@@ -2,6 +2,11 @@ sap.ui.define(['sap/fe/core/PageController','sap/ui/model/json/JSONModel','sap/u
 function(PageController,JSONModel,Filter,FilterOperator,MessageToast){
   'use strict';
   return PageController.extend('itoms.helpdesk.ext.inventory.RepairWorkspace',{
+    onHome: function () { this.getExtensionAPI().getRouting().navigateToRoute('Home'); },
+    onSelectTicket: function (event) {
+      const item = event.getSource().getSelectedItem();
+      if (item) this.getExtensionAPI().getRouting().navigateToRoute('RepairWorkspace', { '?query': { ticket: item.getKey() } });
+    },
     onInit:function(){
       PageController.prototype.onInit.apply(this,arguments);
       this.getView().setModel(new JSONModel({busy:true,error:'',ticket:{},stocks:[],requests:[],movements:[],repair:null,stock:'',quantity:'1',reason:'',diagnosis:'',work:'',canStart:false,canRequest:false,canComplete:false}),'repair');
@@ -12,6 +17,7 @@ function(PageController,JSONModel,Filter,FilterOperator,MessageToast){
     onExit:function(){this._route?.detachPatternMatched(this.onRoute,this);},
     onRoute:function(event){this.setTicket(event.getParameter('arguments')['?query']?.ticket);this.onRefresh();},
     setTicket:function(key){
+      this.getView().getModel('repair').setProperty('/selectedTicket',key || '');
       if(key!==this._key){
         const state=this.getView().getModel('repair');
         for(const field of ['reason','diagnosis','work','stock'])state.setProperty('/'+field,'');
@@ -36,7 +42,7 @@ function(PageController,JSONModel,Filter,FilterOperator,MessageToast){
     },
     onRefresh:async function(){
       const state=this.getView().getModel('repair'),version=this._version=(this._version||0)+1;
-      if(!/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/i.test(this._key||'')){state.setProperty('/error',this.text('repairMissingTicket'));state.setProperty('/busy',false);return;}
+      if(!/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/i.test(this._key||'')){state.setProperty('/error',this._key ? this.text('repairMissingTicket') : '');state.setProperty('/busy',false);return;}
       state.setProperty('/busy',true);state.setProperty('/error','');
       try{
         const filter=[new Filter('TicketUUID',FilterOperator.EQ,this._key)];

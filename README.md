@@ -78,8 +78,14 @@ VS Code Insiders application on this machine already has SAP Fiori tools.
 - [Role matrix and SAP authorization requirements](sap-design/authorization/README.md)
 - [Create inventory items, shared assets and automatic numbering](docs/inventory-item-creation.md)
 - [Inventory creation implementation and verification report](docs/inventory-item-creation-report.md)
+- [Home tiles and navigation guide](docs/home-navigation.md)
+- [Phase 9 dashboard workflow and metric definitions](docs/analytics-workflow.md)
+- [Phase 9 beginner guide](docs/beginner-guide-phase-9.md)
+- [Phase 9 implementation report](docs/phase-9-report.md)
+- [Planned CDS analytical views](sap-design/analytics/README.md)
 
-Choose **Asset Management** in Help Desk to open the asset list. **My IT Assets**
+The app opens on **Home**, with tiles for all 13 module entry points. Use **Home**
+on any module to return. Choose **Asset Management** on Home to open the asset list. **My IT Assets**
 shows equipment for a selected preview employee. Asset details include assignments,
 repairs, warranty, related tickets and lifecycle history.
 

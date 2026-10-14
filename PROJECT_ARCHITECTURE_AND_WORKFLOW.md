@@ -2,7 +2,7 @@
 
 **Project:** SAP IT Operations Management System (ITOMS)
 
-**Snapshot:** 9 October 2026, through Phases 7–8 plus inventory item creation and shared equipment
+**Snapshot:** 14 October 2026, through Phase 9 plus shared inventory and the module home page
 
 **Current runtime:** local SAPUI5/Fiori Elements application with a mock OData V4 service
 
@@ -54,7 +54,7 @@ asset history, spare parts and inventory movements.
 | Integrated parts-to-repair process | Phase 6 implemented locally |
 | SLA rules, explicit escalation checks and configuration | Phase 7 implemented locally |
 | Role matrix, visibility preview and SAP authorization requirements | Phase 8 design implemented; enforcement remains future SAP work |
-| Management analytics | Phase 9 planned |
+| Management analytics | Phase 9 implemented locally; CDS analytical design documented |
 | Complete RAP design package and real ABAP implementation | Phases 10–11 planned; initial mappings exist |
 | SAP authorization, notifications and production launchpad | Phases 12–13 planned |
 
@@ -199,7 +199,10 @@ the entity UUID substituted by routing.
 
 | Route | Page / purpose |
 | --- | --- |
-| Application root | Help Desk ticket List Report |
+| Application root | Home: tiles for every module |
+| `Tickets` | Help Desk ticket List Report |
+| `Dashboard` | Management indicators, trends and operational drill-downs |
+| `InventoryItem` | Create equipment or quantity-tracked parts |
 | `Tickets({key})` | Ticket Object Page and ticket actions |
 | `MySupport` | Create a ticket and view the selected employee's tickets |
 | `Tickets({key})/Requester` | Requester details and assigned assets |
@@ -217,7 +220,15 @@ the entity UUID substituted by routing.
 
 ```mermaid
 flowchart TD
-  Tickets[Help Desk list] --> Ticket[Ticket Object Page]
+  Home[Home module tiles] --> Tickets[Help Desk list]
+  Home --> Assets
+  Home --> Materials
+  Home --> Dashboard[Management dashboard]
+  Home --> Operations[SLA and configuration]
+  Home --> Roles[Role access design]
+  Dashboard --> Ticket
+  Dashboard --> Asset
+  Tickets --> Ticket[Ticket Object Page]
   Support[My IT Support] --> Ticket
   Ticket --> Requester[Requester details]
   Ticket --> NestedAsset[Asset under ticket route]

@@ -21,7 +21,7 @@ test('asset manager assigns, transfers, repairs, returns and disposes equipment'
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', message => { if (message.type() === 'error' && /FormatException|TypeError|ReferenceError/.test(message.text())) errors.push(message.text()); });
   await page.goto('/test/flp.html#app-preview', { waitUntil: 'domcontentloaded' });
-  await page.getByRole('button', { name: 'Asset Management', exact: true }).click({ timeout: 90000 });
+  await page.getByRole('button', { name: /Asset Management/ }).click({ timeout: 90000 });
   await expect(page.getByRole('heading', { name: 'Assets', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Go', exact: true }).click();
   await page.getByText('IT-LAP-00502', { exact: true }).click();
@@ -51,7 +51,7 @@ test('employee assets and ticket-to-asset navigation work on desktop and mobile'
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('/test/flp.html#app-preview', { waitUntil: 'domcontentloaded' });
-  await page.getByRole('button', { name: 'My IT Support', exact: true }).click({ timeout: 90000 });
+  await page.getByRole('button', { name: /My IT Support/ }).click({ timeout: 90000 });
   await expect(page.getByRole('button', { name: 'Create ticket', exact: true })).toBeEnabled();
   await page.getByRole('button', { name: 'My IT Assets', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'My IT Assets', exact: true })).toBeVisible({ timeout: 30000 });

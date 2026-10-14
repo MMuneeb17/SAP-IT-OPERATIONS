@@ -9,3 +9,7 @@
 
 Baseline v1 covers architecture in phase 0. Executable backend artifacts belong to
 phases 10–12 once target SAP capabilities are known.
+# Analytics design
+
+Phase 9 adds [planned CDS analytical views](analytics/README.md), including fact
+grains, metric definitions, units, authorization order and backend acceptance.

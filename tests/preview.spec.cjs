@@ -29,7 +29,7 @@ test('local OData V4 metadata and realistic fixture are served', async ({ reques
 });
 
 test('Fiori reads Employees, Assets and Tickets using its OData V4 model', async ({ page }) => {
-  await page.goto('/test/flp.html#app-preview');
+  await page.goto('/test/flp.html#app-preview&/Tickets');
   await expect(page.getByRole('button', { name: 'Go', exact: true })).toBeVisible({ timeout: 90000 });
   const result = await page.evaluate(async () => {
     const Component = await new Promise(resolve => sap.ui.require(['sap/ui/core/Component'], resolve));
@@ -62,7 +62,7 @@ test('Fiori ticket object page displays related people, asset, comments and hist
   page.on('response', response => {
     if (response.url().includes(service) && response.status() >= 400) failedServiceRequests.push(`${response.status()} ${response.url()}`);
   });
-  await page.goto('/test/flp.html#app-preview');
+  await page.goto('/test/flp.html#app-preview&/Tickets');
   await expect(page.getByRole('button', { name: 'Go', exact: true })).toBeVisible({ timeout: 90000 });
   await page.getByRole('button', { name: 'Go', exact: true }).click();
   const subject = page.getByText('Laptop not booting after restart', { exact: true });
